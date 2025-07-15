@@ -1,0 +1,417 @@
+<!-- === INVESTIČNÍ NÁSTROJE (5 FONDŮ) === -->
+<div class="row order-5 justify-content-center row-cols-sm-1 row-cols-md-2 row-cols-lg-4 row-cols-xl-5 mt-4 mb-4">
+
+  <!-- === INVESTIČNÍ NÁSTROJ 1 === -->
+  <div class="col p-1">
+    <div class="card card-custom-dark border-0" id="investment_tool_1">
+      <div class="card-body px-0 py-1">
+        <h5 class="card-title ml-3 m-2" style="color:orange;">1. investiční nástroj</h5>
+        <p class="text-white ml-3 m-2"><small>Vyberte investici a doplňte údaje</small></p>
+
+        <ul class="list-group px-0">
+          <li class="list-group-item py-1 px-1 border-0 d-md-inline-flex flex-wrap">
+
+            <!-- Výběr fondu -->
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <label for="fond_1" class="col-sm px-1">Investiční nástroj / fond</label>
+              <div data-toggle="dropdown" aria-haspopup="false" aria-expanded="true">
+                <input type="text" list="dropdownlist_fondy" class="form-control mt-n2" 
+                       id="fond_1" name="fond_1" ondblclick="this.value=''" 
+                       style="text-align:center;font-size:0.8rem" 
+                       placeholder="Vyberte / vyhledejte psaním" value="" required>
+              </div>
+            </div>
+
+            <!-- Jednorázová investice (zobrazuje se podle typu kalkulace) -->
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12" 
+                 style="display:none" id="jednoraz_1_zobrazeni">
+              <label for="jednoraz_1" class="col-sm px-1">Jednorázově</label>
+              <input type="text" class="form-control mt-n2" name="jednoraz_1" id="jednoraz_1" 
+                     placeholder="Kč" value="" ondblclick="this.value=''" 
+                     oninput="formatovani_na_tisicovky(this)" onchange="formatovani_na_tisicovky(this)">
+            </div>
+
+            <!-- Pravidelná investice (zobrazuje se podle typu kalkulace) -->
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12" 
+                 style="display:none" id="pravidelka_1_zobrazeni">
+              <label for="pravidelka_1" class="col-sm px-1">Pravidelně</label>
+              <input type="text" class="form-control mt-n2" name="pravidelka_1" id="pravidelka_1" 
+                     placeholder="Kč" value="" ondblclick="this.value=''" 
+                     oninput="formatovani_na_tisicovky(this)" onchange="formatovani_na_tisicovky(this)">
+            </div>
+
+            <!-- Očekávaný výnos -->
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <label for="vynos_1" class="col-sm px-1">Výnos</label>
+              <input type="text" class="form-control mt-n2" id="vynos_1" maxlength="5" 
+                     name="vynos_1" placeholder="% p.a." value="" ondblclick="this.value=''">
+            </div>
+
+          </li>
+        </ul>
+
+        <!-- === PŘEDKALKULACE VÝSLEDKY (zobrazují se po výpočtu) === -->
+        <div class="card-footer" id="nastroj_predkalkulace_1" style="display:none">
+          <ul class="list-group px-0">
+            <li class="list-group-item py-1 px-1 border-0 d-md-inline-flex flex-wrap">
+              <hr>
+              
+              <!-- Odkazy na fondy -->
+              <span class="col-12" style="font-style:bold; color:lightblue;">Stránky fondu</span>
+              <p class="col-12 text-white" id="stranky_fondu_1"></p>
+              
+              <span class="col-12" style="font-style:bold; color:lightblue;">Factsheet</span>
+              <p class="col-12 text-white" id="factsheet_1"></p>
+
+              <span class="col-12" style="font-style:bold; color:lightblue;">KID</span>
+              <p class="col-12 text-white" id="kid_1"></p>
+
+              <!-- Výsledky kalkulace -->
+              <span class="col-12" style="font-style:bold; color:lightblue;">Kolik vložím</span>
+              <p class="col-12 text-white" id="cilovka_1"></p>
+
+              <span class="col-12" style="font-style:bold; color:lightblue;">+ poplatek</span>
+              <p class="col-12 text-white" id="poplatek_1"></p>
+
+              <span class="col-12" style="font-style:bold; color:lightblue;">Očekávaný zisk</span>
+              <p class="col-12 text-white" id="zisk_1"></p>
+
+              <span class="col-12" style="font-style:bold; color:lightblue;">Celkem na konci</span>
+              <p class="col-12 text-white" id="celkem_1"></p>
+
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- === INVESTIČNÍ NÁSTROJ 2 === -->
+  <div class="col p-1">
+    <div class="card card-custom-dark border-0" id="investment_tool_2">
+      <div class="card-body px-0 py-1">
+        <h5 class="card-title ml-3 m-2" style="color:orange;">2. investiční nástroj</h5>
+        <p class="text-white ml-3 m-2"><small>Vyberte investici a doplňte údaje</small></p>
+
+        <ul class="list-group px-0">
+          <li class="list-group-item py-1 px-0 border-0 d-md-inline-flex flex-wrap">
+
+            <!-- Výběr fondu -->
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <label for="fond_2" class="col-sm px-1">Investiční nástroj / fond</label>
+              <div data-toggle="dropdown" aria-haspopup="false" aria-expanded="true">
+                <input type="text" list="dropdownlist_fondy" class="form-control mt-n2" 
+                       id="fond_2" name="fond_2" ondblclick="this.value=''" 
+                       style="text-align:center;font-size:0.8rem" 
+                       placeholder="Vyberte / vyhledejte psaním" value="">
+              </div>
+            </div>
+
+            <!-- Jednorázová a pravidelná investice -->
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12" 
+                 style="display:none" id="jednoraz_2_zobrazeni">
+              <label for="jednoraz_2" class="col-sm px-1">Jednorázově</label>
+              <input type="text" class="form-control mt-n2" name="jednoraz_2" id="jednoraz_2" 
+                     placeholder="Kč" value="" ondblclick="this.value=''" 
+                     oninput="formatovani_na_tisicovky(this)" onchange="formatovani_na_tisicovky(this)">
+            </div>
+
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12" 
+                 style="display:none" id="pravidelka_2_zobrazeni">
+              <label for="pravidelka_2" class="col-sm px-1">Pravidelně</label>
+              <input type="text" class="form-control mt-n2" name="pravidelka_2" id="pravidelka_2" 
+                     placeholder="Kč" value="" ondblclick="this.value=''" 
+                     oninput="formatovani_na_tisicovky(this)" onchange="formatovani_na_tisicovky(this)">
+            </div>
+
+            <!-- Očekávaný výnos -->
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <label for="vynos_2" class="col-sm px-1">Výnos</label>
+              <input type="text" class="form-control mt-n2" id="vynos_2" maxlength="5" 
+                     name="vynos_2" placeholder="% p.a." value="" ondblclick="this.value=''">
+            </div>
+
+          </li>
+        </ul>
+
+        <!-- Předkalkulace výsledky 2 -->
+        <div class="card-footer" id="nastroj_predkalkulace_2" style="display:none">
+          <ul class="list-group px-0">
+            <li class="list-group-item py-1 px-1 border-0 d-md-inline-flex flex-wrap">
+              <hr>
+              
+              <span class="col-12" style="font-style:bold; color:lightblue;">Stránky fondu</span>
+              <p class="col-12 text-white" id="stranky_fondu_2"></p>
+              
+              <span class="col-12" style="font-style:bold; color:lightblue;">Factsheet</span>
+              <p class="col-12 text-white" id="factsheet_2"></p>
+
+              <span class="col-12" style="font-style:bold; color:lightblue;">KID</span>
+              <p class="col-12 text-white" id="kid_2"></p>
+
+              <span class="col-12" style="font-style:bold; color:lightblue;">Kolik vložím</span>
+              <p class="col-12 text-white" id="cilovka_2"></p>
+
+              <span class="col-12" style="font-style:bold; color:lightblue;">+ poplatek</span>
+              <p class="col-12 text-white" id="poplatek_2"></p>
+
+              <span class="col-12" style="font-style:bold; color:lightblue;">Očekávaný zisk</span>
+              <p class="col-12 text-white" id="zisk_2"></p>
+
+              <span class="col-12" style="font-style:bold; color:lightblue;">Celkem na konci</span>
+              <p class="col-12 text-white" id="celkem_2"></p>
+
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- === INVESTIČNÍ NÁSTROJ 3 === -->
+  <div class="col p-1">
+    <div class="card card-custom-dark border-0" id="investment_tool_3">
+      <div class="card-body px-0 py-1">
+        <h5 class="card-title ml-3 m-2" style="color:orange;">3. investiční nástroj</h5>
+        <p class="text-white ml-3 m-2"><small>Vyberte investici a doplňte údaje</small></p>
+
+        <ul class="list-group">
+          <li class="list-group-item py-1 px-0 border-0 d-md-inline-flex flex-wrap">
+
+            <!-- Výběr fondu -->
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <label for="fond_3" class="col-sm px-1">Investiční nástroj / fond</label>
+              <div data-toggle="dropdown" aria-haspopup="false" aria-expanded="true">
+                <input type="text" list="dropdownlist_fondy" class="form-control mt-n2" 
+                       id="fond_3" name="fond_3" ondblclick="this.value=''" 
+                       style="text-align:center;font-size:0.8rem" 
+                       placeholder="Vyberte / vyhledejte psaním" value="">
+              </div>
+            </div>
+
+            <!-- Jednorázová a pravidelná investice -->
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12" 
+                 style="display:none" id="jednoraz_3_zobrazeni">
+              <label for="jednoraz_3" class="col-sm px-1">Jednorázově</label>
+              <input type="text" class="form-control mt-n2" name="jednoraz_3" id="jednoraz_3" 
+                     placeholder="Kč" value="" ondblclick="this.value=''" 
+                     oninput="formatovani_na_tisicovky(this)" onchange="formatovani_na_tisicovky(this)">
+            </div>
+
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12" 
+                 style="display:none" id="pravidelka_3_zobrazeni">
+              <label for="pravidelka_3" class="col-sm px-1">Pravidelně</label>
+              <input type="text" class="form-control mt-n2" name="pravidelka_3" id="pravidelka_3" 
+                     placeholder="Kč" value="" ondblclick="this.value=''" 
+                     oninput="formatovani_na_tisicovky(this)" onchange="formatovani_na_tisicovky(this)">
+            </div>
+
+            <!-- Očekávaný výnos -->
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <label for="vynos_3" class="col-sm px-1">Výnos</label>
+              <input type="text" class="form-control mt-n2" id="vynos_3" maxlength="5" 
+                     name="vynos_3" placeholder="% p.a." value="" ondblclick="this.value=''">
+            </div>
+
+          </li>
+        </ul>
+
+        <!-- Předkalkulace výsledky 3 -->
+        <div class="card-footer" id="nastroj_predkalkulace_3" style="display:none">
+          <ul class="list-group px-0">
+            <li class="list-group-item py-1 px-1 border-0 d-md-inline-flex flex-wrap">
+              <hr>
+              
+              <span class="col-12" style="font-style:bold; color:lightblue;">Stránky fondu</span>
+              <p class="col-12 text-white" id="stranky_fondu_3"></p>
+              
+              <span class="col-12" style="font-style:bold; color:lightblue;">Factsheet</span>
+              <p class="col-12 text-white" id="factsheet_3"></p>
+
+              <span class="col-12" style="font-style:bold; color:lightblue;">KID</span>
+              <p class="col-12 text-white" id="kid_3"></p>
+
+              <span class="col-12" style="font-style:bold; color:lightblue;">Kolik vložím</span>
+              <p class="col-12 text-white" id="cilovka_3"></p>
+
+              <span class="col-12" style="font-style:bold; color:lightblue;">+ poplatek</span>
+              <p class="col-12 text-white" id="poplatek_3"></p>
+
+              <span class="col-12" style="font-style:bold; color:lightblue;">Očekávaný zisk</span>
+              <p class="col-12 text-white" id="zisk_3"></p>
+
+              <span class="col-12" style="font-style:bold; color:lightblue;">Celkem na konci</span>
+              <p class="col-12 text-white" id="celkem_3"></p>
+
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- === INVESTIČNÍ NÁSTROJ 4 === -->
+  <div class="col p-1">
+    <div class="card card-custom-dark border-0" id="investment_tool_4">
+      <div class="card-body px-0 py-1">
+        <h5 class="card-title ml-3 m-2" style="color:orange;">4. investiční nástroj</h5>
+        <p class="text-white ml-3 m-2"><small>Vyberte investici a doplňte údaje</small></p>
+
+        <ul class="list-group">
+          <li class="list-group-item py-1 px-0 border-0 d-md-inline-flex flex-wrap">
+
+            <!-- Výběr fondu -->
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <label for="fond_4" class="col-sm px-1">Investiční nástroj / fond</label>
+              <div data-toggle="dropdown" aria-haspopup="false" aria-expanded="true">
+                <input type="text" list="dropdownlist_fondy" class="form-control mt-n2" 
+                       id="fond_4" name="fond_4" ondblclick="this.value=''" 
+                       style="text-align:center;font-size:0.8rem" 
+                       placeholder="Vyberte / vyhledejte psaním" value="">
+              </div>
+            </div>
+
+            <!-- Jednorázová a pravidelná investice -->
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12" 
+                 style="display:none" id="jednoraz_4_zobrazeni">
+              <label for="jednoraz_4" class="col-sm px-1">Jednorázově</label>
+              <input type="text" class="form-control mt-n2" name="jednoraz_4" id="jednoraz_4" 
+                     placeholder="Kč" value="" ondblclick="this.value=''" 
+                     oninput="formatovani_na_tisicovky(this)" onchange="formatovani_na_tisicovky(this)">
+            </div>
+
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12" 
+                 style="display:none" id="pravidelka_4_zobrazeni">
+              <label for="pravidelka_4" class="col-sm px-1">Pravidelně</label>
+              <input type="text" class="form-control mt-n2" name="pravidelka_4" id="pravidelka_4" 
+                     placeholder="Kč" value="" ondblclick="this.value=''" 
+                     oninput="formatovani_na_tisicovky(this)" onchange="formatovani_na_tisicovky(this)">
+            </div>
+
+            <!-- Očekávaný výnos -->
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <label for="vynos_4" class="col-sm px-1">Výnos</label>
+              <input type="text" class="form-control mt-n2" id="vynos_4" maxlength="5" 
+                     name="vynos_4" placeholder="% p.a." value="" ondblclick="this.value=''">
+            </div>
+
+          </li>
+        </ul>
+
+        <!-- Předkalkulace výsledky 4 -->
+        <div class="card-footer" id="nastroj_predkalkulace_4" style="display:none">
+          <ul class="list-group px-0">
+            <li class="list-group-item py-1 px-1 border-0 d-md-inline-flex flex-wrap">
+              <hr>
+              
+              <span class="col-12" style="font-style:bold; color:lightblue;">Stránky fondu</span>
+              <p class="col-12 text-white" id="stranky_fondu_4"></p>
+              
+              <span class="col-12" style="font-style:bold; color:lightblue;">Factsheet</span>
+              <p class="col-12 text-white" id="factsheet_4"></p>
+
+              <span class="col-12" style="font-style:bold; color:lightblue;">KID</span>
+              <p class="col-12 text-white" id="kid_4"></p>
+
+              <span class="col-12" style="font-style:bold; color:lightblue;">Kolik vložím</span>
+              <p class="col-12 text-white" id="cilovka_4"></p>
+
+              <span class="col-12" style="font-style:bold; color:lightblue;">+ poplatek</span>
+              <p class="col-12 text-white" id="poplatek_4"></p>
+
+              <span class="col-12" style="font-style:bold; color:lightblue;">Očekávaný zisk</span>
+              <p class="col-12 text-white" id="zisk_4"></p>
+
+              <span class="col-12" style="font-style:bold; color:lightblue;">Celkem na konci</span>
+              <p class="col-12 text-white" id="celkem_4"></p>
+
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- === INVESTIČNÍ NÁSTROJ 5 === -->
+  <div class="col p-1">
+    <div class="card card-custom-dark border-0" id="investment_tool_5">
+      <div class="card-body px-0 py-1">
+        <h5 class="card-title ml-3 m-2" style="color:orange;">5. investiční nástroj</h5>
+        <p class="text-white ml-3 m-2"><small>Vyberte investici a doplňte údaje</small></p>
+
+        <ul class="list-group">
+          <li class="list-group-item py-1 px-0 border-0 d-md-inline-flex flex-wrap">
+
+            <!-- Výběr fondu -->
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <label for="fond_5" class="col-sm px-1">Investiční nástroj / fond</label>
+              <div data-toggle="dropdown" aria-haspopup="false" aria-expanded="true">
+                <input type="text" list="dropdownlist_fondy" class="form-control mt-n2" 
+                       id="fond_5" name="fond_5" ondblclick="this.value=''" 
+                       style="text-align:center;font-size:0.8rem" 
+                       placeholder="Vyberte / vyhledejte psaním" value="">
+              </div>
+            </div>
+
+            <!-- Jednorázová a pravidelná investice -->
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12" 
+                 style="display:none" id="jednoraz_5_zobrazeni">
+              <label for="jednoraz_5" class="col-sm px-1">Jednorázově</label>
+              <input type="text" class="form-control mt-n2" name="jednoraz_5" id="jednoraz_5" 
+                     placeholder="Kč" value="" ondblclick="this.value=''" 
+                     oninput="formatovani_na_tisicovky(this)" onchange="formatovani_na_tisicovky(this)">
+            </div>
+
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12" 
+                 style="display:none" id="pravidelka_5_zobrazeni">
+              <label for="pravidelka_5" class="col-sm px-1">Pravidelně</label>
+              <input type="text" class="form-control mt-n2" name="pravidelka_5" id="pravidelka_5" 
+                     placeholder="Kč" value="" ondblclick="this.value=''" 
+                     oninput="formatovani_na_tisicovky(this)" onchange="formatovani_na_tisicovky(this)">
+            </div>
+
+            <!-- Očekávaný výnos -->
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <label for="vynos_5" class="col-sm px-1">Výnos</label>
+              <input type="text" class="form-control mt-n2" id="vynos_5" maxlength="5" 
+                     name="vynos_5" placeholder="% p.a." value="" ondblclick="this.value=''">
+            </div>
+
+          </li>
+        </ul>
+
+        <!-- Předkalkulace výsledky 5 -->
+        <div class="card-footer" id="nastroj_predkalkulace_5" style="display:none">
+          <ul class="list-group px-0">
+            <li class="list-group-item py-1 px-1 border-0 d-md-inline-flex flex-wrap d-flex justify-content-center">
+              <hr>
+              
+              <span class="col-12" style="font-style:bold; color:lightblue;">Stránky fondu</span>
+              <p class="col-12 text-white" id="stranky_fondu_5"></p>
+              
+              <span class="col-12" style="font-style:bold; color:lightblue;">Factsheet</span>
+              <p class="col-12 text-white" id="factsheet_5"></p>
+
+              <span class="col-12" style="font-style:bold; color:lightblue;">KID</span>
+              <p class="col-12 text-white" id="kid_5"></p>
+
+              <span class="col-12" style="font-style:bold; color:lightblue;">Kolik vložím</span>
+              <p class="col-12 text-white" id="cilovka_5"></p>
+
+              <span class="col-12" style="font-style:bold; color:lightblue;">+ poplatek</span>
+              <p class="col-12 text-white" id="poplatek_5"></p>
+
+              <span class="col-12" style="font-style:bold; color:lightblue;">Očekávaný zisk</span>
+              <p class="col-12 text-white" id="zisk_5"></p>
+
+              <span class="col-12" style="font-style:bold; color:lightblue;">Celkem na konci</span>
+              <p class="col-12 text-white" id="celkem_5"></p>
+
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

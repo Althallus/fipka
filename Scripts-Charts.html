@@ -1,0 +1,119 @@
+<script>
+// === HIGHCHARTS GRAFY ===
+
+let chart_cilovka; 
+let chart_platba; 
+
+// Inicializace grafů po načtení stránky
+document.addEventListener('DOMContentLoaded', function() {
+  initializeCharts();
+});
+
+function initializeCharts() {
+  // === GRAF BUDOUCÍ HODNOTY ===
+  chart_cilovka = Highcharts.chart('graf_cilovka', {
+    colors: ['#3c79b1', '#00cc00', '#FAA74B', '#B37CD2'],
+    chart: {
+      type: 'pie',
+      backgroundColor: '#1e3d59'
+    },
+    title: {
+      text: null
+    },
+    tooltip: {
+      pointFormatter: function() {
+        return '<b>' + this.y.toLocaleString('cs-CZ', {maximumFractionDigits: 0}) + ' Kč </b>';
+      }
+    },
+    legend: {
+      align: 'center',
+      verticalAlign: 'top',
+      layout: 'horizontal'
+    },
+    plotOptions: {
+      pie: {
+        dataLabels: {
+          enabled: true,
+          distance: -90,
+          style: {
+            fontWeight: 'bold',
+            fontSize: '1rem',
+            color: 'white',
+            textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
+            textOutline: 'none'
+          }
+        },
+        startAngle: -90,
+        endAngle: 90,
+        center: ['50%', '100%'],
+        size: '175%'
+      }
+    },
+    series: [{
+      name: '',
+      innerSize: '45%',
+      colorByPoint: true,
+      data: [{
+        name: 'Vloženo celkem',
+        y: 1	
+      },{
+        name: 'Zhodnocení',
+        y: 1	
+      }]
+    }]
+  });
+  
+  // === GRAF PLATBY NA CÍL ===
+  chart_platba = Highcharts.chart('graf_platba', {
+    colors: ['#3c79b1', '#00cc00', '#FAA74B', '#B37CD2'],
+    chart: {
+      type: 'pie',
+      backgroundColor: '#1e3d59'
+    },
+    title: {
+      text: null
+    },
+    tooltip: {
+      pointFormatter: function() {
+        return '<b>' + this.y.toLocaleString('cs-CZ', {maximumFractionDigits: 0}) + ' Kč </b>';
+      }
+    },
+    legend: {
+      align: 'center',
+      verticalAlign: 'top',
+      layout: 'horizontal'
+    },
+    plotOptions: {
+      pie: {
+        dataLabels: {
+          enabled: true,
+          distance: -90,
+          style: {
+            fontWeight: 'bold',
+            fontSize: '1rem',
+            color: 'white',
+            textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
+            textOutline: 'none'
+          }
+        },
+        startAngle: -90,
+        endAngle: 90,
+        center: ['50%', '100%'],
+        size: '175%'
+      }
+    },
+    series: [{
+      name: '',
+      innerSize: '45%',
+      colorByPoint: true,
+      data: [{
+        name: 'Vloženo celkem',
+        y: 1	
+      },{
+        name: 'Zhodnocení',
+        y: 1	
+      }]
+    }]
+  });
+}
+</script>

@@ -1,0 +1,65 @@
+<!-- === NAVBAR === -->
+<div class="fixed-bottom">
+  <nav class="navbar navbar-sm navbar-expand-lg navbar-dark py-0">
+    <a class="navbar-brand py-0 align-self-top">
+      <img src="https://res.cloudinary.com/dewu93tdy/image/upload/v1743082544/vymVWh7_zlrisn.webp" 
+           alt="FiDos Logo" height="40"> 
+      Investiční porovnávač
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" 
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto my-1">
+        <!-- DROPDOWN KALKULAČKY -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
+             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <b>Kalkulačky</b>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <button data-toggle="modal" data-target="#modal_vliv_inflace" type="button" 
+                    class="btn btn-sm btn-custom_3 text-nowrap mx-1 mb-3">Vliv inflace</button>
+            <button data-toggle="modal" data-target="#Budouci_hodnota" type="button" 
+                    class="btn btn-sm btn-custom_3 text-nowrap mx-1 mb-3">Budoucí hodnota</button>
+            <button data-toggle="modal" data-target="#modal_cena_cile" type="button" 
+                    class="btn btn-sm btn-custom_3 text-nowrap mx-1 mb-3 align-middle">Cena mého cíle</button>
+            <button data-toggle="modal" data-target="#Renta_navzdy" type="button" 
+                    class="btn btn-sm btn-custom_3 text-nowrap mx-1 mb-3 align-middle">Renta navždy</button>
+            <button data-toggle="modal" data-target="#Penze" type="button" 
+                    class="btn btn-sm btn-custom_3 text-nowrap mx-1 align-middle">Penze</button>
+          </div>
+        </li>
+      </ul>
+
+      <!-- AKČNÍ TLAČÍTKA -->
+      <ul class="navbar-nav d-inline-flex my-1 ml-auto">
+        <li class="nav-item">
+          <button type="submit" class="btn btn-sm btn-custom text-nowrap mx-1" 
+                  id="btn_vytvorit_predkalkulaci_1" name="btn_vytvorit_predkalkulaci" 
+                  value="vytvorit_predkalkulaci" onclick="window.fipka_choose='vytvorit_predkalkulaci'">
+            Předkalkulace
+          </button>
+        </li>
+        <li class="nav-item">
+          <button type="submit" class="btn btn-sm btn-custom text-nowrap mx-1" 
+                  id="btn_vytvorit_nabidku_1" name="btn_vytvorit_nabidku" 
+                  value="vytvorit_nabidku" onclick="window.fipka_choose='vytvorit_nabidku'">
+            Vytvořit nabídku
+          </button>
+        </li>
+        <li class="nav-item">
+          <a href="" target="_blank" type="button" 
+             class="btn btn-sm btn-custom_2 text-nowrap mx-1" 
+             id="btn_download_1" name="btn_download_1" 
+             style="color:white; display:none">
+            Stáhni nabídku
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>

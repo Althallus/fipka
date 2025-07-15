@@ -1,0 +1,73 @@
+<script>
+// === TEXTAREA CHARACTER COUNTER ===
+
+const text_max = 160;
+
+// Inicializace počítadel
+$('#motiv_klienta_counter').html('0 / ' + text_max);
+$('#cil_popis_counter_1').html('0 / ' + text_max);
+
+// Počítadlo pro motiv klienta
+$('#motiv_klienta').keyup(function() {
+  var text_length = $('#motiv_klienta').val().length;
+  $('#motiv_klienta_counter').html(text_length + ' / ' + text_max);
+});
+
+// Počítadlo pro cíl popis
+$('#cil_popis_1').keyup(function() {
+  var text_length = $('#cil_popis_1').val().length;
+  $('#cil_popis_counter_1').html(text_length + ' / ' + text_max);
+});
+
+// === UTILITY FUNKCE ===
+
+// Přenos cíle milion do kalkulace
+function cil_milion_prenos() {
+  let cil_milion_cena = document.getElementById("cil_milion_cena_1").value;
+  let cil_milion_pravidelka = document.getElementById("cil_milion_pravidelka_1").value;
+  let cil_milion_jednoraz = document.getElementById("cil_milion_jednoraz_1").value;
+  let cil_milion_doba = parseFloat(document.getElementById("cil_milion_doba_1").value);
+
+  document.getElementById("inv_horizont").value = cil_milion_doba;
+  document.getElementById("jednoraz_sum").value = cil_milion_jednoraz;
+  document.getElementById("pravidelka_sum").value = cil_milion_pravidelka;
+  document.getElementById("motiv_klienta").value = "Mít " + cil_milion_cena + " Kč za " + cil_milion_doba + " let.";
+}
+
+// Penze do renty
+function penze_to_renta() {
+  var penze_rozdil = document.getElementById("penze_rozdil").value;
+  var renta_navzdy_pravidelka = document.getElementById("renta_navzdy_pravidelka");
+  var card_renta = document.getElementById("card_renta");
+
+  if (window.penze_vysledek > 0) {
+    renta_navzdy_pravidelka.value = window.penze_vysledek;
+    card_renta.scrollIntoView({ behavior: 'smooth' });
+    renta_vypocet();
+  }
+}
+
+// Expand card funkce
+function expandCard(card) {
+  card.classList.toggle('card-custom-light_2');
+  card.classList.toggle('card-custom-selected');
+}
+
+// Toggle card
+let currentOpen = null;
+
+function toggleCard(cardEl, targetId) {
+  const allCards = document.querySelectorAll('.card');
+  allCards.forEach(c => c.classList.remove('selected'));
+  cardEl.classList.add('selected');
+
+  const target = document.getElementById(targetId);
+
+  if (currentOpen && currentOpen !== target) {
+    currentOpen.classList.remove('open');
+  }
+
+  target.classList.toggle('open');
+  currentOpen = target.classList.contains('open') ? target : null;
+}
+</script>

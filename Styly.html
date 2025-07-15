@@ -1,0 +1,398 @@
+<head>
+  <style>
+    /* === Základní styly === */
+    body {
+      height: 200vh;
+      min-height: 100vh;
+      background-color: #3c79b1;
+      font-family: 'Comfortaa';
+    }
+
+    main {
+      background-image: linear-gradient(to bottom, #f1f6fa, #f1f6fa, #d4e3f0, #99bddd, #3c79b1);
+    }
+
+    footer {
+      background-color: #3c79b1;
+    }
+
+    .container-fluid {
+      margin-bottom: 10rem;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      padding: 2rem;
+    }
+
+    /* === Navbar === */
+    .navbar {
+      background-color: rgba(30, 61, 89, 0.5);
+      border-top: 3px solid #b2ebf2;
+    }
+
+    .dropdown-menu {
+      padding: 1rem;
+      bottom: 100%;
+      top: auto;
+      background-color: #f1f4f8;
+      border-radius: 20px !important;
+    }
+
+    /* === Responzivita === */
+    @media (max-width: 768px) {
+      main {
+        padding-bottom: 80px;
+      }
+      .modal-dialog {
+        max-width: 97%;
+      }
+    }
+
+ .form-control,
+    .card,
+    .btn,
+    ul,
+    li,
+    .modal-content,
+    input,
+    select,
+    textarea {
+      border-radius: 20px !important;
+    }
+
+    /* === Formuláře a vstupy === */
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-size: 0.9rem;
+      color: #99bddd;
+    }
+
+    .label-custom {
+      color: #393D47;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select,
+    .form-control {
+      text-align: center;
+      color: #1e3d59;
+      font-weight: bold;
+      background-color: #f1f6fa;
+    }
+
+    textarea,
+    input,
+    select {
+      border: 0 !important;
+      box-shadow: inset 3px 3px 5px rgba(0, 0, 0, 0.25), inset 0px -2px 1px white;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+    }
+
+    .form-control::placeholder {
+      color: #3c79b1;
+      opacity: 1 !important;
+      font-weight: normal;
+      font-size: small;
+    }
+
+    /* === Focus === */
+    textarea:focus,
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    .form-control:focus {
+      border-color: #cc0000;
+      border: 2px solid #cc0000;
+      box-shadow: inset 0 0 3px #cc0000;
+    }
+
+    /* === Karty === */
+    .card {
+      transition: all 0.7s ease-in-out;
+    }
+
+    .card-custom-dark {
+      background-color: #2d5b85;
+      box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+      margin-bottom: 15px;
+    }
+
+    .card-custom-dark_2 {
+      background-color: #1e3d59;
+      box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+      margin-bottom: 15px;
+    }
+
+    .card-custom-light {
+      background-color: #99bddd;
+      color: #1e3d59;
+      box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.25);
+      margin-bottom: 15px;
+      border: none;
+    }
+
+    .card-custom-light_2 {
+      transition: transform 0.7s ease, box-shadow 0.7s ease;
+      background-color: #f1f6fa;
+      color: #1e3d59;
+      box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.25);
+      margin-bottom: 15px;
+      border: none;
+    }
+
+    .card-custom-light_2:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      z-index: 2;
+    }
+
+    .card-custom-light_2 .card-body {
+      transition: background-color 0.7s ease, color 0.7s ease;
+      border-radius: 0 0 20px 20px !important;
+    }
+
+    .card-custom-light_2:hover .card-body {
+      background-color: #1e3d59;
+      color: #f1f6fa;
+    }
+
+    .card-custom-selected {
+      background-color: #1e3d59;
+      color: #f1f6fa;
+      box-shadow: none;
+      margin-bottom: 15px;
+      border: none;
+    }
+
+    .card-custom-picture_1 {
+      background-image: url('https://i.imgur.com/e6wo6tb.jpg');
+      background-size: cover;
+      background-position: center;
+      box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.25);
+      color: white;
+      border: none;
+    }
+
+    .custom-card-footer {
+      background-image: linear-gradient(to bottom, #99bddd, #2d5b85, #1e3d59, #1e3d59);
+      border-radius: 0 0 20px 20px !important;
+      padding: 0 !important;
+    }
+
+    li {
+      background-color: transparent !important;
+    }
+
+    /* === Tlačítka === */
+    .btn-custom {
+      background-color: #1e3d59;
+      color: white;
+      padding: 3px 15px;
+      box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .btn-custom_2 {
+      background-color: #3c79b1;
+      color: white;
+      padding: 3px 15px;
+      box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .btn-custom_3 {
+      background-color: #99bddd;
+      color: #393D47;
+      padding: 3px 15px;
+      box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .btn-selected, .btn-selected_1 {
+      background-color: #EEBC1D;
+      color: white;
+      padding: 3px 15px;
+    }
+
+    .btn-not_selected, .btn-not_selected_1 {
+      background-color: #3c79b1;
+      color: white;
+      padding: 3px 15px;
+      box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .btn:hover {
+      background-color: #b7d0e7;
+      color: #1e3d59;
+      transform: scale(1.15);
+      transition: all 0.2s ease-out;
+      z-index: 10;
+    }
+
+    /* === Modály === */
+    .modal {
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .modal-dialog {
+      display: flex;
+      flex-direction: column;
+      background-color: transparent !important;
+      max-width: 80%;
+      border: 0 !important;
+    }
+
+    .modal-body {
+      border-radius: 0 0 20px 20px !important;
+      background-color: #1e3d59;
+      border: 0;
+    }
+
+    .modal-header {
+      background-color: #f1f4f8 !important;
+    }
+
+    /* === Overlay + Loader === */
+    .loading-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .spinner {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+    }
+
+    .spinner .spinner_line_1,
+    .spinner .spinner_line_2,
+    .spinner .spinner_line_3 {
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    .spinner .spinner_line_1 {
+      width: 80%; height: 80%; top: 10%; left: 10%;
+      border: 3px transparent;
+      border-top: 3px solid #00acc1;
+      animation: spin1 0.75s linear infinite;
+    }
+
+    .spinner .spinner_line_2 {
+      width: 60%; height: 60%; top: 20%; left: 20%;
+      border: 3px transparent;
+      border-bottom: 3px solid #cc5500;
+      animation: spin2 1s linear infinite reverse;
+    }
+
+    .spinner .spinner_line_3 {
+      width: 40%; height: 40%; top: 30%; left: 30%;
+      border: 3px transparent;
+      border-bottom: 3px solid #2ecc71;
+      animation: spin3 1.5s linear infinite;
+    }
+
+    .spinner .logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50px;
+      height: 50px;
+    }
+
+    @keyframes spin1 {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes spin2 {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes spin3 {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* === Tabulky === */
+    .table {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .table-hover tbody tr:hover td,
+    .table-hover tbody tr:hover th {
+      color: lightblue !important;
+    }
+
+    .small-font-row {
+      height: auto;
+    }
+
+    td, th {
+      vertical-align: middle;
+    }
+
+    /* === Různé === */
+    hr {
+      border: none;
+      color: #ff6f00;
+      width: 100%;
+      border-bottom: 1px solid #467fd0;
+      box-shadow: 0 20px 20px -20px #333;
+      margin-bottom: 30px;
+    }
+
+    .trimmed-cover {
+      object-fit: cover;
+      width: 100%;
+      height: 300px;
+      object-position: center 50%;
+      box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.25);
+    }
+
+    .centered {
+      position: absolute;
+      top: 10%;
+      left: 10%;
+    }
+
+    .centered_2 {
+      position: absolute;
+      top: 15%;
+    }
+
+    #graf_cilovka,
+    #graf_platba {
+      border-radius: 20px;
+      border: none;
+      overflow: hidden;
+    }
+  </style>
+</head>

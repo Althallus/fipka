@@ -1,0 +1,66 @@
+<script>
+// === PŘEPÍNÁNÍ TYPU KALKULACE ===
+
+function switchView_typ_kalkulace(event) {
+  var typ_kalkulace_selected = event.target.value;
+  
+  // Elementy pro skrytí/zobrazení
+  var jednorazovka_zobrazeni = document.getElementById("jednorazovka_zobrazeni");
+  var pravidelka_zobrazeni = document.getElementById("pravidelka_zobrazeni");
+  var portfolio_reseni = document.getElementById("portfolio_reseni");
+  
+  // Nastavení viditelnosti podle typu
+  switch(typ_kalkulace_selected) {
+    case 'Porovnání':
+      nastavPorovnani();
+      break;
+    case 'Souhrn':
+      nastavSouhrn();
+      break;
+    case 'Portfolio':
+      nastavPortfolio();
+      break;
+  }
+}
+
+function nastavPorovnani() {
+  // Zobraz hromadné zadání
+  document.getElementById("jednorazovka_zobrazeni").style.display = "block";
+  document.getElementById("pravidelka_zobrazeni").style.display = "block";
+  
+  // Skryj individuální zadání
+  for (let i = 1; i <= 5; i++) {
+    document.getElementById(`jednoraz_${i}_zobrazeni`).style.display = "none";
+    document.getElementById(`pravidelka_${i}_zobrazeni`).style.display = "none";
+  }
+  
+  document.getElementById("portfolio_reseni").style.display = "none";
+}
+
+function nastavSouhrn() {
+  // Skryj hromadné zadání
+  document.getElementById("jednorazovka_zobrazeni").style.display = "none";
+  document.getElementById("pravidelka_zobrazeni").style.display = "none";
+  
+  // Zobraz individuální zadání
+  for (let i = 1; i <= 5; i++) {
+    document.getElementById(`jednoraz_${i}_zobrazeni`).style.display = "block";
+    document.getElementById(`pravidelka_${i}_zobrazeni`).style.display = "block";
+  }
+  
+  document.getElementById("portfolio_reseni").style.display = "none";
+}
+
+function nastavPortfolio() {
+  // Zobraz vše
+  document.getElementById("jednorazovka_zobrazeni").style.display = "block";
+  document.getElementById("pravidelka_zobrazeni").style.display = "block";
+  
+  for (let i = 1; i <= 5; i++) {
+    document.getElementById(`jednoraz_${i}_zobrazeni`).style.display = "block";
+    document.getElementById(`pravidelka_${i}_zobrazeni`).style.display = "block";
+  }
+  
+  document.getElementById("portfolio_reseni").style.display = "block";
+}
+</script>

@@ -1,0 +1,1752 @@
+
+<script>
+
+  document.title = 'FiDos INVESTIČNÍ POROVNÁVAČ';
+
+// --- PREVENCE PRESMEROVANI --------------------------------------
+function preventFormSubmit() {
+var forms = document.querySelectorAll('form');
+for (var i = 0; i < forms.length; i++) {
+forms[i].addEventListener('submit', function(event) {
+event.preventDefault();
+});
+}
+}
+// === END PREVENCE PRESMEROVANI =======================================
+
+// --- formatovani cisla na tisicovky -------------------------------------
+document.addEventListener("DOMContentLoaded", function() {
+  logAnonymousAccess();
+  setDefaultValues();
+});
+
+function logAnonymousAccess() {
+  let anonId = localStorage.getItem('anonId');
+  if (!anonId) {
+    anonId = 'anon-' + Math.random().toString(36).substr(2, 9);
+    localStorage.setItem('anonId', anonId);
+  }
+
+  // Ignoruj vlastní ID
+  const myIgnoredId = 'anon-6s5dlcun8';
+  if (anonId === myIgnoredId) return;
+
+  google.script.run.logSimpleAccess(anonId);
+}
+
+function setDefaultValues() {
+  document.getElementById('cilovka_jednoraz').value = 50000;
+  document.getElementById('slider_cilovka_jednoraz').value = 50000;
+
+  document.getElementById('cilovka_pravidelka').value = 2000;
+  document.getElementById('slider_cilovka_pravidelka').value = 2000;
+
+  document.getElementById('cilovka_doba').value = 10;
+  document.getElementById('slider_cilovka_doba').value = 10;
+
+  document.getElementById('cilovka_vynos').value = 7;
+  document.getElementById('slider_cilovka_vynos').value = 7;
+}
+
+// ========================================================================
+
+function showLoading() {
+        document.getElementById('loadingOverlay').style.display = 'flex';
+      }
+
+function hideLoading() {
+        document.getElementById('loadingOverlay').style.display = 'none';
+      }
+
+// --------------------------------------------------------------
+// === PREPNUTI SPORAKU
+$(document).ready(function () {
+
+//   var switchChecked = $('#switch_zobrazeni').prop('checked');
+
+    $('#switch_zobrazeni').change(function () {
+      if ($(this).is(':checked')) {
+        $('#budouci_hodnota_title').text('Očekávaná hodnota na spořícím účtu');
+        $('#budouci_hodnota_sporak').show();
+		cilovka_vypocet();
+      } else {
+        $('#budouci_hodnota_title').text('Očekávaná hodnota mých investic');
+        $('#budouci_hodnota_sporak').hide();
+		cilovka_vypocet();
+      }
+    });
+
+  });
+  // =================================
+
+  function expandCard(card) {
+  card.classList.toggle('card-custom-light_2');
+  card.classList.toggle('card-custom-selected');
+}
+
+
+  let currentOpen = null;
+
+  function toggleCard(cardEl, targetId) {
+    const allCards = document.querySelectorAll('.card');
+    allCards.forEach(c => c.classList.remove('selected'));
+    cardEl.classList.add('selected');
+
+    const target = document.getElementById(targetId);
+
+    if (currentOpen && currentOpen !== target) {
+      currentOpen.classList.remove('open');
+    }
+
+    target.classList.toggle('open');
+    currentOpen = target.classList.contains('open') ? target : null;
+  }
+
+
+// ----------------------------------------------------------------------------------
+// === SPUSTENI PRI ZMENE PORADCE 
+function getName(){
+
+  var inputCons = document.getElementById("cons_name").value;
+  google.script.run.withSuccessHandler(updateTel).getConsTel(inputCons);
+  google.script.run.withSuccessHandler(updateEmail).getConsEmail(inputCons);
+  }
+
+//NAHODÍ TEL PORADCE ---------------------------------------------
+  function updateTel(ConsData) {
+    document.getElementById("phone").value = ConsData;
+    }
+
+//NAHODÍ EMAIL PORADCE --------------------------------------------
+  function updateEmail(ConsData) {
+    document.getElementById("email").value = ConsData;
+    }
+  // =============================================================
+
+// --------------------------------------------------------------------
+// === SKRYTI POLOZEK DLE TYPU KALKULACE 
+  function switchView_typ_kalkulace(event){
+
+    var typ_kalkulace_selected;
+    var typ_kalkulace = document.getElementsByName('typ_kalkulace');
+
+    var jednorazovka_zobrazeni = document.getElementById("jednorazovka_zobrazeni");
+    var pravidelka_zobrazeni = document.getElementById("pravidelka_zobrazeni");
+
+    var jednoraz_1 = document.getElementById("jednoraz_1_zobrazeni");
+    var jednoraz_2 = document.getElementById("jednoraz_2_zobrazeni");
+    var jednoraz_3 = document.getElementById("jednoraz_3_zobrazeni");
+    var jednoraz_4 = document.getElementById("jednoraz_4_zobrazeni");
+    var jednoraz_5 = document.getElementById("jednoraz_5_zobrazeni");
+
+    var pravidelka_1 = document.getElementById("pravidelka_1_zobrazeni");
+    var pravidelka_2 = document.getElementById("pravidelka_2_zobrazeni");
+    var pravidelka_3 = document.getElementById("pravidelka_3_zobrazeni");
+    var pravidelka_4 = document.getElementById("pravidelka_4_zobrazeni");
+    var pravidelka_5 = document.getElementById("pravidelka_5_zobrazeni");
+
+    var portfolio_reseni = document.getElementById("portfolio_reseni");
+    
+
+      for(var i=0; typ_kalkulace[i]; ++i){
+        if(typ_kalkulace[i].checked){
+            typ_kalkulace_selected = typ_kalkulace[i].value;
+            break;
+          }
+        }
+
+    if (typ_kalkulace_selected == 'Porovnání') {
+
+        jednorazovka_zobrazeni.style.display = "block";
+        pravidelka_zobrazeni.style.display = "block";
+      
+        jednoraz_1.style.display = "none";
+        jednoraz_2.style.display = "none";
+        jednoraz_3.style.display = "none";
+        jednoraz_4.style.display = "none";
+        jednoraz_5.style.display = "none";
+      
+        pravidelka_1.style.display = "none";
+        pravidelka_2.style.display = "none";
+        pravidelka_3.style.display = "none";
+        pravidelka_4.style.display = "none";
+        pravidelka_5.style.display = "none";
+        
+        portfolio_reseni.style.display = "none";
+
+      } else if (typ_kalkulace_selected == 'Souhrn'){
+
+        jednorazovka_zobrazeni.style.display = "none";
+        pravidelka_zobrazeni.style.display = "none";
+
+        jednoraz_1.style.display = "block";
+        jednoraz_2.style.display = "block";
+        jednoraz_3.style.display = "block";
+        jednoraz_4.style.display = "block";
+        jednoraz_5.style.display = "block";
+      
+        pravidelka_1.style.display = "block";
+        pravidelka_2.style.display = "block";
+        pravidelka_3.style.display = "block";
+        pravidelka_4.style.display = "block";
+        pravidelka_5.style.display = "block";
+
+        portfolio_reseni.style.display = "none";
+
+      } else if (typ_kalkulace_selected == 'Portfolio'){
+
+        pravidelka_zobrazeni.style.display = "block";
+        jednorazovka_zobrazeni.style.display = "block";
+
+        jednoraz_1.style.display = "block";
+        jednoraz_2.style.display = "block";
+        jednoraz_3.style.display = "block";
+        jednoraz_4.style.display = "block";
+        jednoraz_5.style.display = "block";
+      
+        pravidelka_1.style.display = "block";
+        pravidelka_2.style.display = "block";
+        pravidelka_3.style.display = "block";
+        pravidelka_4.style.display = "block";
+        pravidelka_5.style.display = "block";
+
+        portfolio_reseni.style.display = "block";
+
+        }
+  }
+// =====================================================================
+// kalkulace_run(){
+//   document.getElementById("cons_name").addAttribute("required");
+//   document.getElementById("jmeno_klienta").addAttribute("required");
+
+
+// }
+
+
+// -------------------------------------------------------------------------------
+// === ZPRACOVÁNÍ ZADÁNÍ 
+function handleKalkulaceSubmit(formObject) {
+  
+          showLoading();
+
+
+    var typ_kalkulace_selected;
+    var typ_kalkulace = document.getElementsByName('typ_kalkulace');
+
+      for(var i=0; typ_kalkulace[i]; ++i){
+        if(typ_kalkulace[i].checked){
+            typ_kalkulace_selected = typ_kalkulace[i].value;
+            break;
+          }
+        }
+
+if (fipka_choose == 'vytvorit_predkalkulaci') {
+
+
+  // ----------------------------------------------------------------------------
+  document.getElementById('card_dohromady').style.display = 'none';
+
+      // === NASTROJ 1
+      document.getElementById('nastroj_predkalkulace_1').style.display = 'none';
+      // === ODKAZY
+
+      document.getElementById("stranky_fondu_1").innerHTML = '';
+      document.getElementById("factsheet_1").innerHTML = '';
+      document.getElementById("kid_1").innerHTML = '';
+      
+      // === VYSLEDKY 1
+      document.getElementById("cilovka_1").innerHTML = '';
+      document.getElementById("poplatek_1").innerHTML = '';
+      document.getElementById("zisk_1").innerHTML = '';
+      document.getElementById("celkem_1").innerHTML = '';
+      // --------------------------------------------------------------------
+      
+      // ----------------------------------------------------------------------------
+      // === NASTROJ 2
+      document.getElementById('nastroj_predkalkulace_2').style.display = 'none';
+      // === ODKAZY
+      document.getElementById("stranky_fondu_2").innerHTML = '';
+      document.getElementById("factsheet_2").innerHTML = '';
+      document.getElementById("kid_2").innerHTML = '';
+      
+      // === VYSLEDKY 2
+      document.getElementById("cilovka_2").innerHTML = '';
+      document.getElementById("poplatek_2").innerHTML = '';
+      document.getElementById("zisk_2").innerHTML = '';
+      document.getElementById("celkem_2").innerHTML = '';
+      // --------------------------------------------------------------------
+
+      // ----------------------------------------------------------------------------
+      // === NASTROJ 3
+      document.getElementById('nastroj_predkalkulace_3').style.display = 'none';
+      // === ODKAZY
+      document.getElementById("stranky_fondu_3").innerHTML = '';
+      document.getElementById("factsheet_3").innerHTML = '';
+      document.getElementById("kid_3").innerHTML = '';
+      
+      // === VYSLEDKY 3
+      document.getElementById("cilovka_3").innerHTML = '';
+      document.getElementById("poplatek_3").innerHTML = '';
+      document.getElementById("zisk_3").innerHTML = '';
+      document.getElementById("celkem_3").innerHTML = '';
+      // --------------------------------------------------------------------
+
+      // ----------------------------------------------------------------------------
+      // === NASTROJ 4
+      document.getElementById('nastroj_predkalkulace_4').style.display = 'none';
+      // === ODKAZY
+      document.getElementById("stranky_fondu_4").innerHTML = '';
+      document.getElementById("factsheet_4").innerHTML = '';
+      document.getElementById("kid_4").innerHTML = '';
+      
+      // === VYSLEDKY 4
+      document.getElementById("cilovka_4").innerHTML = '';
+      document.getElementById("poplatek_4").innerHTML = '';
+      document.getElementById("zisk_4").innerHTML = '';
+      document.getElementById("celkem_4").innerHTML = '';
+      // --------------------------------------------------------------------
+
+      // ----------------------------------------------------------------------------
+      // === NASTROJ 5
+      document.getElementById('nastroj_predkalkulace_5').style.display = 'none';
+      // === ODKAZY
+      document.getElementById("stranky_fondu_5").innerHTML = '';
+      document.getElementById("factsheet_5").innerHTML = '';
+      document.getElementById("kid_5").innerHTML = '';
+      
+      // === VYSLEDKY 5
+      document.getElementById("cilovka_5").innerHTML = '';
+      document.getElementById("poplatek_5").innerHTML = '';
+      document.getElementById("zisk_5").innerHTML = '';
+      document.getElementById("celkem_5").innerHTML = '';
+      // =========================================================
+
+      if (typ_kalkulace_selected == 'Porovnání') {
+
+      google.script.run.withSuccessHandler(resultPredkalkulace).processPorovnani_predkalkulace(formObject);
+  
+    } else if (typ_kalkulace_selected == 'Souhrn'){
+
+      google.script.run.withSuccessHandler(resultPredkalkulace).processSouhrn_predkalkulace(formObject);
+  
+  } else if (typ_kalkulace_selected == 'Portfolio'){
+    
+      google.script.run.withSuccessHandler(resultPredkalkulace).processSouhrn_predkalkulace(formObject);
+  
+  }
+
+  var btn_vytvorit_nabidku_1 = document.getElementById('btn_vytvorit_nabidku_1');
+        btn_vytvorit_nabidku_1.disabled = true;
+        btn_vytvorit_nabidku_1.innerHTML = 'Zpracovávám';
+
+    var btn_vytvorit_nabidku = document.getElementById('btn_vytvorit_nabidku');
+        btn_vytvorit_nabidku.disabled = true;
+        btn_vytvorit_nabidku.innerHTML = 'Zpracovávám';
+
+  var btn_vytvorit_predkalkulaci = document.getElementById('btn_vytvorit_predkalkulaci');
+        btn_vytvorit_predkalkulaci.disabled = true;
+        btn_vytvorit_predkalkulaci.innerHTML = 'Zpracovávám';
+
+    var btn_vytvorit_predkalkulaci_1 = document.getElementById('btn_vytvorit_predkalkulaci_1');
+        btn_vytvorit_predkalkulaci_1.disabled = true;
+        btn_vytvorit_predkalkulaci_1.innerHTML = 'Zpracovávám';
+
+
+
+} else if (fipka_choose == 'vytvorit_nabidku') {
+
+  if (typ_kalkulace_selected == 'Porovnání') {
+      google.script.run.withSuccessHandler(updateUrl).processPorovnani_NEW(formObject);
+  
+  
+  } else if (typ_kalkulace_selected == 'Souhrn'){
+      google.script.run.withSuccessHandler(updateUrl).processSouhrn_NEW(formObject);
+  
+  } else if (typ_kalkulace_selected == 'Portfolio'){
+      google.script.run.withSuccessHandler(updateUrl).processSouhrn_NEW(formObject);
+  
+  }
+
+
+    var btn_vytvorit_nabidku_1 = document.getElementById('btn_vytvorit_nabidku_1');
+        btn_vytvorit_nabidku_1.disabled = true;
+        btn_vytvorit_nabidku_1.innerHTML = 'Zpracovávám';
+
+    var btn_vytvorit_nabidku = document.getElementById('btn_vytvorit_nabidku');
+        btn_vytvorit_nabidku.disabled = true;
+        btn_vytvorit_nabidku.innerHTML = 'Zpracovávám';
+
+        var btn_vytvorit_predkalkulaci = document.getElementById('btn_vytvorit_predkalkulaci');
+        btn_vytvorit_predkalkulaci.disabled = true;
+        btn_vytvorit_predkalkulaci.innerHTML = 'Zpracovávám';
+
+    var btn_vytvorit_predkalkulaci_1 = document.getElementById('btn_vytvorit_predkalkulaci_1');
+        btn_vytvorit_predkalkulaci_1.disabled = true;
+        btn_vytvorit_predkalkulaci_1.innerHTML = 'Zpracovávám';
+
+
+
+
+    var btn_download_1 = document.getElementById('btn_download_1');
+      if(div3.style.display !== 'none' ){
+      $("#btn_download_1").toggle();
+      }
+
+    
+} else {
+  return;
+}
+
+  }
+
+// NÁHRÁNÍ LINKU DO BUTTONU OLD --------------------------------------------------------------
+function updateUrl(file) {
+
+var btn_vytvorit_nabidku_1 = document.getElementById('btn_vytvorit_nabidku_1');
+        btn_vytvorit_nabidku_1.disabled = false;
+        btn_vytvorit_nabidku_1.innerHTML = 'Vytvořit nabídku';
+
+    var btn_vytvorit_nabidku = document.getElementById('btn_vytvorit_nabidku');
+        btn_vytvorit_nabidku.disabled = false;
+        btn_vytvorit_nabidku.innerHTML = 'Vytvořit nabídku';
+
+        var btn_vytvorit_predkalkulaci = document.getElementById('btn_vytvorit_predkalkulaci');
+        btn_vytvorit_predkalkulaci.disabled = false;
+        btn_vytvorit_predkalkulaci.innerHTML = 'Předkalkulace';
+
+    var btn_vytvorit_predkalkulaci_1 = document.getElementById('btn_vytvorit_predkalkulaci_1');
+        btn_vytvorit_predkalkulaci_1.disabled = false;
+        btn_vytvorit_predkalkulaci_1.innerHTML = 'Předkalkulace';
+
+
+
+  var div3 = document.getElementById('btn_download_1');
+      div3.href = 'https://drive.google.com/uc?export=download&id=' + file;
+
+      if(div3.style.display == 'none' ){
+      $("#btn_download_1").toggle();
+      }
+
+  var div4 = document.getElementById('btn_download_2');
+      div4.innerHTML = 'href="https://drive.google.com/open?id=' + file + '"';
+
+      if(div4.style.display == 'none' ){
+      $("#btn_download_2").toggle();
+      }
+
+      hideLoading();
+
+      }
+      
+// NÁHRÁNÍ LINKU DO BUTTONU NEW S PORTFOLIEM --------------------------------------------------------------
+function updateUrl_NEW(file) {
+
+  var div1 = document.getElementById('btn_submit_1');
+      div1.innerHTML = '<class="btn ">Vytvořit nabídku</a>';
+
+  var div2 = document.getElementById('btn_download_1');
+      div2.href = 'https://drive.google.com/uc?export=download&id=' + file;
+
+  hideLoading();
+
+      }
+// ==================================================================================
+
+
+// -----------------------------------------------------------------------
+// === PREDKALKULACE
+// -----------------------------------------------------------------------
+function resultPredkalkulace(nalezenaData){
+
+    var typ_kalkulace_selected;
+    var typ_kalkulace = document.getElementsByName('typ_kalkulace');
+
+for(var i=0; typ_kalkulace[i]; ++i){
+        if(typ_kalkulace[i].checked){
+            typ_kalkulace_selected = typ_kalkulace[i].value;
+            break;
+          }
+        }
+
+         if (typ_kalkulace_selected == 'Souhrn') {
+
+document.getElementById('card_dohromady').style.display = 'block';
+        
+
+      } else if (typ_kalkulace_selected == 'Portfolio'){
+
+document.getElementById('card_dohromady').style.display = 'block';
+
+} else {
+
+document.getElementById('card_dohromady').style.display = 'none';
+      }
+
+  var btn_vytvorit_nabidku_1 = document.getElementById('btn_vytvorit_nabidku_1');
+        btn_vytvorit_nabidku_1.disabled = false;
+        btn_vytvorit_nabidku_1.innerHTML = 'Vytvořit nabídku';
+
+    var btn_vytvorit_nabidku = document.getElementById('btn_vytvorit_nabidku');
+        btn_vytvorit_nabidku.disabled = false;
+        btn_vytvorit_nabidku.innerHTML = 'Vytvořit nabídku';
+
+        var btn_vytvorit_predkalkulaci = document.getElementById('btn_vytvorit_predkalkulaci');
+        btn_vytvorit_predkalkulaci.disabled = false;
+        btn_vytvorit_predkalkulaci.innerHTML = 'Předkalkulace';
+
+    var btn_vytvorit_predkalkulaci_1 = document.getElementById('btn_vytvorit_predkalkulaci_1');
+        btn_vytvorit_predkalkulaci_1.disabled = false;
+        btn_vytvorit_predkalkulaci_1.innerHTML = 'Předkalkulace';
+
+      // alert(nalezenaData);
+      
+      // ----------------------------------------------------------------------------
+      // === NASTROJ 1
+      if (document.getElementById('fond_1').value !== "") {
+
+      document.getElementById('nastroj_predkalkulace_1').style.display = 'block';
+      // === ODKAZY
+      if (nalezenaData[7][0] !==''){
+      document.getElementById("stranky_fondu_1").innerHTML = '<a href="' + nalezenaData[7][0] + '" target="_blank" >Otevřít</a>';
+      }
+      if (nalezenaData[9][0] !==''){
+      document.getElementById("factsheet_1").innerHTML = '<a href="' + nalezenaData[9][0] + '" target="_blank" >Otevřít</a>';
+      }
+      if (nalezenaData[8][0] !==''){
+      document.getElementById("kid_1").innerHTML = '<a href="' + nalezenaData[8][0] + '" target="_blank" class="text-center" style="text-align:center">Otevřít</a>';
+      }
+      
+      // === VYSLEDKY 1
+      document.getElementById("cilovka_1").innerHTML = '<p style="font-size:1.2rem; color:#5FC6F1;">' + Number(nalezenaData[31][0].toFixed(0)).toLocaleString("cs-CZ") + ' Kč</p>';
+      document.getElementById("poplatek_1").innerHTML = '<p style="font-size:1.2rem; color:lightgrey;">' + Number(nalezenaData[30][0].toFixed(0)).toLocaleString("cs-CZ") + ' Kč</p>';
+      document.getElementById("zisk_1").innerHTML = '<p style="font-size:1.2rem; color:lightgreen;">' + Number(nalezenaData[36][0].toFixed(0)).toLocaleString("cs-CZ") + ' Kč</p>';
+      document.getElementById("celkem_1").innerHTML = '<p style="font-size:1.2rem; color:orange;">' + Number(nalezenaData[37][0].toFixed(0)).toLocaleString("cs-CZ") + ' Kč</p>';
+
+      }
+      // --------------------------------------------------------------------
+      
+      // ----------------------------------------------------------------------------
+      // === NASTROJ 2
+      if (document.getElementById('fond_2').value !== "") {
+
+      document.getElementById('nastroj_predkalkulace_2').style.display = 'block';
+      // === ODKAZY
+      if (nalezenaData[7][1] !==''){
+      document.getElementById("stranky_fondu_2").innerHTML = '<a href="' + nalezenaData[7][1] + '" target="_blank" >Otevřít</a>';
+        }
+      if (nalezenaData[9][1] !==''){
+      document.getElementById("factsheet_2").innerHTML = '<a href="' + nalezenaData[9][1] + '" target="_blank" >Otevřít</a>';
+        }
+      if (nalezenaData[8][1] !==''){
+      document.getElementById("kid_2").innerHTML = '<a href="' + nalezenaData[8][1] + '" target="_blank" class="text-center" style="text-align:center">Otevřít</a>';
+        }
+      
+      // === VYSLEDKY 2
+      document.getElementById("cilovka_2").innerHTML = '<p style="font-size:1.2rem; color:#5FC6F1;">' + Number(nalezenaData[31][1].toFixed(0)).toLocaleString("cs-CZ") + ' Kč</p>';
+      document.getElementById("poplatek_2").innerHTML = '<p style="font-size:1.2rem; color:lightgrey;">' + Number(nalezenaData[30][1].toFixed(0)).toLocaleString("cs-CZ") + ' Kč</p>';
+      document.getElementById("zisk_2").innerHTML = '<p style="font-size:1.2rem; color:lightgreen;">' + Number(nalezenaData[36][1].toFixed(0)).toLocaleString("cs-CZ") + ' Kč</p>';
+      document.getElementById("celkem_2").innerHTML = '<p style="font-size:1.2rem; color:orange;">' + Number(nalezenaData[37][1].toFixed(0)).toLocaleString("cs-CZ") + ' Kč</p>';
+
+      }
+      // --------------------------------------------------------------------
+
+      // ----------------------------------------------------------------------------
+      // === NASTROJ 3
+      if (document.getElementById('fond_3').value !== "") {
+
+      document.getElementById('nastroj_predkalkulace_3').style.display = 'block';
+      // === ODKAZY
+      if (nalezenaData[7][2] !==''){
+      document.getElementById("stranky_fondu_3").innerHTML = '<a href="' + nalezenaData[7][2] + '" target="_blank" >Otevřít</a>';
+        }
+      if (nalezenaData[9][2] !==''){
+      document.getElementById("factsheet_3").innerHTML = '<a href="' + nalezenaData[9][2] + '" target="_blank" >Otevřít</a>';
+        }
+      if (nalezenaData[8][2] !==''){
+      document.getElementById("kid_3").innerHTML = '<a href="' + nalezenaData[8][2] + '" target="_blank" class="text-center" style="text-align:center">Otevřít</a>';
+        }
+      
+      // === VYSLEDKY 3
+      document.getElementById("cilovka_3").innerHTML = '<p style="font-size:1.2rem; color:#5FC6F1;">' + Number(nalezenaData[31][2].toFixed(0)).toLocaleString("cs-CZ") + ' Kč</p>';
+      document.getElementById("poplatek_3").innerHTML = '<p style="font-size:1.2rem; color:lightgrey;">' + Number(nalezenaData[30][2].toFixed(0)).toLocaleString("cs-CZ") + ' Kč</p>';
+      document.getElementById("zisk_3").innerHTML = '<p style="font-size:1.2rem; color:lightgreen;">' + Number(nalezenaData[36][2].toFixed(0)).toLocaleString("cs-CZ") + ' Kč</p>';
+      document.getElementById("celkem_3").innerHTML = '<p style="font-size:1.2rem; color:orange;">' + Number(nalezenaData[37][2].toFixed(0)).toLocaleString("cs-CZ") + ' Kč</p>';
+
+      }
+      // --------------------------------------------------------------------
+
+      // ----------------------------------------------------------------------------
+      // === NASTROJ 4
+      if (document.getElementById('fond_4').value !== "") {
+
+      document.getElementById('nastroj_predkalkulace_4').style.display = 'block';
+      // === ODKAZY
+      if (nalezenaData[7][3] !==''){
+      document.getElementById("stranky_fondu_4").innerHTML = '<a href="' + nalezenaData[7][3] + '" target="_blank" >Otevřít</a>';
+        }
+      if (nalezenaData[9][3] !==''){
+      document.getElementById("factsheet_4").innerHTML = '<a href="' + nalezenaData[9][3] + '" target="_blank" >Otevřít</a>';
+        }
+      if (nalezenaData[8][3] !==''){
+      document.getElementById("kid_4").innerHTML = '<a href="' + nalezenaData[8][3] + '" target="_blank" class="text-center" style="text-align:center">Otevřít</a>';
+        }
+      
+      // === VYSLEDKY 4
+      document.getElementById("cilovka_4").innerHTML = '<p style="font-size:1.2rem; color:#5FC6F1;">' + Number(nalezenaData[31][3].toFixed(0)).toLocaleString("cs-CZ") + ' Kč</p>';
+      document.getElementById("poplatek_4").innerHTML = '<p style="font-size:1.2rem; color:lightgrey;">' + Number(nalezenaData[30][3].toFixed(0)).toLocaleString("cs-CZ") + ' Kč</p>';
+      document.getElementById("zisk_4").innerHTML = '<p style="font-size:1.2rem; color:lightgreen;">' + Number(nalezenaData[36][3].toFixed(0)).toLocaleString("cs-CZ") + ' Kč</p>';
+      document.getElementById("celkem_4").innerHTML = '<p style="font-size:1.2rem; color:orange;">' + Number(nalezenaData[37][3].toFixed(0)).toLocaleString("cs-CZ") + ' Kč</p>';
+      
+      }
+      // --------------------------------------------------------------------
+
+      // ----------------------------------------------------------------------------
+      // === NASTROJ 5
+      if (document.getElementById('fond_5').value !== "") {
+
+      document.getElementById('nastroj_predkalkulace_5').style.display = 'block';
+      // === ODKAZY
+      if (nalezenaData[7][4] !==''){
+      document.getElementById("stranky_fondu_5").innerHTML = '<a href="' + nalezenaData[7][4] + '" target="_blank" >Otevřít</a>';
+        }
+      if (nalezenaData[9][4] !==''){
+      document.getElementById("factsheet_5").innerHTML = '<a href="' + nalezenaData[9][4] + '" target="_blank" >Otevřít</a>';
+        }
+      if (nalezenaData[8][4] !==''){
+      document.getElementById("kid_5").innerHTML = '<a href="' + nalezenaData[8][4] + '" target="_blank" class="text-center" style="text-align:center">Otevřít</a>';
+        }
+      
+      // === VYSLEDKY 5
+      document.getElementById("cilovka_5").innerHTML = '<p style="font-size:1.2rem; color:#5FC6F1;">' + Number(nalezenaData[31][4].toFixed(0)).toLocaleString("cs-CZ") + ' Kč</p>';
+      document.getElementById("poplatek_5").innerHTML = '<p style="font-size:1.2rem; color:lightgrey;">' + Number(nalezenaData[30][4].toFixed(0)).toLocaleString("cs-CZ") + ' Kč</p>';
+      document.getElementById("zisk_5").innerHTML = '<p style="font-size:1.2rem; color:lightgreen;">' + Number(nalezenaData[36][4].toFixed(0)).toLocaleString("cs-CZ") + ' Kč</p>';
+      document.getElementById("celkem_5").innerHTML = '<p style="font-size:1.2rem; color:orange;">' + Number(nalezenaData[37][4].toFixed(0)).toLocaleString("cs-CZ") + ' Kč</p>';
+      
+      }
+
+
+document.getElementById("celkem_dohromady").innerHTML = '<strong style="font-size:1.5rem; color:orange;">' + Number(nalezenaData[41][0].toFixed(0)).toLocaleString("cs-CZ") + ' Kč</strong>';
+      
+
+      // =========================================================
+
+hideLoading();
+
+      
+}
+
+// ----------------------------------------------------
+// --- TEXTAREA CHARACTER COUNTER 
+// ----------------------------------------------------
+  const text_max = 160;
+  $('#motiv_klienta_counter').html('0 / ' + text_max );
+  $('#cil_popis_counter_1').html('0 / ' + text_max );
+
+  $('#motiv_klienta').keyup(function() {
+    var text_length = $('#motiv_klienta').val().length;
+    var text_remaining = text_max - text_length;
+    
+    $('#motiv_klienta_counter').html(text_length + ' / ' + text_max);
+  });
+
+  $('#cil_popis_1').keyup(function() {
+    var text_length = $('#cil_popis_1').val().length;
+    var text_remaining = text_max - text_length;
+    
+    $('#cil_popis_counter_1').html(text_length + ' / ' + text_max);
+  });
+// ===================================================
+
+
+// ----------------------------------------------------
+// === AUTOHEIGHT TEXT AREA
+  function autoHeight(element) {
+  element.style.height = "auto";
+  element.style.height = (element.scrollHeight) + "px";
+}
+// ===================================================
+
+// ----------------------------------------------------
+// === FORMATOVANI NA TISICOVKY
+// ----------------------------------------------------
+// === FORMATOVANI NA TISICOVKY
+// ----------------------------------------------------
+function formatovani_na_tisicovky(input) {
+  let value = input.value.replace(/\s/g, '');
+value = Number(value).toLocaleString('cs-CZ');
+  $(input).val(value);
+}
+
+// -----------------------------------------------------------------------
+// === URCENI CONST POLOZEK CILOVKA
+const slider_cilovka_jednoraz = document.getElementById('slider_cilovka_jednoraz');
+const cilovka_jednoraz = document.getElementById('cilovka_jednoraz');
+
+const slider_cilovka_pravidelka = document.getElementById('slider_cilovka_pravidelka');
+const cilovka_pravidelka = document.getElementById('cilovka_pravidelka');
+
+// ------------------------------------------------------------------
+// === PREVOD SLIDER VALUE DO INPUT
+function slider_cilovka_jednoraz_prevod() {
+	cilovka_jednoraz.value = Number(slider_cilovka_jednoraz.value).toLocaleString('cs-CZ');
+}
+function slider_cilovka_pravidelka_prevod() {
+	cilovka_pravidelka.value = Number(slider_cilovka_pravidelka.value).toLocaleString('cs-CZ');
+}
+// ------------------------------------------------------
+// === URCENI CONST POLOZEK CILOVKA
+const slider_platba_cilovka = document.getElementById('slider_platba_cilovka');
+const platba_cilovka = document.getElementById('platba_cilovka');
+
+const slider_platba_jednoraz = document.getElementById('slider_platba_jednoraz');
+const platba_jednoraz = document.getElementById('platba_jednoraz');
+
+// ------------------------------------------------------------------
+// === PREVOD SLIDER VALUE DO INPUT
+function slider_platba_cilovka_prevod() {
+	platba_cilovka.value = Number(slider_platba_cilovka.value).toLocaleString('cs-CZ');
+}
+function slider_platba_jednoraz_prevod() {
+	platba_jednoraz.value = Number(slider_platba_jednoraz.value).toLocaleString('cs-CZ');
+}
+// ================================================
+
+
+// -----------------------------------------------------------
+// === PRENOS CILE MILION DO KALKULACE
+function cil_milion_prenos(){
+let cil_milion_cena = document.getElementById("cil_milion_cena_1").value;
+let cil_milion_pravidelka = document.getElementById("cil_milion_pravidelka_1").value;
+let cil_milion_jednoraz = document.getElementById("cil_milion_jednoraz_1").value;
+// let cil_milion_vynos = document.getElementById("cil_milion_vynos_1").value;
+let cil_milion_doba = parseFloat(document.getElementById("cil_milion_doba_1").value);
+
+let inv_horizont = document.getElementById("inv_horizont");
+let jednoraz_sum = document.getElementById("jednoraz_sum");
+let pravidelka_sum = document.getElementById("pravidelka_sum");
+let motiv_klienta = document.getElementById("motiv_klienta");
+
+
+inv_horizont.value = cil_milion_doba;
+jednoraz_sum.value = cil_milion_jednoraz;
+pravidelka_sum.value = cil_milion_pravidelka;
+motiv_klienta.value = "Mít " + cil_milion_cena + " Kč za " + cil_milion_doba + " let.";
+
+
+
+
+}
+
+// -----------------------------------------------------------------------------------------
+// === CHART
+
+//-----------------------------------------------------------
+// === URCENI PROGMENYCH GRAFU
+let chart_cilovka; 
+let chart_platba; 
+// -------------------------------------------------------
+// === GRAF VYPOCET BUDUCI HODNOTY
+document.addEventListener('DOMContentLoaded', function() {
+	
+        chart_cilovka = Highcharts.chart('graf_cilovka', {
+			// colors: ['#01BAF2', '#71BF45', '#FAA74B', '#B37CD2'],
+			// colors: ['#7F7F7F', '#5FC6F1', '#FAA74B', '#B37CD2'],
+			colors: ['#3c79b1', '#00cc00', '#FAA74B', '#B37CD2'],
+            chart: {
+                type: 'pie',
+				// backgroundColor: '#f2f2f2', 
+        backgroundColor: '#1e3d59', 
+				// backgroundColor: '#0b5e81', 
+				// borderRadius: 25 
+            },
+            title: {
+                text: null,
+					align: 'center',
+					verticalAlign: 'bottom',
+				style: {
+                // color: '#f5f5f5' // Barva textu
+            }
+            },
+			tooltip: {
+				// valueSuffix: 'Kč'
+				pointFormatter: function() {
+                        return '<b>' + this.y.toLocaleString('cs-CZ', {maximumFractionDigits: 0}) + ' Kč </b>';
+                    }
+			},
+			legend: {
+                    align: 'center',
+                    verticalAlign: 'top',
+                    layout: 'horizontal'
+			},
+	plotOptions: {
+        pie: {
+            dataLabels: {
+                enabled: true,
+                distance: -90,
+                style: {
+                    fontWeight: 'bold',
+					fontSize: '1rem',
+                    color: 'white',
+                    // color: '#1a1a1a',
+					textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
+					textOutline: 'none'
+					// border: '0',
+					// shadow: '0'
+                }
+            },
+            startAngle: -90,
+            endAngle: 90,
+            center: ['50%', '100%'],
+            size: '175%'
+        }
+    },
+            series: [{
+                name: '',
+				innerSize: '45%',
+				colorByPoint: true,
+                data: [{
+					name: 'Vloženo celkem',
+					y: 1	
+				},{
+					name: 'Zhodnocení',
+					y: 1	
+				}]
+            }]
+        });
+        
+		
+		chart_platba = Highcharts.chart('graf_platba', {
+			// colors: ['#01BAF2', '#71BF45', '#FAA74B', '#B37CD2'],
+			// colors: ['#7F7F7F', '#5FC6F1', '#FAA74B', '#B37CD2'],
+			colors: ['#3c79b1', '#00cc00', '#FAA74B', '#B37CD2'],
+            chart: {
+                type: 'pie',
+				// backgroundColor: '#f2f2f2', 
+				backgroundColor: '#1e3d59', 
+				// backgroundColor: '#0b5e81', 
+				// borderRadius: 25 
+            },
+            title: {
+                text: null,
+					align: 'center',
+					verticalAlign: 'bottom',
+				style: {
+                // color: '#f5f5f5' // Barva textu
+            }
+            },
+			tooltip: {
+				// valueSuffix: 'Kč'
+				pointFormatter: function() {
+                        return '<b>' + this.y.toLocaleString('cs-CZ', {maximumFractionDigits: 0}) + ' Kč </b>';
+                    }
+			},
+			legend: {
+                    align: 'center',
+                    verticalAlign: 'top',
+                    layout: 'horizontal'
+			},
+        pie: {
+            dataLabels: {
+                enabled: true,
+                distance: -90,
+                style: {
+                    fontWeight: 'bold',
+					fontSize: '1rem',
+                    color: 'white',
+                    // color: '#1a1a1a',
+					textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
+					textOutline: 'none'
+					// border: '0',
+					// shadow: '0'
+                }
+            },
+            startAngle: -90,
+            endAngle: 90,
+            center: ['50%', '100%'],
+            size: '175%'
+        }
+    },
+            series: [{
+                name: '',
+				innerSize: '45%',
+				colorByPoint: true,
+                data: [{
+					name: 'Vloženo celkem',
+					y: 1	
+				},{
+					name: 'Zhodnocení',
+					y: 1	
+				}]
+            }]
+        });
+	
+
+
+
+});
+// ===========================
+
+
+// --------------------------------------------
+// --- PENZE DO RENTY
+// ------------------------------------------
+function penze_to_renta(){
+
+    var penze_rozdil = document.getElementById("penze_rozdil").value;
+    var renta_navzdy_pravidelka = document.getElementById("renta_navzdy_pravidelka");
+    var card_renta = document.getElementById("card_renta");
+
+
+if (window.penze_vysledek > 0){
+    renta_navzdy_pravidelka.value =  window.penze_vysledek;
+    
+    card_renta.scrollIntoView({ behavior: 'smooth' });
+
+    renta_vypocet();
+}
+}
+// =================================================
+
+
+// --- PREPNUTI NA PORTFOLIO -----------------------------------
+function typ_kalkulace_switch(){
+  
+$('input[type="radio"][value="Portfolio"]').trigger('click');
+
+}
+
+// --- PREPINANI TRID U TLACITEK ----------------------------
+function prepinani_vybranych_tlacitek(){
+
+$('.btn-selected').each(function() {
+  // --- PREPINANI TRIDY
+  $(this).removeClass('btn-selected').addClass('btn-not_selected');
+});
+
+}
+// =====================================================
+
+
+// === END FUNKCE =======================================================
+
+
+// -----------------------------------------------------------------------------------
+// --- POSLUCHACI 
+// --- ZOBRAZENI TLACITEK U CENY CILE
+document.getElementById('cil_doba_1').addEventListener('blur', function() {
+            var value = parseInt(this.value);
+
+            var cil_jednoraz = document.getElementById('cil_jednoraz_1').value;
+            var cil_pravidelka = document.getElementById('cil_pravidelka_1').value;
+            
+            if ((value >= 0) && (value < 3) ) {
+                document.getElementById('vig_btn_1_1').style.display = 'block';
+                document.getElementById('vig_btn_2_1').style.display = 'none';
+                document.getElementById('vig_btn_3_1').style.display = 'none';
+                document.getElementById('vig_btn_4_1').style.display = 'none';
+
+                document.getElementById('fid_btn_1_1').style.display = 'block';
+                document.getElementById('fid_btn_2_1').style.display = 'none';
+                document.getElementById('fid_btn_3_1').style.display = 'none';
+                document.getElementById('fid_btn_4_1').style.display = 'none';
+                document.getElementById('fid_btn_5_1').style.display = 'none';
+
+                document.getElementById('cil_title').style.display = 'block';
+
+                document.getElementById('cil_vynos_1').value = '3,6';
+
+            } else if ( (value >= 3) && (value < 4) ) {
+                document.getElementById('vig_btn_1_1').style.display = 'block';
+                document.getElementById('vig_btn_2_1').style.display = 'block';
+                document.getElementById('vig_btn_3_1').style.display = 'none';
+                document.getElementById('vig_btn_4_1').style.display = 'none';
+
+                document.getElementById('fid_btn_1_1').style.display = 'block';
+                document.getElementById('fid_btn_2_1').style.display = 'block';
+                document.getElementById('fid_btn_3_1').style.display = 'none';
+                document.getElementById('fid_btn_4_1').style.display = 'none';
+                document.getElementById('fid_btn_5_1').style.display = 'none';
+
+                document.getElementById('cil_title').style.display = 'block';
+
+                document.getElementById('cil_vynos_1').value = '3,6';
+
+            } else if ( (value >= 4) && (value < 5) ) {
+                document.getElementById('vig_btn_1_1').style.display = 'none';
+                document.getElementById('vig_btn_2_1').style.display = 'block';
+                document.getElementById('vig_btn_3_1').style.display = 'none';
+                document.getElementById('vig_btn_4_1').style.display = 'none';
+
+                document.getElementById('fid_btn_1_1').style.display = 'none';
+                document.getElementById('fid_btn_2_1').style.display = 'block';
+                document.getElementById('fid_btn_3_1').style.display = 'none';
+                document.getElementById('fid_btn_4_1').style.display = 'none';
+                document.getElementById('fid_btn_5_1').style.display = 'none';
+
+                document.getElementById('cil_title').style.display = 'block';
+
+                document.getElementById('cil_vynos_1').value = '3,6';
+
+            } else if ( (value >= 5) && (value < 6) ) {
+                document.getElementById('vig_btn_1_1').style.display = 'none';
+                document.getElementById('vig_btn_2_1').style.display = 'block';
+                document.getElementById('vig_btn_3_1').style.display = 'block';
+                document.getElementById('vig_btn_4_1').style.display = 'none';
+
+                document.getElementById('fid_btn_1_1').style.display = 'none';
+                document.getElementById('fid_btn_2_1').style.display = 'block';
+                document.getElementById('fid_btn_3_1').style.display = 'block';
+                document.getElementById('fid_btn_4_1').style.display = 'none';
+                document.getElementById('fid_btn_5_1').style.display = 'none';
+
+                document.getElementById('cil_title').style.display = 'block';
+
+                document.getElementById('cil_vynos_1').value = '5';
+
+            } else if ( (value >= 6) && (value < 7) ) {
+
+                document.getElementById('vig_btn_1_1').style.display = 'none';
+                document.getElementById('vig_btn_2_1').style.display = 'none';
+                document.getElementById('vig_btn_3_1').style.display = 'block';
+                document.getElementById('vig_btn_4_1').style.display = 'none';
+
+                document.getElementById('fid_btn_1_1').style.display = 'none';
+                document.getElementById('fid_btn_2_1').style.display = 'none';
+                document.getElementById('fid_btn_3_1').style.display = 'block';
+                document.getElementById('fid_btn_4_1').style.display = 'none';
+                document.getElementById('fid_btn_5_1').style.display = 'none';
+
+                document.getElementById('cil_title').style.display = 'block';
+
+                document.getElementById('cil_vynos_1').value = '6,4';
+
+            } else if ( (value >= 7) && (value < 8) ) {
+
+                document.getElementById('vig_btn_1_1').style.display = 'none';
+                document.getElementById('vig_btn_2_1').style.display = 'none';
+                document.getElementById('vig_btn_3_1').style.display = 'block';
+                document.getElementById('vig_btn_4_1').style.display = 'block';
+
+                document.getElementById('fid_btn_1_1').style.display = 'none';
+                document.getElementById('fid_btn_2_1').style.display = 'none';
+                document.getElementById('fid_btn_3_1').style.display = 'block';
+                document.getElementById('fid_btn_4_1').style.display = 'block';
+                document.getElementById('fid_btn_5_1').style.display = 'none';
+
+                document.getElementById('cil_title').style.display = 'block';
+
+                document.getElementById('cil_vynos_1').value = '7,4';
+
+            } else if ( (value >= 8) && (value < 10) ) {
+
+                document.getElementById('vig_btn_1_1').style.display = 'none';
+                document.getElementById('vig_btn_2_1').style.display = 'none';
+                document.getElementById('vig_btn_3_1').style.display = 'none';
+                document.getElementById('vig_btn_4_1').style.display = 'block';
+
+                document.getElementById('fid_btn_1_1').style.display = 'none';
+                document.getElementById('fid_btn_2_1').style.display = 'none';
+                document.getElementById('fid_btn_3_1').style.display = 'none';
+                document.getElementById('fid_btn_4_1').style.display = 'block';
+                document.getElementById('fid_btn_5_1').style.display = 'none';
+
+                document.getElementById('cil_title').style.display = 'block';
+
+                document.getElementById('cil_vynos_1').value = '7,4';
+
+            } else if ( (value >= 10) && (value < 11)  ) {
+                document.getElementById('vig_btn_1_1').style.display = 'none';
+                document.getElementById('vig_btn_2_1').style.display = 'none';
+                document.getElementById('vig_btn_3_1').style.display = 'none';
+                document.getElementById('vig_btn_4_1').style.display = 'block';
+
+                document.getElementById('fid_btn_1_1').style.display = 'none';
+                document.getElementById('fid_btn_2_1').style.display = 'none';
+                document.getElementById('fid_btn_3_1').style.display = 'none';
+                document.getElementById('fid_btn_4_1').style.display = 'block';
+                document.getElementById('fid_btn_5_1').style.display = 'block';
+
+                document.getElementById('cil_title').style.display = 'block';
+
+                document.getElementById('cil_vynos_1').value = '8';
+
+            } else if  (value >= 11 ) {
+                document.getElementById('vig_btn_1_1').style.display = 'none';
+                document.getElementById('vig_btn_2_1').style.display = 'none';
+                document.getElementById('vig_btn_3_1').style.display = 'none';
+                document.getElementById('vig_btn_4_1').style.display = 'block';
+
+                document.getElementById('fid_btn_1_1').style.display = 'none';
+                document.getElementById('fid_btn_2_1').style.display = 'none';
+                document.getElementById('fid_btn_3_1').style.display = 'none';
+                document.getElementById('fid_btn_4_1').style.display = 'none';
+                document.getElementById('fid_btn_5_1').style.display = 'block';
+
+                document.getElementById('cil_title').style.display = 'block';
+
+                document.getElementById('cil_vynos_1').value = '8';
+
+            } else {
+                document.getElementById('vig_btn_1_1').style.display = 'none';
+                document.getElementById('vig_btn_2_1').style.display = 'none';
+                document.getElementById('vig_btn_3_1').style.display = 'none';
+                document.getElementById('vig_btn_4_1').style.display = 'none';
+
+                document.getElementById('fid_btn_1_1').style.display = 'none';
+                document.getElementById('fid_btn_2_1').style.display = 'none';
+                document.getElementById('fid_btn_3_1').style.display = 'none';
+                document.getElementById('fid_btn_4_1').style.display = 'none';
+                document.getElementById('fid_btn_5_1').style.display = 'none';
+
+                document.getElementById('cil_title').style.display = 'none';
+
+                document.getElementById('cil_vynos_1').value = '';
+
+            }
+
+            platba_vypocet_1();
+        });
+// ===================================================
+
+//-------------------------------------------------------------------
+// --- ZOBRAZENI TLACITEK U RENTY NAVZDY
+//-------------------------------------------------------------------
+document.getElementById('renta_navzdy_doba_2_1').addEventListener('blur', function() {
+            var value = parseInt(this.value);
+
+            var cil_jednoraz = document.getElementById('renta_navzdy_jednorazovka_1').value;
+            var cil_pravidelka = document.getElementById('renta_navzdy_pravidelka_1').value;
+            
+            if ((value >= 0) && (value < 3) ) {
+                document.getElementById('vig_btn_1_2').style.display = 'block';
+                document.getElementById('vig_btn_2_2').style.display = 'none';
+                document.getElementById('vig_btn_3_2').style.display = 'none';
+                document.getElementById('vig_btn_4_2').style.display = 'none';
+
+                document.getElementById('fid_btn_1_2').style.display = 'block';
+                document.getElementById('fid_btn_2_2').style.display = 'none';
+                document.getElementById('fid_btn_3_2').style.display = 'none';
+                document.getElementById('fid_btn_4_2').style.display = 'none';
+                document.getElementById('fid_btn_5_2').style.display = 'none';
+
+                document.getElementById('renta_title').style.display = 'block';
+
+                document.getElementById('renta_navzdy_vynos_1').value = '3,6';
+
+            } else if ( (value >= 3) && (value < 4) ) {
+                document.getElementById('vig_btn_1_2').style.display = 'block';
+                document.getElementById('vig_btn_2_2').style.display = 'block';
+                document.getElementById('vig_btn_3_2').style.display = 'none';
+                document.getElementById('vig_btn_4_2').style.display = 'none';
+
+                document.getElementById('fid_btn_1_2').style.display = 'block';
+                document.getElementById('fid_btn_2_2').style.display = 'block';
+                document.getElementById('fid_btn_3_2').style.display = 'none';
+                document.getElementById('fid_btn_4_2').style.display = 'none';
+                document.getElementById('fid_btn_5_2').style.display = 'none';
+
+                document.getElementById('renta_title').style.display = 'block';
+
+                document.getElementById('renta_navzdy_vynos_1').value = '3,6';
+
+            } else if ( (value >= 4) && (value < 5) ) {
+                document.getElementById('vig_btn_1_2').style.display = 'none';
+                document.getElementById('vig_btn_2_2').style.display = 'block';
+                document.getElementById('vig_btn_3_2').style.display = 'none';
+                document.getElementById('vig_btn_4_2').style.display = 'none';
+
+                document.getElementById('fid_btn_1_2').style.display = 'none';
+                document.getElementById('fid_btn_2_2').style.display = 'block';
+                document.getElementById('fid_btn_3_2').style.display = 'none';
+                document.getElementById('fid_btn_4_2').style.display = 'none';
+                document.getElementById('fid_btn_5_2').style.display = 'none';
+
+                document.getElementById('renta_title').style.display = 'block';
+
+                document.getElementById('renta_navzdy_vynos_1').value = '3,6';
+
+            } else if ( (value >= 5) && (value < 6) ) {
+                document.getElementById('vig_btn_1_2').style.display = 'none';
+                document.getElementById('vig_btn_2_2').style.display = 'block';
+                document.getElementById('vig_btn_3_2').style.display = 'block';
+                document.getElementById('vig_btn_4_2').style.display = 'none';
+
+                document.getElementById('fid_btn_1_2').style.display = 'none';
+                document.getElementById('fid_btn_2_2').style.display = 'block';
+                document.getElementById('fid_btn_3_2').style.display = 'block';
+                document.getElementById('fid_btn_4_2').style.display = 'none';
+                document.getElementById('fid_btn_5_2').style.display = 'none';
+
+                document.getElementById('renta_title').style.display = 'block';
+
+                document.getElementById('renta_navzdy_vynos_1').value = '5';
+
+            } else if ( (value >= 6) && (value < 7) ) {
+
+                document.getElementById('vig_btn_1_2').style.display = 'none';
+                document.getElementById('vig_btn_2_2').style.display = 'none';
+                document.getElementById('vig_btn_3_2').style.display = 'block';
+                document.getElementById('vig_btn_4_2').style.display = 'none';
+
+                document.getElementById('fid_btn_1_2').style.display = 'none';
+                document.getElementById('fid_btn_2_2').style.display = 'none';
+                document.getElementById('fid_btn_3_2').style.display = 'block';
+                document.getElementById('fid_btn_4_2').style.display = 'none';
+                document.getElementById('fid_btn_5_2').style.display = 'none';
+
+                document.getElementById('renta_title').style.display = 'block';
+
+                document.getElementById('renta_navzdy_vynos_1').value = '6,4';
+
+            } else if ( (value >= 7) && (value < 8) ) {
+
+                document.getElementById('vig_btn_1_2').style.display = 'none';
+                document.getElementById('vig_btn_2_2').style.display = 'none';
+                document.getElementById('vig_btn_3_2').style.display = 'block';
+                document.getElementById('vig_btn_4_2').style.display = 'block';
+
+                document.getElementById('fid_btn_1_2').style.display = 'none';
+                document.getElementById('fid_btn_2_2').style.display = 'none';
+                document.getElementById('fid_btn_3_2').style.display = 'block';
+                document.getElementById('fid_btn_4_2').style.display = 'block';
+                document.getElementById('fid_btn_5_2').style.display = 'none';
+
+                document.getElementById('renta_title').style.display = 'block';
+
+                document.getElementById('renta_navzdy_vynos_1').value = '7,4';
+
+            } else if ( (value >= 8) && (value < 10) ) {
+
+                document.getElementById('vig_btn_1_2').style.display = 'none';
+                document.getElementById('vig_btn_2_2').style.display = 'none';
+                document.getElementById('vig_btn_3_2').style.display = 'none';
+                document.getElementById('vig_btn_4_2').style.display = 'block';
+
+                document.getElementById('fid_btn_1_2').style.display = 'none';
+                document.getElementById('fid_btn_2_2').style.display = 'none';
+                document.getElementById('fid_btn_3_2').style.display = 'none';
+                document.getElementById('fid_btn_4_2').style.display = 'block';
+                document.getElementById('fid_btn_5_2').style.display = 'none';
+
+                document.getElementById('renta_title').style.display = 'block';
+
+                document.getElementById('renta_navzdy_vynos_1').value = '7,4';
+
+            } else if ( (value >= 10) && (value < 11)  ) {
+                document.getElementById('vig_btn_1_2').style.display = 'none';
+                document.getElementById('vig_btn_2_2').style.display = 'none';
+                document.getElementById('vig_btn_3_2').style.display = 'none';
+                document.getElementById('vig_btn_4_2').style.display = 'block';
+
+                document.getElementById('fid_btn_1_2').style.display = 'none';
+                document.getElementById('fid_btn_2_2').style.display = 'none';
+                document.getElementById('fid_btn_3_2').style.display = 'none';
+                document.getElementById('fid_btn_4_2').style.display = 'block';
+                document.getElementById('fid_btn_5_2').style.display = 'block';
+
+                document.getElementById('renta_title').style.display = 'block';
+
+                document.getElementById('renta_navzdy_vynos_1').value = '8';
+
+            } else if  (value >= 11 ) {
+                document.getElementById('vig_btn_1_2').style.display = 'none';
+                document.getElementById('vig_btn_2_2').style.display = 'none';
+                document.getElementById('vig_btn_3_2').style.display = 'none';
+                document.getElementById('vig_btn_4_2').style.display = 'block';
+
+                document.getElementById('fid_btn_1_2').style.display = 'none';
+                document.getElementById('fid_btn_2_2').style.display = 'none';
+                document.getElementById('fid_btn_3_2').style.display = 'none';
+                document.getElementById('fid_btn_4_2').style.display = 'none';
+                document.getElementById('fid_btn_5_2').style.display = 'block';
+
+                document.getElementById('renta_title').style.display = 'block';
+
+                document.getElementById('renta_navzdy_vynos_1').value = '8';
+
+            } else {
+                document.getElementById('vig_btn_1_2').style.display = 'none';
+                document.getElementById('vig_btn_2_2').style.display = 'none';
+                document.getElementById('vig_btn_3_2').style.display = 'none';
+                document.getElementById('vig_btn_4_2').style.display = 'none';
+
+                document.getElementById('fid_btn_1_2').style.display = 'none';
+                document.getElementById('fid_btn_2_2').style.display = 'none';
+                document.getElementById('fid_btn_3_2').style.display = 'none';
+                document.getElementById('fid_btn_4_2').style.display = 'none';
+                document.getElementById('fid_btn_5_2').style.display = 'none';
+
+                document.getElementById('renta_title').style.display = 'none';
+
+                document.getElementById('renta_navzdy_vynos_1').value = '';
+
+            }
+
+            renta_vypocet_1();
+        });
+// ===================================================
+
+
+
+
+// ---------------------------------------------------------------------
+// --- VIG RESENI TLACITKA - ROZDELENI
+// --- BTN 1
+// ---------------------------------------------------------------------
+  function portfolio_VIG_Konzervativni() {
+
+        var pravidelka_sum = document.getElementById("pravidelka_sum").value.replace(/\s/g, '');
+        var jednoraz_sum = document.getElementById("jednoraz_sum").value.replace(/\s/g, '');
+
+        $(this).toggleClass("btn-not_selected").toggleClass("btn-selected");
+
+        // --- VYBER FONDU
+        $("#fond_1").val('VIG Czech Short Term Bond Investment Fund (CZK)');
+        $("#fond_2").val('VIG Maraton ESG Multi Asset Investment C Hgd (CZK)');
+        $("#fond_3").val('');
+        $("#fond_4").val('');
+        $("#fond_5").val('');
+
+      // ---------------------------------------------------------
+      // --- NASTAVENI PLATEB ------------------------------------
+      // --- JEDNORAZ ---------------------
+      if (jednoraz_sum > 0) {
+
+        jednoraz_1.value = Math.round((jednoraz_sum * 0.7)/100)*100;
+        jednoraz_2.value = jednoraz_sum - jednoraz_1.value;
+        jednoraz_3.value = '';
+        jednoraz_4.value = '';
+        jednoraz_5.value = '';
+
+        }
+
+      // --- PRAVIDELKA ------------------
+      if (pravidelka_sum > 0) {
+
+         pravidelka_1.value = Math.round((pravidelka_sum * 0.7)/100)*100;
+         pravidelka_2.value = pravidelka_sum - pravidelka_1.value;
+         pravidelka_3.value = '';
+         pravidelka_4.value = '';
+         pravidelka_5.value = '';
+
+        }
+
+  };
+
+
+// --- BTN 2 VYVAZENE -------------------------------
+ function portfolio_VIG_Vyvazene() {
+
+        var pravidelka_sum = document.getElementById("pravidelka_sum").value.replace(/\s/g, '');
+        var jednoraz_sum = document.getElementById("jednoraz_sum").value.replace(/\s/g, '');
+
+        $(this).toggleClass("btn-not_selected").toggleClass("btn-selected");
+
+        // --- VYBER FONDU
+        $("#fond_1").val('VIG Czech Short Term Bond Investment Fund (CZK)');
+        $("#fond_2").val('VIG Maraton ESG Multi Asset Investment C Hgd (CZK)');
+        $("#fond_3").val('VIG MegaTrend Equity Fund C Hgd (CZK)');
+        $("#fond_4").val('');
+        $("#fond_5").val('');
+
+      // ---------------------------------------------------------
+      // --- NASTAVENI PLATEB ------------------------------------
+      // --- JEDNORAZ ---------------------
+      if (jednoraz_sum > 0) {
+
+        jednoraz_1.value = Math.round((jednoraz_sum * 0.45)/100)*100;
+        jednoraz_2.value = Math.round((jednoraz_sum * 0.25)/100)*100;
+        jednoraz_3.value = jednoraz_sum - jednoraz_1.value - jednoraz_2.value;
+        jednoraz_4.value = '';
+        jednoraz_5.value = '';
+
+        }
+
+      // --- PRAVIDELKA ------------------
+      if (pravidelka_sum > 0) {
+
+         pravidelka_1.value = Math.round((pravidelka_sum * 0.45)/100)*100;
+         pravidelka_2.value =  Math.round((pravidelka_sum * 0.25)/100)*100;
+         pravidelka_3.value = pravidelka_sum - pravidelka_1.value - pravidelka_2.value;
+         pravidelka_4.value = '';
+         pravidelka_5.value = '';
+
+        }
+
+  };
+
+
+// --- BTN 3 RUSTOVE -----------------------------
+ function portfolio_VIG_Rustove() {
+
+        var pravidelka_sum = document.getElementById("pravidelka_sum").value.replace(/\s/g, '');
+        var jednoraz_sum = document.getElementById("jednoraz_sum").value.replace(/\s/g, '');
+
+        $(this).toggleClass("btn-not_selected").toggleClass("btn-selected");
+
+        // --- VYBER FONDU
+        $("#fond_1").val('VIG Czech Short Term Bond Investment Fund (CZK)');
+        $("#fond_2").val('VIG Panorama Total Return Investment C Hgd (CZK)');
+        $("#fond_3").val('VIG MegaTrend Equity Fund C Hgd (CZK)');
+        $("#fond_4").val('VIG Central European Equity C (CZK)');
+        $("#fond_5").val('');
+
+      // ---------------------------------------------------------
+      // --- NASTAVENI PLATEB ------------------------------------
+      // --- JEDNORAZ ---------------------
+      if (jednoraz_sum > 0) {
+
+        jednoraz_1.value = Math.round((jednoraz_sum * 0.2)/100)*100;
+        jednoraz_2.value = Math.round((jednoraz_sum * 0.2)/100)*100;
+         jednoraz_3.value = Math.round((jednoraz_sum * 0.4)/100)*100;;
+         jednoraz_4.value = jednoraz_sum - jednoraz_1.value - jednoraz_2.value - jednoraz_3.value;
+         jednoraz_5.value = '';
+
+        }
+
+      // --- PRAVIDELKA ------------------
+      if (pravidelka_sum > 0) {
+
+         pravidelka_1.value = Math.round((pravidelka_sum * 0.2)/100)*100;
+         pravidelka_2.value =  Math.round((pravidelka_sum * 0.2)/100)*100;
+         pravidelka_3.value = Math.round((pravidelka_sum * 0.4)/100)*100;
+         pravidelka_4.value = pravidelka_sum - pravidelka_1.value - pravidelka_2.value - pravidelka_3.value;
+          pravidelka_5.value = '';
+        
+        }
+
+  };
+
+
+// --- BTN 4 DYNAMICKE
+ function portfolio_VIG_Dynamicke() {
+
+        var pravidelka_sum = document.getElementById("pravidelka_sum").value.replace(/\s/g, '');
+        var jednoraz_sum = document.getElementById("jednoraz_sum").value.replace(/\s/g, '');
+
+        $(this).toggleClass("btn-not_selected").toggleClass("btn-selected");
+
+        // --- VYBER FONDU
+        $("#fond_1").val('VIG Alfa Absolute Return C Hgd (CZK)');
+        $("#fond_2").val('VIG MegaTrend Equity Fund C Hgd (CZK)');
+        $("#fond_3").val('VIG Central European Equity C (CZK)');
+        $("#fond_4").val('VIG Emerging Market ESG Equity C (CZK)');
+        $("#fond_5").val('');
+
+      // ---------------------------------------------------------
+      // --- NASTAVENI PLATEB ------------------------------------
+      // --- JEDNORAZ ---------------------
+      if (jednoraz_sum > 0) {
+
+        jednoraz_1.value = Math.round((jednoraz_sum * 0.2)/100)*100;
+        jednoraz_2.value = Math.round((jednoraz_sum * 0.4)/100)*100;
+        jednoraz_3.value = Math.round((jednoraz_sum * 0.2)/100)*100;;
+        jednoraz_4.value = jednoraz_sum - jednoraz_1.value - jednoraz_2.value - jednoraz_3.value;
+        jednoraz_5.value = '';
+        
+        }
+
+      // --- PRAVIDELKA ------------------
+      if (pravidelka_sum > 0) {
+
+         pravidelka_1.value = Math.round((pravidelka_sum * 0.2)/100)*100;
+         pravidelka_2.value =  Math.round((pravidelka_sum * 0.4)/100)*100;
+         pravidelka_3.value = Math.round((pravidelka_sum * 0.2)/100)*100;
+         pravidelka_4.value = pravidelka_sum - pravidelka_1.value - pravidelka_2.value - pravidelka_3.value;
+         pravidelka_5.value = '';
+        
+        }
+
+  };
+// ===========================================================
+
+// --------------------------------------------------------------------------------
+// === FID RESENI TLACITKA - ROZDELENI
+// --------------------------------------------------------------------------------
+// === BTN 0 NA KRATKO
+  function portfolio_FID_NaKratko() {
+      
+      var pravidelka_sum = document.getElementById("pravidelka_sum").value.replace(/\s/g, '');
+      var jednoraz_sum = document.getElementById("jednoraz_sum").value.replace(/\s/g, '');
+
+        // --- PREPNUTI ZOBRAZENI BTN
+        $(this).toggleClass("btn-not_selected").toggleClass("btn-selected");
+
+      // --- VYBER FONDU
+        $("#fond_1").val('Investika Monetika, OPF (CZK)');
+        $("#fond_2").val('VIG Czech Short Term Bond Investment Fund (CZK)');
+        $("#fond_3").val('INVESTIKA realitní fond, OPF (CZK)');
+        $("#fond_4").val('VIG MegaTrend Equity Fund C hgd (CZK)');
+        $("#fond_5").val('');
+
+      // ---------------------------------------------------------
+      // --- NASTAVENI PLATEB ------------------------------------
+      // --- HOTOVOST 40% - DLUHOPISY 40% - NEMOVITOSTI 10% - AKCIE 10%
+      // --- JEDNORAZ ---------------------
+      if (jednoraz_sum > 0) {
+        jednoraz_1.value = Math.round((jednoraz_sum * 0.4)/100)*100;
+        jednoraz_2.value = Math.round((jednoraz_sum * 0.4)/100)*100;
+         jednoraz_3.value = Math.round((jednoraz_sum * 0.1)/100)*100;
+         jednoraz_4.value = jednoraz_sum - jednoraz_1.value - jednoraz_2.value - jednoraz_3.value;
+        jednoraz_5.value = '';
+        }
+
+      // --- PRAVIDELKA ------------------
+      if (pravidelka_sum > 0) {
+         pravidelka_1.value = Math.round((pravidelka_sum * 0.4)/100)*100;
+         pravidelka_2.value = Math.round((pravidelka_sum * 0.4)/100)*100;
+         pravidelka_3.value = Math.round((pravidelka_sum * 0.1)/100)*100;
+         pravidelka_4.value =  pravidelka_sum - pravidelka_1.value - pravidelka_2.value - pravidelka_3.value;
+        pravidelka_5.value = '';
+        }
+
+  };
+
+// === BTN 1 KONZERVATIVNI
+// --------------------------------------------------------------------------------
+  function portfolio_FID_Konzervativni() {
+      
+      var pravidelka_sum = document.getElementById("pravidelka_sum").value.replace(/\s/g, '');
+      var jednoraz_sum = document.getElementById("jednoraz_sum").value.replace(/\s/g, '');
+
+        // --- PREPNUTI ZOBRAZENI BTN
+        $(this).toggleClass("btn-not_selected").toggleClass("btn-selected");
+
+      // --- VYBER FONDU
+        $("#fond_1").val('Conseq Invest Dluhopisový fond A');
+        $("#fond_2").val('INVESTIKA Realitní Fond, OPF (CZK)');
+        $("#fond_3").val('');
+        $("#fond_4").val('');
+        $("#fond_5").val('');
+
+      // ---------------------------------------------------------
+      // --- NASTAVENI PLATEB ------------------------------------
+      // --- DLUHOPISY 80% - NEMOVITOSTI 20%
+      // --- JEDNORAZ ---------------------
+      if (jednoraz_sum > 0) {
+        jednoraz_1.value = Math.round((jednoraz_sum * 0.8)/100)*100;
+        jednoraz_2.value = jednoraz_sum - jednoraz_1.value;
+         jednoraz_3.value = '';
+         jednoraz_4.value = '';
+        jednoraz_5.value = '';
+        }
+
+      // --- PRAVIDELKA ------------------
+      if (pravidelka_sum > 0) {
+         pravidelka_1.value = Math.round((pravidelka_sum * 0.8)/100)*100;
+         pravidelka_2.value = pravidelka_sum - pravidelka_1.value;
+         pravidelka_3.value = '';
+         pravidelka_4.value = '';
+        pravidelka_5.value = '';
+        }
+
+  };
+
+
+// -----------------------------------------------------------
+// --- BTN 2 VYVAZENY
+ function portfolio_FID_Vyvazene() {
+        
+        var pravidelka_sum = document.getElementById("pravidelka_sum").value.replace(/\s/g, '');
+      var jednoraz_sum = document.getElementById("jednoraz_sum").value.replace(/\s/g, '');
+
+
+        // --- PREPNUTI ZOBRAZENI BTN
+        $(this).toggleClass("btn-not_selected").toggleClass("btn-selected");
+
+        // --- VYBER FONDU
+        $("#fond_1").val('Conseq Invest Dluhopisový fond A');
+        $("#fond_2").val('INVESTIKA Realitní Fond, OPF (CZK)');
+        $("#fond_3").val('VIG MegaTrend Equity Fund C hgd (CZK)');
+        $("#fond_4").val('');
+        $("#fond_5").val('');
+
+      // ---------------------------------------------------------
+      // --- NASTAVENI PLATEB ------------------------------------
+      // --- DLUHOPISY 30% - NEMOVITOSTI 40% - AKCIE 30%
+      // --- JEDNORAZ ---------------------
+      if (jednoraz_sum > 0) {
+          jednoraz_1.value = Math.round((jednoraz_sum * 0.3)/100)*100;
+          jednoraz_2.value = Math.round((jednoraz_sum * 0.4)/100)*100;
+         jednoraz_3.value = jednoraz_sum - jednoraz_1.value - jednoraz_2.value;
+         jednoraz_4.value = '';
+        jednoraz_5.value = '';
+        }
+
+      // --- PRAVIDELKA ------------------
+      if (pravidelka_sum > 0) {
+         pravidelka_1.value = Math.round((pravidelka_sum * 0.3)/100)*100;
+         pravidelka_2.value =  Math.round((pravidelka_sum * 0.4)/100)*100;
+         pravidelka_3.value = pravidelka_sum - pravidelka_1.value - pravidelka_2.value;
+         pravidelka_4.value = '';
+        pravidelka_5.value = '';
+        }
+
+  };
+
+/** -----------------------------------------------------------------
+ *  --- BTN 3 RUSTOVY -----------------------------------------------
+ -------------------------------------------------------------------- */ 
+ function portfolio_FID_Rustove() {
+        
+        var pravidelka_sum = document.getElementById("pravidelka_sum").value.replace(/\s/g, '');
+      var jednoraz_sum = document.getElementById("jednoraz_sum").value.replace(/\s/g, '');
+
+
+        $(this).toggleClass("btn-not_selected").toggleClass("btn-selected");
+
+        // --- VYBER FONDU
+        $("#fond_1").val('Conseq Invest Dluhopisový fond A');
+        $("#fond_2").val('INVESTIKA Realitní Fond, OPF (CZK)');
+        $("#fond_3").val('VIG MegaTrend Equity Fund C hgd (CZK)');
+        $("#fond_4").val('');
+        $("#fond_5").val('');
+
+      /** ---------------------------------------------------------
+      * --- NASTAVENI PLATEB ------------------------------------
+      * --- DLUHOPISY 20% - NEMOVITOSTI 20% - AKCIE 60%
+      * --- JEDNORAZ ---------------------
+      */
+      if (jednoraz_sum > 0) {
+        jednoraz_1.value = Math.round((jednoraz_sum * 0.2)/100)*100;
+        jednoraz_2.value = Math.round((jednoraz_sum * 0.2)/100)*100;
+        jednoraz_3.value = jednoraz_sum - jednoraz_1.value - jednoraz_2.value;
+        jednoraz_4.value = '';
+        jednoraz_5.value = '';
+        }
+
+      // --- PRAVIDELKA ------------------
+      if (pravidelka_sum > 0) {
+         pravidelka_1.value = Math.round((pravidelka_sum * 0.2)/100)*100;
+         pravidelka_2.value =  Math.round((pravidelka_sum * 0.2)/100)*100;
+         pravidelka_3.value = pravidelka_sum - pravidelka_1.value - pravidelka_2.value;
+         pravidelka_4.value = '';
+         pravidelka_5.value = '';
+        }
+
+  };
+
+
+// --- BTN 4 DYNAMICKE
+ function portfolio_FID_Dynamicke() {
+
+        var pravidelka_sum = document.getElementById("pravidelka_sum").value.replace(/\s/g, '');
+        var jednoraz_sum = document.getElementById("jednoraz_sum").value.replace(/\s/g, '');
+        
+        $(this).toggleClass("btn-not_selected").toggleClass("btn-selected");
+
+         // --- VYBER FONDU
+        $("#fond_1").val('INVESTIKA Realitní Fond, OPF (CZK)');
+        $("#fond_2").val('VIG MegaTrend Equity Fund C hgd (CZK)');
+        $("#fond_3").val('');
+        $("#fond_4").val('');
+        $("#fond_5").val('');
+
+      // ---------------------------------------------------------
+      // --- NASTAVENI PLATEB ------------------------------------
+      // --- NEMOVITOSTI 20% - AKCIE 80%
+      // --- JEDNORAZ ---------------------
+      if (jednoraz_sum > 0) {
+        jednoraz_1.value = Math.round((jednoraz_sum * 0.2)/100)*100;
+        jednoraz_2.value = jednoraz_sum - jednoraz_1.value;
+        jednoraz_3.value = '';
+        jednoraz_4.value = '';
+        jednoraz_5.value = '';
+        }
+
+      // --- PRAVIDELKA ------------------
+      if (pravidelka_sum > 0) {
+         pravidelka_1.value = Math.round((pravidelka_sum * 0.2)/100)*100;
+         pravidelka_2.value =  pravidelka_sum - pravidelka_1.value;
+        pravidelka_3.value = '';
+        pravidelka_4.value = '';
+        pravidelka_5.value = '';  
+        }
+
+  };
+
+
+// --- BTN 5 DLOUHODOBE
+ function portfolio_FID_Dlouhodobe() {
+
+      var pravidelka_sum = document.getElementById("pravidelka_sum").value.replace(/\s/g, '');
+      var jednoraz_sum = document.getElementById("jednoraz_sum").value.replace(/\s/g, '');
+
+        $(this).toggleClass("btn-not_selected").toggleClass("btn-selected");
+
+         // --- VYBER FONDU
+        $("#fond_1").val('VIG MegaTrend Equity Fund C hgd (CZK)');
+        $("#fond_2").val('');
+        $("#fond_3").val('');
+        $("#fond_4").val('');
+        $("#fond_5").val('');
+
+      // ---------------------------------------------------------
+      // --- NASTAVENI PLATEB ------------------------------------
+      // --- 100 % AKCIE
+      // --- JEDNORAZ ---------------------
+        jednoraz_1.value = jednoraz_sum * 1;
+        jednoraz_2.value = '';
+        jednoraz_3.value = '';
+        jednoraz_4.value = '';
+        jednoraz_5.value = '';
+
+      // --- PRAVIDELKA ------------------
+        pravidelka_1.value = pravidelka_sum * 1;
+        pravidelka_2.value = '';
+        pravidelka_3.value = '';
+        pravidelka_4.value = '';
+        pravidelka_5.value = '';
+
+  };
+
+// -------------------------------------------------------------
+// === GRAFY
+// -------------------------------------------------------------
+
+
+// ==============================================
+
+// -----------------------------------------------------------------
+// --- POSLUCHACE TLACITEK ROZDELENI PORTFOLIA
+document.getElementById('vig_btn_1').addEventListener("click",portfolio_VIG_Konzervativni);
+document.getElementById('vig_btn_2').addEventListener("click",portfolio_VIG_Vyvazene);
+document.getElementById('vig_btn_3').addEventListener("click",portfolio_VIG_Rustove);
+document.getElementById('vig_btn_4').addEventListener("click",portfolio_VIG_Dynamicke);
+
+document.getElementById('vig_btn_1_1').addEventListener("click",portfolio_VIG_Konzervativni);
+document.getElementById('vig_btn_2_1').addEventListener("click",portfolio_VIG_Vyvazene);
+document.getElementById('vig_btn_3_1').addEventListener("click",portfolio_VIG_Rustove);
+document.getElementById('vig_btn_4_1').addEventListener("click",portfolio_VIG_Dynamicke);
+
+document.getElementById('vig_btn_1_2').addEventListener("click",portfolio_VIG_Konzervativni);
+document.getElementById('vig_btn_2_2').addEventListener("click",portfolio_VIG_Vyvazene);
+document.getElementById('vig_btn_3_2').addEventListener("click",portfolio_VIG_Rustove);
+document.getElementById('vig_btn_4_2').addEventListener("click",portfolio_VIG_Dynamicke);
+
+document.getElementById('fid_btn_0').addEventListener("click",portfolio_FID_NaKratko);
+document.getElementById('fid_btn_1').addEventListener("click",portfolio_FID_Konzervativni);
+document.getElementById('fid_btn_2').addEventListener("click",portfolio_FID_Vyvazene);
+document.getElementById('fid_btn_3').addEventListener("click",portfolio_FID_Rustove);
+document.getElementById('fid_btn_4').addEventListener("click",portfolio_FID_Dynamicke);
+document.getElementById('fid_btn_5').addEventListener("click",portfolio_FID_Dlouhodobe);
+
+document.getElementById('fid_btn_1_1').addEventListener("click",portfolio_FID_Konzervativni);
+document.getElementById('fid_btn_2_1').addEventListener("click",portfolio_FID_Vyvazene);
+document.getElementById('fid_btn_3_1').addEventListener("click",portfolio_FID_Rustove);
+document.getElementById('fid_btn_4_1').addEventListener("click",portfolio_FID_Dynamicke);
+document.getElementById('fid_btn_5_1').addEventListener("click",portfolio_FID_Dlouhodobe);
+
+document.getElementById('fid_btn_1_2').addEventListener("click",portfolio_FID_Konzervativni);
+document.getElementById('fid_btn_2_2').addEventListener("click",portfolio_FID_Vyvazene);
+document.getElementById('fid_btn_3_2').addEventListener("click",portfolio_FID_Rustove);
+document.getElementById('fid_btn_4_2').addEventListener("click",portfolio_FID_Dynamicke);
+document.getElementById('fid_btn_5_2').addEventListener("click",portfolio_FID_Dlouhodobe);
+
+// ---SPOUSTECE ----------------------------------------------------
+document.getElementById("cons_name").addEventListener("change",getName);
+window.addEventListener('load', preventFormSubmit);  
+
+// === END POSLLUCHACI ==========================================================
+
+</script>

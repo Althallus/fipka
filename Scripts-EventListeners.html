@@ -1,0 +1,104 @@
+<script>
+// === EVENT LISTENERS ===
+
+// Posluchače tlačítek VIG portfolio
+document.getElementById('vig_btn_1').addEventListener("click", portfolio_VIG_Konzervativni);
+document.getElementById('vig_btn_2').addEventListener("click", portfolio_VIG_Vyvazene);
+document.getElementById('vig_btn_3').addEventListener("click", portfolio_VIG_Rustove);
+document.getElementById('vig_btn_4').addEventListener("click", portfolio_VIG_Dynamicke);
+
+document.getElementById('vig_btn_1_1').addEventListener("click", portfolio_VIG_Konzervativni);
+document.getElementById('vig_btn_2_1').addEventListener("click", portfolio_VIG_Vyvazene);
+document.getElementById('vig_btn_3_1').addEventListener("click", portfolio_VIG_Rustove);
+document.getElementById('vig_btn_4_1').addEventListener("click", portfolio_VIG_Dynamicke);
+
+document.getElementById('vig_btn_1_2').addEventListener("click", portfolio_VIG_Konzervativni);
+document.getElementById('vig_btn_2_2').addEventListener("click", portfolio_VIG_Vyvazene);
+document.getElementById('vig_btn_3_2').addEventListener("click", portfolio_VIG_Rustove);
+document.getElementById('vig_btn_4_2').addEventListener("click", portfolio_VIG_Dynamicke);
+
+// Posluchače tlačítek FID portfolio
+document.getElementById('fid_btn_0').addEventListener("click", portfolio_FID_NaKratko);
+document.getElementById('fid_btn_1').addEventListener("click", portfolio_FID_Konzervativni);
+document.getElementById('fid_btn_2').addEventListener("click", portfolio_FID_Vyvazene);
+document.getElementById('fid_btn_3').addEventListener("click", portfolio_FID_Rustove);
+document.getElementById('fid_btn_4').addEventListener("click", portfolio_FID_Dynamicke);
+document.getElementById('fid_btn_5').addEventListener("click", portfolio_FID_Dlouhodobe);
+
+document.getElementById('fid_btn_1_1').addEventListener("click", portfolio_FID_Konzervativni);
+document.getElementById('fid_btn_2_1').addEventListener("click", portfolio_FID_Vyvazene);
+document.getElementById('fid_btn_3_1').addEventListener("click", portfolio_FID_Rustove);
+document.getElementById('fid_btn_4_1').addEventListener("click", portfolio_FID_Dynamicke);
+document.getElementById('fid_btn_5_1').addEventListener("click", portfolio_FID_Dlouhodobe);
+
+document.getElementById('fid_btn_1_2').addEventListener("click", portfolio_FID_Konzervativni);
+document.getElementById('fid_btn_2_2').addEventListener("click", portfolio_FID_Vyvazene);
+document.getElementById('fid_btn_3_2').addEventListener("click", portfolio_FID_Rustove);
+document.getElementById('fid_btn_4_2').addEventListener("click", portfolio_FID_Dynamicke);
+document.getElementById('fid_btn_5_2').addEventListener("click", portfolio_FID_Dlouhodobe);
+
+// Posluchač změny poradce
+document.getElementById("cons_name").addEventListener("change", getName);
+
+// Posluchač pro načtení stránky
+window.addEventListener('load', preventFormSubmit);
+
+// === POSLUCHAČE PRO ZOBRAZENÍ TLAČÍTEK U CENY CÍLE ===
+document.getElementById('cil_doba_1').addEventListener('blur', function() {
+  zobrazTlacitkaPodleDoby(this.value, 'cil');
+});
+
+// === POSLUCHAČE PRO ZOBRAZENÍ TLAČÍTEK U RENTY NAVŽDY ===
+document.getElementById('renta_navzdy_doba_2_1').addEventListener('blur', function() {
+  zobrazTlacitkaPodleDoby(this.value, 'renta');
+});
+
+// === POMOCNÁ FUNKCE PRO ZOBRAZENÍ TLAČÍTEK ===
+function zobrazTlacitkaPodleDoby(value, typ) {
+  const doba = parseInt(value);
+  let vynos = '7,4'; // default
+  
+  // Skryj všechny tlačítka
+  for (let i = 1; i <= 5; i++) {
+    if (i <= 4) document.getElementById(`vig_btn_${i}_${typ === 'cil' ? '1' : '2'}`).style.display = 'none';
+    document.getElementById(`fid_btn_${i}_${typ === 'cil' ? '1' : '2'}`).style.display = 'none';
+  }
+  document.getElementById(`fid_btn_0_${typ === 'cil' ? '1' : '2'}`).style.display = 'none';
+  
+  // Zobraz relevantní tlačítka podle doby
+  if (doba >= 0 && doba < 3) {
+    document.getElementById(`vig_btn_1_${typ === 'cil' ? '1' : '2'}`).style.display = 'block';
+    document.getElementById(`fid_btn_1_${typ === 'cil' ? '1' : '2'}`).style.display = 'block';
+    vynos = '3,6';
+  } else if (doba >= 3 && doba < 5) {
+    document.getElementById(`vig_btn_2_${typ === 'cil' ? '1' : '2'}`).style.display = 'block';
+    document.getElementById(`fid_btn_2_${typ === 'cil' ? '1' : '2'}`).style.display = 'block';
+    vynos = '5';
+  } else if (doba >= 5 && doba < 7) {
+    document.getElementById(`vig_btn_3_${typ === 'cil' ? '1' : '2'}`).style.display = 'block';
+    document.getElementById(`fid_btn_3_${typ === 'cil' ? '1' : '2'}`).style.display = 'block';
+    vynos = '6,4';
+  } else if (doba >= 7 && doba < 10) {
+    document.getElementById(`vig_btn_4_${typ === 'cil' ? '1' : '2'}`).style.display = 'block';
+    document.getElementById(`fid_btn_4_${typ === 'cil' ? '1' : '2'}`).style.display = 'block';
+    vynos = '7,4';
+  } else if (doba >= 10) {
+    document.getElementById(`vig_btn_4_${typ === 'cil' ? '1' : '2'}`).style.display = 'block';
+    document.getElementById(`fid_btn_5_${typ === 'cil' ? '1' : '2'}`).style.display = 'block';
+    vynos = '8';
+  }
+  
+  // Nastav výnos
+  document.getElementById(`${typ === 'cil' ? 'cil_vynos_1' : 'renta_navzdy_vynos_1'}`).value = vynos;
+  
+  // Zobraz title
+  document.getElementById(`${typ}_title`).style.display = doba >= 0 ? 'block' : 'none';
+  
+  // Spusť výpočet
+  if (typ === 'cil') {
+    platba_vypocet_1();
+  } else {
+    renta_vypocet_1();
+  }
+}
+</script>

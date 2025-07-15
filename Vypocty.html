@@ -1,0 +1,1148 @@
+<script>
+
+   // --- AKTIVATORY MODAL
+   document.getElementById("penze_cista_mzda").addEventListener("input",penze_vypocet);
+   // --- AKTIVATORY 
+   document.getElementById("penze_cista_mzda_1").addEventListener("input",penze_vypocet_1);
+  
+
+// -------------------------------------------------------------------
+// --- KALKULACE PENZE MODAL
+// -------------------------------------------------------------------
+function penze_vypocet(){
+// --- POLE
+var penze_cista_mzda_val = document.getElementById("penze_cista_mzda").value;
+var penze_duchod = document.getElementById("penze_duchod");
+var penze_rozdil = document.getElementById("penze_rozdil");
+
+const koef_HM = Number(1.351);
+const koef_HM_2 = Number(1.124);
+const hranice_ciste_mzdy = Number(15371);
+
+const koef_odpracovane_roky = Number(0.675);
+const redukcni_hranice_1 = Number(17743);
+const redukcni_hranice_2 = Number(161296);
+const koef_redukcni_hranice_2 = Number(0.26);
+const zakladni_vymera = Number(4040);
+const sleva_poplatnika = Number(2570);
+const minimalni_HM = Number(17)
+
+var hruba_mzda_mezisoucet = Number(penze_cista_mzda_val-sleva_poplatnika)*koef_HM;
+
+if(penze_cista_mzda_val < hranice_ciste_mzdy){
+var hruba_mzda_mezisoucet = Number(penze_cista_mzda_val)*koef_HM_2;
+// var hruba_mzda_mezisoucet = 0;
+}else {
+var hruba_mzda_mezisoucet = Number(penze_cista_mzda_val-sleva_poplatnika)*koef_HM;
+}
+
+var hruba_mzda_finalka = Math.round(hruba_mzda_mezisoucet / 100) * 100;
+
+// var penze_hruba_mzda_val = penze_hruba_mzda.value(hruba_mzda_res);
+document.getElementById("penze_hruba_mzda").value = Number(hruba_mzda_mezisoucet.toFixed(0)).toLocaleString("cs-CZ")+' Kč';
+
+
+if (hruba_mzda_mezisoucet <= redukcni_hranice_1){
+var redukce_1 = hruba_mzda_mezisoucet;
+} else {
+var redukce_1 = redukcni_hranice_1;
+};
+// alert(redukce_1);
+
+
+
+if(hruba_mzda_mezisoucet > redukcni_hranice_1 && hruba_mzda_mezisoucet <= redukcni_hranice_2){
+var redukce_2 = (hruba_mzda_mezisoucet - redukcni_hranice_1)*koef_redukcni_hranice_2;
+} else {
+var redukce_2 = Number(0);
+}
+
+var penze_result = (redukce_1+redukce_2)*koef_odpracovane_roky+zakladni_vymera;
+
+var penze_rozdil_result = (-penze_cista_mzda_val+penze_result);
+
+var penze_result_formated = Number(penze_result.toFixed(0)).toLocaleString("cs-CZ");
+var penze_rozdil_result_formated = Number(penze_rozdil_result.toFixed(0)).toLocaleString("cs-CZ");
+
+penze_duchod.innerHTML = '<strong style="font-size: 24px; color:#00a0e3;">&nbsp' + penze_result_formated +' Kč</strong>';
+
+if(penze_rozdil_result<0){
+penze_rozdil.innerHTML = '<strong style="font-size: 24px; color:#FF0000;">&nbsp' + penze_rozdil_result_formated +' Kč</strong>';
+}else {
+penze_rozdil.innerHTML = '<strong style="font-size: 24px; color:#00a0e3;">&nbsp +' + penze_rozdil_result_formated +' Kč</strong>';
+}
+
+// if(hruba_mzda_res>== redukcni_hranice_1 && hruba_mzda_res<==redukcni_hranice_2){
+// var redukce_3 = hruba_mzda_res
+// } else {
+// var redukce_3 = 0;
+// }
+
+
+
+// 0,675
+// 17743
+// 161296
+
+// alert(hruba_mzda_res);
+// var platba_jednoraz = document.getElementById("platba_jednoraz").value;
+// var platba_vynos = document.getElementById("platba_vynos").value/100/12;
+// var platba_doba = document.getElementById("platba_doba").value;
+// var platba_pravidelka_result = document.getElementById("platba_pravidelka_result");
+
+
+
+
+// var platba_r = 1+Number(platba_vynos);
+// var platba_n = Number(platba_doba)*12;
+
+// var platba_r_n = Math.pow(platba_r,platba_n);
+
+// var platba_r1= Number(platba_r)-1;
+// var platba_r2= Number(platba_r_n)-1;
+
+// var platba_r1_r2 = (platba_r1/platba_r2);
+
+// if ((platba_vynos == 0) || platba_vynos == 'NaN'){
+//  var result = (platba_cilovka-platba_jednoraz)/platba_n;
+//  } else {
+//  var result = (platba_cilovka-platba_jednoraz*platba_r_n)*platba_r1_r2;
+//  }
+
+// var format_result = Number(result.toFixed(0)).toLocaleString("cs-CZ");
+
+// if ((format_result == 'NaN') || (format_result < 0)){
+// platba_pravidelka_result.innerHTML = "";
+// } else {
+// platba_pravidelka_result.innerHTML = '<strong style="font-size: 36px; color:#00a0e3;">' + format_result +'</strong>';
+// }
+
+
+  }
+// ====================================================
+
+
+  
+// -------------------------------------------------------------------
+// --- KALKULACE PENZE 2
+// -------------------------------------------------------------------
+function penze_vypocet_1(){
+// --- POLE
+var penze_cista_mzda_val = document.getElementById("penze_cista_mzda_1").value.replace(/\s/g, '');
+var penze_hruba_mzda_1 = document.getElementById("penze_hruba_mzda_1");
+var penze_duchod = document.getElementById("penze_duchod_1");
+var penze_rozdil = document.getElementById("penze_rozdil_1");
+
+const koef_HM = Number(1.351);
+const koef_HM_2 = Number(1.124);
+const hranice_ciste_mzdy = Number(15371);
+
+const koef_odpracovane_roky = Number(0.675);
+const redukcni_hranice_1 = Number(17743);
+const redukcni_hranice_2 = Number(161296);
+const koef_redukcni_hranice_2 = Number(0.26);
+const zakladni_vymera = Number(4040);
+const sleva_poplatnika = Number(2570);
+const minimalni_HM = Number(17)
+
+var hruba_mzda_mezisoucet = Number(penze_cista_mzda_val-sleva_poplatnika)*koef_HM;
+
+if(penze_cista_mzda_val < hranice_ciste_mzdy){
+var hruba_mzda_mezisoucet = Number(penze_cista_mzda_val)*koef_HM_2;
+}else {
+var hruba_mzda_mezisoucet = Number(penze_cista_mzda_val-sleva_poplatnika)*koef_HM;
+}
+
+var hruba_mzda_finalka = Math.round(hruba_mzda_mezisoucet / 100) * 100;
+
+penze_hruba_mzda_1.value = Number(hruba_mzda_mezisoucet.toFixed(0)).toLocaleString("cs-CZ")+' Kč';
+
+if (hruba_mzda_mezisoucet <= redukcni_hranice_1){
+var redukce_1 = hruba_mzda_mezisoucet;
+} else {
+var redukce_1 = redukcni_hranice_1;
+};
+
+
+
+if(hruba_mzda_mezisoucet > redukcni_hranice_1 && hruba_mzda_mezisoucet <= redukcni_hranice_2){
+var redukce_2 = (hruba_mzda_mezisoucet - redukcni_hranice_1)*koef_redukcni_hranice_2;
+} else {
+var redukce_2 = Number(0);
+}
+
+var penze_result = Math.ceil(((redukce_1+redukce_2)*koef_odpracovane_roky+zakladni_vymera) / 100) * 100;
+
+var penze_rozdil_result = Math.ceil((-penze_cista_mzda_val+penze_result)/ 100) * 100;
+
+var penze_result_formated = Number(penze_result.toFixed(0)).toLocaleString("cs-CZ");
+var penze_rozdil_result_formated = Number(penze_rozdil_result.toFixed(0)).toLocaleString("cs-CZ");
+
+penze_duchod.innerHTML = '<strong style="font-size: 24px; color:#00a0e3;">&nbsp' + penze_result_formated +' Kč</strong>';
+
+if(penze_rozdil_result<0){
+penze_rozdil.innerHTML = '<strong style="font-size: 24px; color:#FF0000;">&nbsp' + penze_rozdil_result_formated +' Kč</strong>';
+}else {
+penze_rozdil.innerHTML = '<strong style="font-size: 24px; color:#00a0e3;">&nbsp +' + penze_rozdil_result_formated +' Kč</strong>';
+}
+
+// --- HIGHCHARTS GRAF
+if (window.penzeChart) {
+  window.penzeChart.destroy();
+}
+
+const rozdilHodnota = Math.abs(penze_rozdil_result);
+
+Highcharts.chart('penze_chart', {
+  chart: {
+    type: 'column',
+    backgroundColor: 'transparent',
+    style: {
+      fontFamily: 'Comfortaa'
+    }
+  },
+  title: {
+    text: ''
+  },
+  xAxis: {
+    categories: ['Čistý příjem', 'Důchod + Rozdíl'],
+    labels: {
+      style: {
+        color: '#fff',
+        fontSize: '14px'
+      }
+    }
+  },
+  yAxis: {
+    min: 0,
+    title: {
+      text: ''
+    },
+    labels: {
+      formatter: function () {
+        return this.value.toLocaleString('cs-CZ') + ' Kč';
+      },
+      style: {
+        color: '#fff',
+        fontFamily: 'Comfortaa'
+      }
+    },
+    stackLabels: {
+      enabled: true,
+      style: {
+        fontWeight: 'bold',
+        color: '#fff',
+        fontSize: '16px',
+        fontFamily: 'Comfortaa'
+      },
+      formatter: function() {
+        return this.total.toLocaleString('cs-CZ') + ' Kč';
+      }
+    }
+  },
+  legend: {
+    itemStyle: {
+      color: '#fff',
+      fontFamily: 'Comfortaa'
+    }
+  },
+  tooltip: {
+    enabled: false
+  },
+  plotOptions: {
+    column: {
+      stacking: 'normal',
+      dataLabels: {
+        enabled: true,
+        inside: true,
+        color: '#fff',
+        style: {
+          fontSize: '14px',
+          fontWeight: 'bold',
+          textOutline: 'none',
+          fontFamily: 'Comfortaa'
+        },
+        formatter: function () {
+          return this.y.toLocaleString('cs-CZ') + ' Kč';
+        }
+      }
+    }
+  },
+  series: [
+    {
+      name: 'Čistý příjem',
+      data: [Number(penze_cista_mzda_val), 0],
+      color: 'rgba(54, 162, 235, 0.7)'
+    },
+    {
+      name: 'Rozdíl',
+      data: [0, rozdilHodnota],
+      color: penze_rozdil_result < 0 ? 'rgba(255, 99, 132, 0.7)' : 'rgba(75, 192, 192, 0.7)'
+    },
+    {
+      name: 'Důchod',
+      data: [0, penze_result],
+      color: 'rgba(255, 206, 86, 0.7)'
+    }
+  ]
+});
+
+
+
+
+
+  }
+  // ====================================================
+
+// --- AKTIVATORY MODAL
+   document.getElementById("renta_navzdy_pravidelka").addEventListener("input",renta_vypocet);
+  document.getElementById("renta_navzdy_jednorazovka").addEventListener("input",renta_vypocet);
+  // var renta_navzdy_jednorazovka = document.getElementById("renta_navzdy_jednorazovka").value;
+   document.getElementById("renta_navzdy_vynos").addEventListener("input",renta_vypocet);
+   document.getElementById("renta_navzdy_doba_2").addEventListener("input",renta_vypocet);
+  
+   // --- AKTIVATORY KALKULACE
+   document.getElementById("renta_navzdy_pravidelka_1").addEventListener("input",renta_vypocet_1);
+  document.getElementById("renta_navzdy_jednorazovka_1").addEventListener("input",renta_vypocet_1);
+  // var renta_navzdy_jednorazovka = document.getElementById("renta_navzdy_jednorazovka").value;
+   document.getElementById("renta_navzdy_vynos_1").addEventListener("input",renta_vypocet_1);
+   document.getElementById("renta_navzdy_doba_2_1").addEventListener("input",renta_vypocet_1);
+
+// ------------------------------------------------------------------------
+// === VYPOCET RENTA NAVZDY MODAL
+// ------------------------------------------------------------------------
+function renta_vypocet(){
+//POLE
+var renta_pravidelka = document.getElementById("renta_navzdy_pravidelka").value;
+var renta_navzdy_jednorazovka = document.getElementById("renta_navzdy_jednorazovka").value;
+var renta_pravidelka_prepis = document.getElementById("renta_navzdy_pravidelka_prepis");
+// var renta_doba = document.getElementById("renta_doba").value;
+var renta_doba = 100;
+var renta_vynos = document.getElementById("renta_navzdy_vynos").value/100/12;
+var renta_jednoraz_result = document.getElementById("renta_navzdy_jednoraz_result");
+
+var renta_doba_2 = document.getElementById("renta_navzdy_doba_2").value;
+// var renta_vynos_2 = document.getElementById("renta_vynos_2").value/100/12;
+var renta_vynos_2 = document.getElementById("renta_navzdy_vynos").value/100/12;
+var renta_pravidelka_result = document.getElementById("renta_navzdy_pravidelka_result");
+
+// -----VYPOCET CELKOVE POTREBNE CASTKY
+var renta_r = 1+Number(renta_vynos);
+var renta_n = Number(renta_doba)*12;
+
+var renta_r_n = Math.pow(renta_r,renta_n);
+
+var renta_r1= Number(renta_r)-1;
+var renta_r2= Number(renta_r_n)-1;
+
+// var renta_r1_r2 = (renta_r1/renta_r2);
+
+
+// ---- VYPOCET VYSE PLATBY NA RENTU
+var renta_r_2 = 1+Number(renta_vynos_2);
+var renta_n_2 = Number(renta_doba_2)*12;
+
+var renta_r_n_2 = Math.pow(renta_r_2,renta_n_2);
+
+var renta_r1_2 = Number(renta_r_2)-1;
+var renta_r2_2 = Number(renta_r_n_2)-1;
+var result_vstupni = Number(renta_navzdy_jednorazovka)*renta_r_n_2
+
+if ((renta_vynos == '') || (renta_vynos == 'NaN')){
+//  var result = Number(renta_pravidelka)*renta_n;
+ var result = 0;
+ } else {
+var result = Number(renta_pravidelka)*renta_r2/renta_r1/renta_r_n - result_vstupni;
+ }
+
+var format_result = Number(result.toFixed(0)).toLocaleString("cs-CZ");
+
+
+if (result == 'NaN' || result < 0){
+renta_jednoraz_result.innerHTML = "";
+} else {
+renta_jednoraz_result.innerHTML = '<strong style="font-size: 24px; color:#00a0e3;"> &nbsp'+ ' ' + format_result +' Kč &nbsp</strong>';
+}
+
+
+var renta_r1_r2_2 = (renta_r1_2/renta_r2_2);
+
+if ((renta_vynos_2 == '') || renta_vynos_2 == 'NaN'){
+ var result_2 = Number(result)/renta_n_2;
+ } else {
+ var result_2 = Number(result)*renta_r1_r2_2;
+ }
+
+var format_result_2 = Number(result_2.toFixed(0)).toLocaleString("cs-CZ");
+var format_renta_pravidelka = Number(renta_pravidelka).toLocaleString("cs-CZ");
+
+
+if (result_2 == 'NaN' || result_2 < 0) {
+// renta_jednoraz_result.innerHTML = "";
+renta_pravidelka_result.innerHTML = "";
+} else {
+renta_pravidelka_result.innerHTML = '<strong style="font-size: 24px; color:#00a0e3;"> &nbsp' + format_result_2 +' Kč &nbsp</strong>';
+}
+renta_pravidelka_prepis.innerHTML = '<strong style="font-size: 24px; color:#00a0e3;">&nbsp ' +' '+ format_renta_pravidelka +' Kč &nbsp</strong>';
+  
+  }
+// ======================================================
+ 
+
+
+// ------------------------------------------------------------------------
+// === VYPOCET RENTA NAVZDY 2
+// ------------------------------------------------------------------------
+function renta_vypocet_1(){
+//POLE
+var renta_pravidelka = document.getElementById("renta_navzdy_pravidelka_1").value.replace(/\s/g, '');
+var renta_navzdy_jednorazovka = document.getElementById("renta_navzdy_jednorazovka_1").value.replace(/\s/g, '');
+var renta_pravidelka_prepis = document.getElementById("renta_navzdy_pravidelka_prepis_1");
+// var renta_doba = document.getElementById("renta_doba").value;
+var renta_doba = 100;
+var renta_vynos = Number(document.getElementById("renta_navzdy_vynos_1").value.replace(",", ".").replace(/\s/g, ''))/100/12;
+var renta_jednoraz_result = document.getElementById("renta_navzdy_jednoraz_result_1");
+
+var renta_doba_2 = document.getElementById("renta_navzdy_doba_2_1").value;
+// var renta_vynos_2 = document.getElementById("renta_vynos_2").value/100/12;
+var renta_vynos_2 = Number(document.getElementById("renta_navzdy_vynos_1").value.replace(",", ".").replace(/\s/g, ''))/100/12;
+var renta_pravidelka_result = document.getElementById("renta_navzdy_pravidelka_result_1");
+
+// -----VYPOCET CELKOVE POTREBNE CASTKY
+var renta_r = 1+Number(renta_vynos);
+var renta_n = Number(renta_doba)*12;
+
+var renta_r_n = Math.pow(renta_r,renta_n);
+
+var renta_r1= Number(renta_r)-1;
+var renta_r2= Number(renta_r_n)-1;
+
+// var renta_r1_r2 = (renta_r1/renta_r2);
+
+
+// ---- VYPOCET VYSE PLATBY NA RENTU
+var renta_r_2 = 1+Number(renta_vynos_2);
+var renta_n_2 = Number(renta_doba_2)*12;
+
+var renta_r_n_2 = Math.pow(renta_r_2,renta_n_2);
+
+var renta_r1_2 = Number(renta_r_2)-1;
+var renta_r2_2 = Number(renta_r_n_2)-1;
+var result_vstupni = Number(renta_navzdy_jednorazovka)*renta_r_n_2
+
+if ((renta_vynos == '') || (renta_vynos == 'NaN')){
+//  var result = Number(renta_pravidelka)*renta_n;
+ var result = 0;
+ } else {
+var result = Number(renta_pravidelka)*renta_r2/renta_r1/renta_r_n - result_vstupni;
+ }
+
+var format_result = Number(result.toFixed(0)).toLocaleString("cs-CZ");
+
+
+if (result == 'NaN' || result < 0){
+renta_jednoraz_result.innerHTML = "";
+} else {
+renta_jednoraz_result.innerHTML = '<strong style="font-size: 24px; color:#00a0e3;"> &nbsp'+ ' ' + format_result +' Kč &nbsp</strong>';
+}
+
+
+var renta_r1_r2_2 = (renta_r1_2/renta_r2_2);
+
+if ((renta_vynos_2 == '') || renta_vynos_2 == 'NaN'){
+ var result_2 = Math.ceil((result)/renta_n_2/ 100) * 100;
+ } else {
+ var result_2 = Math.ceil((result)*renta_r1_r2_2 / 100) * 100;
+ }
+
+var format_result_2 = Number(result_2.toFixed(0)).toLocaleString("cs-CZ");
+var format_renta_pravidelka = Number(renta_pravidelka).toLocaleString("cs-CZ");
+
+
+if (result_2 == 'NaN' || result_2 < 0) {
+// renta_jednoraz_result.innerHTML = "";
+renta_pravidelka_result.innerHTML = "";
+} else {
+renta_pravidelka_result.innerHTML = '<strong style="font-size: 24px; color:#00a0e3;"> &nbsp' + format_result_2 +' Kč &nbsp</strong>';
+}
+renta_pravidelka_prepis.innerHTML = '<strong style="font-size: 24px; color:#00a0e3;">&nbsp ' +' '+ format_renta_pravidelka +' Kč &nbsp</strong>';
+
+$("#pravidelka_sum").val(format_result_2);
+$("#jednoraz_sum").val(document.getElementById("renta_navzdy_jednorazovka_1").value);
+$("#inv_horizont").val(renta_doba_2);
+  
+  }
+// ======================================================
+
+// --- AKTIVATORY --------------------------
+   document.getElementById("platba_cilovka").addEventListener("input",platba_vypocet);
+   document.getElementById("platba_jednoraz").addEventListener("input",platba_vypocet);
+   document.getElementById("platba_vynos").addEventListener("input",platba_vypocet);
+   document.getElementById("platba_doba").addEventListener("input",platba_vypocet);
+  
+// --- AKTIVATORY --------------------------
+   document.getElementById("cil_cena_1").addEventListener("input",platba_vypocet_1);
+   document.getElementById("cil_jednoraz_1").addEventListener("input",platba_vypocet_1);
+   document.getElementById("cil_vynos_1").addEventListener("input",platba_vypocet_1);
+  //  document.getElementById("cil_vynos_1").addEventListener("change",platba_vypocet_1);
+   document.getElementById("cil_doba_1").addEventListener("input",platba_vypocet_1);
+
+
+// ---------------------------------------------------------------------
+// === KALKULACE PLATBY NA CIL MODAL 
+// ---------------------------------------------------------------------
+function platba_vypocet(){
+// --- POLE
+var platba_cilovka = document.getElementById("platba_cilovka").value.replace(/\s/g, '');
+var platba_jednoraz = document.getElementById("platba_jednoraz").value.replace(/\s/g, '');
+var platba_vynos = document.getElementById("platba_vynos").value/100/12;
+var platba_doba = document.getElementById("platba_doba").value;
+var platba_pravidelka_result = document.getElementById("platba_pravidelka_result");
+
+
+var platba_r = 1+Number(platba_vynos);
+var platba_n = Number(platba_doba)*12;
+
+var platba_r_n = Math.pow(platba_r,platba_n);
+
+var platba_r1= Number(platba_r)-1;
+var platba_r2= Number(platba_r_n)-1;
+
+var platba_r1_r2 = (platba_r1/platba_r2);
+
+if ((platba_vynos == 0) || platba_vynos == 'NaN'){
+ var result = (platba_cilovka-platba_jednoraz)/platba_n;
+ } else {
+ var result = (platba_cilovka-platba_jednoraz*platba_r_n)*platba_r1_r2;
+ }
+
+var format_result = Number(result.toFixed(0)).toLocaleString("cs-CZ");
+
+if ((format_result == 'NaN') || (format_result < 0)){
+platba_pravidelka_result.innerHTML = "";
+} else {
+platba_pravidelka_result.innerHTML = '<strong style="font-size: 24px; color:#3c79b1;">&nbsp' + format_result +' Kč </strong>';
+}
+
+var platba_nominalka = Number(result * 12 * platba_doba)+Number(platba_jednoraz);
+
+  chart_platba.series[0].setData([platba_nominalka, platba_cilovka-platba_nominalka]);
+
+
+  }
+// ====================================================
+
+
+
+// ----------------------------------------------------------------------
+// === KALKULACE PLATBY NA CIL 
+// ----------------------------------------------------------------------
+function platba_vypocet_1(){
+// --- POLE
+var platba_cilovka = document.getElementById("cil_cena_1").value.replace(/\s/g, '');
+var platba_jednoraz = document.getElementById("cil_jednoraz_1").value.replace(/\s/g, '');
+
+var platba_vynos = Number(document.getElementById("cil_vynos_1").value.replace(",", ".").replace(/\s/g, ''))/100/12;
+var platba_doba = document.getElementById("cil_doba_1").value;
+var platba_pravidelka_result = document.getElementById("cil_pravidelka_1");
+
+
+var platba_r = 1+Number(platba_vynos);
+var platba_n = Number(platba_doba)*12;
+
+var platba_r_n = Math.pow(platba_r,platba_n);
+
+var platba_r1= Number(platba_r)-1;
+var platba_r2= Number(platba_r_n)-1;
+
+var platba_r1_r2 = (platba_r1/platba_r2);
+
+if ((platba_vynos == 0) || platba_vynos == 'NaN'){
+ var result = (platba_cilovka-platba_jednoraz)/platba_n;
+ } else {
+//  var result = (platba_cilovka-platba_jednoraz*platba_r_n)*platba_r1_r2;
+ var result = Math.ceil((platba_cilovka - platba_jednoraz * platba_r_n) * platba_r1_r2 / 100) * 100;
+ }
+
+var format_result = Number(result.toFixed(0)).toLocaleString("cs-CZ");
+
+if ((format_result == 'NaN') || (format_result < 0)){
+// platba_pravidelka_result.innerHTML = "";
+platba_pravidelka_result.value = '';
+} else {
+// platba_pravidelka_result.innerHTML = '<strong style="font-size: 24px; color:#00a0e3;">&nbsp' + format_result +' Kč </strong>';
+platba_pravidelka_result.value = format_result;
+}
+
+// $("#jednoraz_sum").val(platba_jednoraz);
+$("#jednoraz_sum").val(document.getElementById("cil_jednoraz_1").value);
+$("#pravidelka_sum").val(format_result);
+$("#inv_horizont").val(platba_doba);
+
+
+
+  }
+// ================================================================ 
+ 
+//AKTIVATORY
+   document.getElementById("zhod_jednoraz").addEventListener("input",vypocetZhodnoceni);
+   document.getElementById("zhod_pravidelka").addEventListener("input",vypocetZhodnoceni);
+   document.getElementById("zhod_urok").addEventListener("input",vypocetZhodnoceni);
+   document.getElementById("zhod_inflace").addEventListener("input",vypocetZhodnoceni);
+   document.getElementById("zhod_roky").addEventListener("input",vypocetZhodnoceni);
+  
+
+//KALKULACE ZHODNOCENÍ
+function vypocetZhodnoceni(){
+//POLE
+var jednoraz = document.getElementById("zhod_jednoraz").value;
+var pravidelka = document.getElementById("zhod_pravidelka").value;
+var urok = document.getElementById("zhod_urok").value;
+var inflace = document.getElementById("zhod_inflace").value;
+var roky = document.getElementById("zhod_roky").value;
+var ztrataPole = document.getElementById("inf_ztrata");
+var ztrataSign = document.getElementById("ztrata_sign");
+var ziskPole = document.getElementById("zhod_zisk");
+var ziskSign = document.getElementById("zisk_sign");
+var vysledek = document.getElementById("zhod_vysledek");
+var vysledekInf = document.getElementById("inf_vysledek");
+// var nominalka = document.getElementById("zhod_nominalka");
+
+var rozdilCelkemPole = document.getElementById("rozdil_celkem");
+var rozdilMesicnePole = document.getElementById("rozdil_mesicne");
+ 
+ 
+ //prevody dat
+ var urokEfektivni = document.getElementById("zhod_urok").value/100/12;
+ var inflaceEfektivni = document.getElementById("zhod_inflace").value/100/12;
+ 
+ //PŘEVODY LET
+ var n = Number(roky)*12;
+ var n2 = Number(n)+1;
+ 
+  //PŘEVODY ÚROKU
+  var r1 = 1+Number(urokEfektivni); //Efektivní úrok
+  var r2 = 1+Number(inflaceEfektivni); //Efektivní inflace
+  
+  var realnaInf = 1/Number(r2)-1;
+  var realnyUrok = (r1/r2)-1;
+  
+  var r = 1+Number(realnyUrok);
+  var ri = 1+Number(realnaInf);
+
+ //INFLACE
+ var jednorazInfVynos = Math.pow(ri,n);
+ var jednorazInfVysledek = Number(jednoraz)*jednorazInfVynos;
+ var pravidelkaInfVynos = (Math.pow(ri,n)-1)/Number(realnaInf);
+ 
+ var pravidelkaInfVysledek = Number(pravidelka)*pravidelkaInfVynos;
+ 
+ var celkemInf = Number(jednorazInfVysledek)+Number(pravidelkaInfVysledek);
+ var vlozeno = Number(jednoraz)+pravidelka*n;
+ var ztrata = Number(celkemInf)-Number(vlozeno);
+ 
+ //VÝSLEDEK INFLACE
+ var resInf = Number(celkemInf.toFixed(0)).toLocaleString("cs-CZ");
+  var resZtr = Number(ztrata.toFixed(0)).toLocaleString("cs-CZ");
+
+//VYPOCET ZHODNOCENI
+var jednorazVynos = Math.pow(r,n);
+var jednorazVysledek = Number(jednoraz)*jednorazVynos;
+
+var pravidelkaVynos = (Math.pow(r,n)-1)/Number(realnyUrok);
+
+var pravidelkaVysledek = Number(pravidelka)*pravidelkaVynos;
+
+var celkem = Number(jednorazVysledek)+Number(pravidelkaVysledek);
+var vlozeno = Number(jednoraz)+pravidelka*n;
+var zisk = Number(celkem)-Number(vlozeno);
+
+//VÝSLEDEK ZHODNOCENÍ
+var resZhod = Number(celkem.toFixed(0)).toLocaleString("cs-CZ");
+var resZisk = Number(zisk.toFixed(0)).toLocaleString("cs-CZ");
+
+ //ZÁPIS INFLACE
+ if (resInf == 'NaN'){
+ vysledekInf.innerHTML = "";
+ } else {
+ vysledekInf.innerHTML = resInf + ' Kč';
+ }
+
+var nominalka_vysledek =  Number(jednoraz)+Number(pravidelka)*n;
+
+document.getElementById("zhod_nominalka").value = Number(nominalka_vysledek.toFixed(0)).toLocaleString("cs-CZ")+' Kč';
+ 
+ //ZTRÁTA - rozdíl
+   if (resZtr == 'NaN'){
+ ztrataPole.innerHTML = "";
+ } else if (Number(celkemInf)<=Number(vlozeno)){
+ ztrataSign.innerHTML = '<span style="font-size: 20px; color:lightblue">Ztráta  </span>';
+ ztrataPole.innerHTML = '<strong style="font-size: 24px; color:#FF0000;">' + resZtr +' Kč</strong>';
+ } else {
+ ztrataSign.innerHTML = '<span style="font-size: 20px; color:lightblue">Zisk  </span>';
+ ztrataPole.innerHTML = '<strong style="font-size: 24px; color:#00a0e3;">' + resZtr +' Kč</strong>';
+ } 
+ 
+ //ZÁPIS ZHODNOCENÍ
+ if (resZhod == 'NaN' || urok ==""){
+ vysledek.innerHTML = "";
+ } else {
+ vysledek.innerHTML = resZhod + ' Kč';
+ }
+ 
+ if (resZisk == 'NaN' || urok ==""){
+ ziskPole.innerHTML = "";
+ } else if (Number(celkem)<=Number(vlozeno)){
+ ziskSign.innerHTML = '<span style="font-size: 20px; color:lightblue">Ztráta  </span>';
+ ziskPole.innerHTML = '<strong style="font-size: 24px; color:#FF0000;">' + resZisk +' Kč</strong>';
+ } else {
+ ziskSign.innerHTML = '<span style="font-size: 20px; color:lightblue;">Zisk  </span>';
+ ziskPole.innerHTML = '<strong style="font-size: 24px; color:lightgreen;">+ ' + resZisk +' Kč</strong>';
+ } 
+ 
+ 
+var rozdilCelkem = Number(celkemInf) - Number(celkem);
+if (inflace > urok){
+var rozdilMesicne = Number(zisk)/Number(n);
+
+} else {
+var rozdilMesicne = Number(rozdilCelkem)/Number(n);
+}
+
+var resRozdilCelkem = Number(rozdilCelkem.toFixed(0)).toLocaleString("cs-CZ");
+var resRozdilMesicne = Number(rozdilMesicne.toFixed(0)).toLocaleString("cs-CZ");
+
+if (resRozdilMesicne == 'NaN'){
+rozdilMesicnePole.innerHTML = "";
+} else if (Number(celkem)<Number(celkemInf)){
+rozdilMesicnePole.innerHTML = '<strong style="font-size: 24px; color:#00a0e3;">' + resRozdilMesicne +' Kč</strong>';
+} else {
+rozdilMesicnePole.innerHTML = '<strong style="font-size: 24px; color:#FF0000;">' + resRozdilMesicne +' Kč</strong>';
+} 
+
+if (resRozdilCelkem == 'NaN'){
+rozdilCelkemPole.innerHTML = "";
+} else {
+rozdilCelkemPole.innerHTML = '<strong style="font-size: 24px; color:#FF0000;">' + resRozdilCelkem +' Kč</strong>';
+}
+ 
+
+  
+  }
+
+//AKTIVATORY
+   document.getElementById("cilovka_pravidelka").addEventListener("input",cilovka_vypocet);
+   document.getElementById("cilovka_jednoraz").addEventListener("input",cilovka_vypocet);
+   document.getElementById("cilovka_doba").addEventListener("input",cilovka_vypocet);
+   document.getElementById("cilovka_vynos").addEventListener("input",cilovka_vypocet);
+  
+
+//KALKULACE KONECNE CASTKY
+function cilovka_vypocet(){
+//POLE
+var switch_zobrazeni = document.getElementById("switch_zobrazeni");
+
+if (switch_zobrazeni.checked) {
+var cilovka_vynos = document.getElementById("cilovka_vynos").value/100/12*0.85;
+
+  } else {
+var cilovka_vynos = document.getElementById("cilovka_vynos").value/100/12;
+}
+var cilovka_pravidelka = document.getElementById("cilovka_pravidelka").value.replace(/\s/g, '');
+var cilovka_jednoraz = document.getElementById("cilovka_jednoraz").value.replace(/\s/g, '');
+// var cilovka_vynos = document.getElementById("cilovka_vynos").value/100/12;
+var cilovka_doba = document.getElementById("cilovka_doba").value;
+var cilovka_result = document.getElementById("cilovka_result");
+var cilovka_nominalka = document.getElementById("cilovka_nominalka");
+var cilovka_rozdil = document.getElementById("cilovka_rozdil");
+
+// var chart = document.getElementById("container");
+
+
+
+var cilovka_r = 1+Number(cilovka_vynos);
+var cilovka_n = Number(cilovka_doba)*12;
+
+var cilovka_r_n = Math.pow(cilovka_r,cilovka_n);
+
+var cilovka_r1= Number(cilovka_r)-1;
+var cilovka_r2= Number(cilovka_r_n)-1;
+
+// var cilovka_r1_r2 = (cilovka_r1/cilovka_r2);
+var cilovka_r2_r1 = (cilovka_r2/cilovka_r1);
+
+if ((cilovka_vynos == 0) || cilovka_vynos == 'NaN'){
+ var cilovka_vysledek = Number(cilovka_jednoraz)+(cilovka_pravidelka*cilovka_n);
+ } else {
+ var cilovka_vysledek = Number(cilovka_jednoraz)*cilovka_r_n + Number(cilovka_pravidelka) * cilovka_r2_r1;
+ }
+
+// var format_result = Number(result.toFixed(0)).toLocaleString("cs-CZ");
+
+if ((cilovka_vysledek == 'NaN') || (cilovka_vysledek < 0)){
+cilovka_result.innerHTML = "";
+} else {
+cilovka_result.innerHTML = '<strong style="font-size: 24px; color:orange;">' + Number(cilovka_vysledek.toFixed(0)).toLocaleString("cs-CZ") +' Kč</strong>';
+}
+
+var cilovka_nominalka_vysledek =  Number(cilovka_jednoraz)+Number(cilovka_pravidelka)*cilovka_n;
+
+if ((cilovka_nominalka_vysledek == 'NaN') || (cilovka_nominalka_vysledek < 0)){
+cilovka_nominalka.innerHTML = "";
+} else {
+cilovka_nominalka.innerHTML = '<strong style="font-size: 24px; color:#3c79b1;">' + Number(cilovka_nominalka_vysledek.toFixed(0)).toLocaleString("cs-CZ") +' Kč</strong>';
+}
+
+var cilovka_rozdil_vysledek =  Number(cilovka_vysledek)-Number(cilovka_nominalka_vysledek);
+
+if ((cilovka_rozdil_vysledek == 'NaN') || (cilovka_rozdil_vysledek <= 0)){
+cilovka_rozdil.innerHTML = "";
+} else {
+cilovka_rozdil.innerHTML = '<strong style="font-size: 24px; color:#00cc00;"> + ' + Number(cilovka_rozdil_vysledek.toFixed(0)).toLocaleString("cs-CZ") +' Kč</strong>';
+}
+
+
+  chart_cilovka.series[0].setData([cilovka_nominalka_vysledek, cilovka_rozdil_vysledek]);
+
+  }
+
+// --- AKTIVATORY MODAL
+  //  document.getElementById("penze_cista_mzda").addEventListener("input",penze_vypocet);
+   // --- AKTIVATORY 
+  //  document.getElementById("penze_cista_mzda_1").addEventListener("input",penze_vypocet_1);
+  
+
+// -------------------------------------------------------------------
+// --- KALKULACE DOBA COLLAPSIBLE
+// -------------------------------------------------------------------
+// Příklad použití
+// function calculateSavingTime(FV, PMT, PV, annualRate) {
+//     // Převod roční úrokové míry na měsíční
+//     let monthlyRate = annualRate / 12;
+
+//     // Výpočet doby v letech
+//     let t = Math.log((FV * monthlyRate) / (PMT * (1 + monthlyRate)) + 1) / Math.log(1 + monthlyRate);
+
+//     return t;
+// }
+
+
+// let timeInYears = calculateSavingTime(FV, PMT, PV, annualRate);
+// console.log(`Doba potřebná k dosažení cílové částky je ${timeInYears.toFixed(2)} let.`);
+
+
+
+
+function doba_vypocet_1(){
+
+let cil_milion_cena = Number(document.getElementById("cil_milion_cena_1").value.replace(/\s/g, ''));
+let cil_milion_jednoraz = Number(document.getElementById("cil_milion_jednoraz_1").value.replace(/\s/g, ''));
+let cil_milion_pravidelka = Number(document.getElementById("cil_milion_pravidelka_1").value.replace(/\s/g, ''));
+
+let cil_milion_vynos = Number(document.getElementById("cil_milion_vynos_1").value.replace(",", ".").replace(/\s/g, ''))/100/12;
+
+let cil_milion_doba = document.getElementById("cil_milion_doba_1"); // vypocet doby
+
+let FV = 3000000; // Cílová částka
+let PMT = 2500;   // Měsíční úložka
+let PV = 0;  // Počáteční vklad
+let annualRate = 0.07; // Roční úroková míra (např. 6%)
+    let monthlyRate = annualRate / 12;
+
+    // let t = (Math.log((cil_milion_cena * cil_milion_vynos) / (cil_milion_pravidelka * (1 + cil_milion_vynos)) + 1) / Math.log(1 + cil_milion_vynos))/12;
+
+// currentFV = PV * Math.pow(1 + monthlyRate, t) + PMT * (Math.pow(1 + monthlyRate, t) - 1) / monthlyRate;
+
+    // let numerator = cil_milion_cena * cil_milion_vynos - cil_milion_pravidelka * (1 + cil_milion_vynos) + cil_milion_pravidelka * cil_milion_vynos;
+    // let denominator = cil_milion_jednoraz * cil_milion_vynos + cil_milion_pravidelka * cil_milion_vynos * (1 + cil_milion_vynos);
+
+    // let t = Math.log(numerator / denominator) / Math.log(1 + cil_milion_vynos);
+
+    let numerator = Math.log((cil_milion_cena * cil_milion_vynos + cil_milion_pravidelka) / (cil_milion_jednoraz * cil_milion_vynos + cil_milion_pravidelka));
+    let denominator = Math.log(1 + cil_milion_vynos);
+
+    // let t = numerator / denominator;
+
+    // return t / 12; // Převod do let
+
+    // return t / 12; // Převod do let
+    // let numerator = Math.log((cil_milion_cena * cil_milion_vynos + cil_milion_pravidelka) / (cil_milion_jednoraz * cil_milion_vynos + cil_milion_pravidelka));
+    // let denominator = Math.log(1 + cil_milion_vynos);
+
+    let t = Number(numerator / denominator / 12).toFixed(1).toLocaleString("cs-CZ").replace(".", ",");
+
+    // if (!Number.isInteger(t)) {
+      // if (t % 1 !== 0) {
+    // let format_t = t + ' let';
+// } else {
+    // let format_t = t + ' let';
+
+// }
+
+    // let 
+
+    // return t / 12; // Převod do let
+
+    // let vypocet_cilovky
+    // n = log (  1+ ( ( FV * p ) / ( m * PMT * ( 1 + ( ( m + 1 ) / 2 * m ) * p ) ) )  / log ( 1 + p)
+
+    // 1 + FV * annualRate / 12 * PMT * ( 1 + ((12 + 1)/ 2 * 12)*annualRate )
+
+    // let numenator_1 = 
+    // let denomenator_1 = 
+
+    // // let numenator_1 =
+    // // let denomenator_1 =
+
+    //  let numerator = FV * monthlyRate - PMT * (1 + monthlyRate) + PMT * monthlyRate;
+    // let denominator = PV * monthlyRate + PMT * monthlyRate * (1 + monthlyRate);
+
+    // let t = Math.log(numerator / denominator) / Math.log(1 + monthlyRate);
+
+    // return t / 12; // Převod do let
+
+    // var cil_milion_doba_1 = document.getElementById("cil_milion_doba_1");
+
+    // cil_milion_doba_1.value= 50;
+
+// let t = 'rrrr';
+//     $("#cil_milion_doba_1").val(t);
+    $("#cil_milion_doba_1").val(t);
+
+
+    // return t;
+
+
+}
+// function doba_vypocet(){
+// // --- POLE
+// var penze_cista_mzda_val = document.getElementById("penze_cista_mzda").value;
+// var penze_duchod = document.getElementById("penze_duchod");
+// var penze_rozdil = document.getElementById("penze_rozdil");
+
+// const koef_HM = Number(1.351);
+// const koef_HM_2 = Number(1.124);
+// const hranice_ciste_mzdy = Number(15371);
+
+// const koef_odpracovane_roky = Number(0.675);
+// const redukcni_hranice_1 = Number(17743);
+// const redukcni_hranice_2 = Number(161296);
+// const koef_redukcni_hranice_2 = Number(0.26);
+// const zakladni_vymera = Number(4040);
+// const sleva_poplatnika = Number(2570);
+// const minimalni_HM = Number(17)
+
+// var hruba_mzda_mezisoucet = Number(penze_cista_mzda_val-sleva_poplatnika)*koef_HM;
+
+// if(penze_cista_mzda_val < hranice_ciste_mzdy){
+// var hruba_mzda_mezisoucet = Number(penze_cista_mzda_val)*koef_HM_2;
+// // var hruba_mzda_mezisoucet = 0;
+// }else {
+// var hruba_mzda_mezisoucet = Number(penze_cista_mzda_val-sleva_poplatnika)*koef_HM;
+// }
+
+// var hruba_mzda_finalka = Math.round(hruba_mzda_mezisoucet / 100) * 100;
+
+// // var penze_hruba_mzda_val = penze_hruba_mzda.value(hruba_mzda_res);
+// document.getElementById("penze_hruba_mzda").value = Number(hruba_mzda_mezisoucet.toFixed(0)).toLocaleString("cs-CZ")+' Kč';
+
+
+// if (hruba_mzda_mezisoucet <= redukcni_hranice_1){
+// var redukce_1 = hruba_mzda_mezisoucet;
+// } else {
+// var redukce_1 = redukcni_hranice_1;
+// };
+// // alert(redukce_1);
+
+
+
+// if(hruba_mzda_mezisoucet > redukcni_hranice_1 && hruba_mzda_mezisoucet <= redukcni_hranice_2){
+// var redukce_2 = (hruba_mzda_mezisoucet - redukcni_hranice_1)*koef_redukcni_hranice_2;
+// } else {
+// var redukce_2 = Number(0);
+// }
+
+// var penze_result = (redukce_1+redukce_2)*koef_odpracovane_roky+zakladni_vymera;
+
+// var penze_rozdil_result = (-penze_cista_mzda_val+penze_result);
+
+// var penze_result_formated = Number(penze_result.toFixed(0)).toLocaleString("cs-CZ");
+// var penze_rozdil_result_formated = Number(penze_rozdil_result.toFixed(0)).toLocaleString("cs-CZ");
+
+// penze_duchod.innerHTML = '<strong style="font-size: 24px; color:#00a0e3;">&nbsp' + penze_result_formated +' Kč</strong>';
+
+// if(penze_rozdil_result<0){
+// penze_rozdil.innerHTML = '<strong style="font-size: 24px; color:#FF0000;">&nbsp' + penze_rozdil_result_formated +' Kč</strong>';
+// }else {
+// penze_rozdil.innerHTML = '<strong style="font-size: 24px; color:#00a0e3;">&nbsp +' + penze_rozdil_result_formated +' Kč</strong>';
+// }
+
+// // if(hruba_mzda_res>== redukcni_hranice_1 && hruba_mzda_res<==redukcni_hranice_2){
+// // var redukce_3 = hruba_mzda_res
+// // } else {
+// // var redukce_3 = 0;
+// // }
+
+
+
+// // 0,675
+// // 17743
+// // 161296
+
+// // alert(hruba_mzda_res);
+// // var platba_jednoraz = document.getElementById("platba_jednoraz").value;
+// // var platba_vynos = document.getElementById("platba_vynos").value/100/12;
+// // var platba_doba = document.getElementById("platba_doba").value;
+// // var platba_pravidelka_result = document.getElementById("platba_pravidelka_result");
+
+
+
+
+// // var platba_r = 1+Number(platba_vynos);
+// // var platba_n = Number(platba_doba)*12;
+
+// // var platba_r_n = Math.pow(platba_r,platba_n);
+
+// // var platba_r1= Number(platba_r)-1;
+// // var platba_r2= Number(platba_r_n)-1;
+
+// // var platba_r1_r2 = (platba_r1/platba_r2);
+
+// // if ((platba_vynos == 0) || platba_vynos == 'NaN'){
+// //  var result = (platba_cilovka-platba_jednoraz)/platba_n;
+// //  } else {
+// //  var result = (platba_cilovka-platba_jednoraz*platba_r_n)*platba_r1_r2;
+// //  }
+
+// // var format_result = Number(result.toFixed(0)).toLocaleString("cs-CZ");
+
+// // if ((format_result == 'NaN') || (format_result < 0)){
+// // platba_pravidelka_result.innerHTML = "";
+// // } else {
+// // platba_pravidelka_result.innerHTML = '<strong style="font-size: 36px; color:#00a0e3;">' + format_result +'</strong>';
+// // }
+
+
+//   }
+// // ====================================================
+
+
+  
+// // -------------------------------------------------------------------
+// // --- KALKULACE PENZE 2
+// // -------------------------------------------------------------------
+// function penze_vypocet_1(){
+// // --- POLE
+// var penze_cista_mzda_val = document.getElementById("penze_cista_mzda_1").value.replace(/\s/g, '');
+// var penze_hruba_mzda_1 = document.getElementById("penze_hruba_mzda_1");
+// var penze_duchod = document.getElementById("penze_duchod_1");
+// var penze_rozdil = document.getElementById("penze_rozdil_1");
+
+// const koef_HM = Number(1.351);
+// const koef_HM_2 = Number(1.124);
+// const hranice_ciste_mzdy = Number(15371);
+
+// const koef_odpracovane_roky = Number(0.675);
+// const redukcni_hranice_1 = Number(17743);
+// const redukcni_hranice_2 = Number(161296);
+// const koef_redukcni_hranice_2 = Number(0.26);
+// const zakladni_vymera = Number(4040);
+// const sleva_poplatnika = Number(2570);
+// const minimalni_HM = Number(17)
+
+// var hruba_mzda_mezisoucet = Number(penze_cista_mzda_val-sleva_poplatnika)*koef_HM;
+
+// if(penze_cista_mzda_val < hranice_ciste_mzdy){
+// var hruba_mzda_mezisoucet = Number(penze_cista_mzda_val)*koef_HM_2;
+// // var hruba_mzda_mezisoucet = 0;
+// }else {
+// var hruba_mzda_mezisoucet = Number(penze_cista_mzda_val-sleva_poplatnika)*koef_HM;
+// }
+
+// var hruba_mzda_finalka = Math.round(hruba_mzda_mezisoucet / 100) * 100;
+
+// // var penze_hruba_mzda_val = penze_hruba_mzda.value(hruba_mzda_res);
+// penze_hruba_mzda_1.value = Number(hruba_mzda_mezisoucet.toFixed(0)).toLocaleString("cs-CZ")+' Kč';
+
+// //  var result = Math.ceil((platba_cilovka - platba_jednoraz * platba_r_n) * platba_r1_r2 / 100) * 100;
+
+// if (hruba_mzda_mezisoucet <= redukcni_hranice_1){
+// var redukce_1 = hruba_mzda_mezisoucet;
+// } else {
+// var redukce_1 = redukcni_hranice_1;
+// };
+// // alert(redukce_1);
+
+
+
+// if(hruba_mzda_mezisoucet > redukcni_hranice_1 && hruba_mzda_mezisoucet <= redukcni_hranice_2){
+// var redukce_2 = (hruba_mzda_mezisoucet - redukcni_hranice_1)*koef_redukcni_hranice_2;
+// } else {
+// var redukce_2 = Number(0);
+// }
+
+// var penze_result = Math.ceil(((redukce_1+redukce_2)*koef_odpracovane_roky+zakladni_vymera) / 100) * 100;
+
+// var penze_rozdil_result = Math.ceil((-penze_cista_mzda_val+penze_result)/ 100) * 100;
+
+// var penze_result_formated = Number(penze_result.toFixed(0)).toLocaleString("cs-CZ");
+// var penze_rozdil_result_formated = Number(penze_rozdil_result.toFixed(0)).toLocaleString("cs-CZ");
+
+// penze_duchod.innerHTML = '<strong style="font-size: 24px; color:#00a0e3;">&nbsp' + penze_result_formated +' Kč</strong>';
+
+// if(penze_rozdil_result<0){
+// penze_rozdil.innerHTML = '<strong style="font-size: 24px; color:#FF0000;">&nbsp' + penze_rozdil_result_formated +' Kč</strong>';
+// }else {
+// penze_rozdil.innerHTML = '<strong style="font-size: 24px; color:#00a0e3;">&nbsp +' + penze_rozdil_result_formated +' Kč</strong>';
+// }
+
+// if(hruba_mzda_res>== redukcni_hranice_1 && hruba_mzda_res<==redukcni_hranice_2){
+// var redukce_3 = hruba_mzda_res
+// } else {
+// var redukce_3 = 0;
+// }
+
+
+
+// 0,675
+// 17743
+// 161296
+
+// alert(hruba_mzda_res);
+// var platba_jednoraz = document.getElementById("platba_jednoraz").value;
+// var platba_vynos = document.getElementById("platba_vynos").value/100/12;
+// var platba_doba = document.getElementById("platba_doba").value;
+// var platba_pravidelka_result = document.getElementById("platba_pravidelka_result");
+
+
+
+
+// var platba_r = 1+Number(platba_vynos);
+// var platba_n = Number(platba_doba)*12;
+
+// var platba_r_n = Math.pow(platba_r,platba_n);
+
+// var platba_r1= Number(platba_r)-1;
+// var platba_r2= Number(platba_r_n)-1;
+
+// var platba_r1_r2 = (platba_r1/platba_r2);
+
+// if ((platba_vynos == 0) || platba_vynos == 'NaN'){
+//  var result = (platba_cilovka-platba_jednoraz)/platba_n;
+//  } else {
+//  var result = (platba_cilovka-platba_jednoraz*platba_r_n)*platba_r1_r2;
+//  }
+
+// var format_result = Number(result.toFixed(0)).toLocaleString("cs-CZ");
+
+// if ((format_result == 'NaN') || (format_result < 0)){
+// platba_pravidelka_result.innerHTML = "";
+// } else {
+// platba_pravidelka_result.innerHTML = '<strong style="font-size: 36px; color:#00a0e3;">' + format_result +'</strong>';
+// }
+
+
+  // }
+  // ====================================================
+  
+</script>

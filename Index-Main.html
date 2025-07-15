@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+  <!-- === KONFIGURACE HLAVIČKY (META, CSS, JS knihovny) === -->
+  <?!= include('Head-Config'); ?>
+  
+  <!-- === CUSTOM STYLES === -->
+  <?!= include('Styly'); ?>
+</head>
+
+<body class="d-flex flex-column">
+
+  <!-- === LOADING SCREEN === -->
+  <?!= include('Loading-Screen'); ?>
+
+  <!-- === MODÁLNÍ OKNA === -->
+  <?!= include('Modaly'); ?>
+
+  <!-- === AUTOCOMPLETE DATALISTY === -->
+  <datalist id="dropdownlist_fondy">
+    <?!= fondy_seznam; ?>
+  </datalist>
+  
+  <!-- Globální data pro poradce -->
+  <script>
+    window.poradciOptions = `<?!= poradci_seznam; ?>`;
+    console.log('Fondy:', '<?!= fondy_seznam; ?>');
+    console.log('Poradci options:', window.poradciOptions);
+  </script>
+
+  <!-- === HLAVNÍ FORMULÁŘ === -->
+  <form id="myKalkulace" onsubmit="handleKalkulaceSubmit(this)">
+
+    <!-- === NAVIGAČNÍ LIŠTA === -->
+    <?!= include('Navbar'); ?>
+
+    <!-- === HLAVNÍ OBSAH STRÁNKY === -->
+    <main class="flex-shrink-0">
+
+      <!-- === ÚVODNÍ SEKCE S HERO OBRÁZKEM === -->
+      <?!= include('Hero-Section'); ?>
+
+      <!-- === KONTEJNER PRO HLAVNÍ OBSAH === -->
+      <div class="container-fluid d-flex flex-column" style="width:95%">
+
+        <!-- === KARTY S KALKULAČKAMI === -->
+        <?!= include('Calculator-Cards'); ?>
+
+        <!-- === SEKCE KLIENTA A PORADCE === -->
+        <?!= include('Client-Advisor-Section'); ?>
+
+        <!-- === NASTAVENÍ KALKULACE === -->
+        <?!= include('Calculation-Settings'); ?>
+
+        <!-- === BANNER PRO PORTFOLIO ŘEŠENÍ === -->
+        <?!= include('Portfolio-Banner'); ?>
+
+        <!-- === INVESTIČNÍ NÁSTROJE (5 fondů) === -->
+        <?!= include('Investment-Tools'); ?>
+
+        <!-- === SOUHRNNÁ SEKCE === -->
+        <?!= include('Summary-Section'); ?>
+
+      </div> <!-- END container-fluid -->
+
+    </main> <!-- END main -->
+
+  </form> <!-- END form -->
+
+  <!-- === PATIČKA === -->
+  <?!= include('Footer'); ?>
+
+  <!-- === JAVASCRIPT SKRIPTY === -->
+  <?!= include('Skripty'); ?>
+  <?!= include('Vypocty'); ?>
+
+</body>
+</html>

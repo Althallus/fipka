@@ -1,0 +1,243 @@
+<script>
+// === PORTFOLIO FUNKCE ===
+
+// === VIG PORTFOLIO FUNKCE ===
+function portfolio_VIG_Konzervativni() {
+  var pravidelka_sum = document.getElementById("pravidelka_sum").value.replace(/\s/g, '');
+  var jednoraz_sum = document.getElementById("jednoraz_sum").value.replace(/\s/g, '');
+
+  $(this).toggleClass("btn-not_selected").toggleClass("btn-selected");
+
+  // Vyber fondů
+  $("#fond_1").val('VIG Czech Short Term Bond Investment Fund (CZK)');
+  $("#fond_2").val('VIG Maraton ESG Multi Asset Investment C Hgd (CZK)');
+  $("#fond_3").val('');
+  $("#fond_4").val('');
+  $("#fond_5").val('');
+
+  // Rozdělení investic - 70% / 30%
+  if (jednoraz_sum > 0) {
+    jednoraz_1.value = Math.round((jednoraz_sum * 0.7)/100)*100;
+    jednoraz_2.value = jednoraz_sum - jednoraz_1.value;
+    jednoraz_3.value = '';
+    jednoraz_4.value = '';
+    jednoraz_5.value = '';
+  }
+
+  if (pravidelka_sum > 0) {
+    pravidelka_1.value = Math.round((pravidelka_sum * 0.7)/100)*100;
+    pravidelka_2.value = pravidelka_sum - pravidelka_1.value;
+    pravidelka_3.value = '';
+    pravidelka_4.value = '';
+    pravidelka_5.value = '';
+  }
+}
+
+function portfolio_VIG_Vyvazene() {
+  var pravidelka_sum = document.getElementById("pravidelka_sum").value.replace(/\s/g, '');
+  var jednoraz_sum = document.getElementById("jednoraz_sum").value.replace(/\s/g, '');
+
+  $(this).toggleClass("btn-not_selected").toggleClass("btn-selected");
+
+  // Vyber fondů
+  $("#fond_1").val('VIG Czech Short Term Bond Investment Fund (CZK)');
+  $("#fond_2").val('VIG Maraton ESG Multi Asset Investment C Hgd (CZK)');
+  $("#fond_3").val('VIG MegaTrend Equity Fund C Hgd (CZK)');
+  $("#fond_4").val('');
+  $("#fond_5").val('');
+
+  // Rozdělení investic - 45% / 25% / 30%
+  rozdelInvestice(jednoraz_sum, pravidelka_sum, [0.45, 0.25, 0.30]);
+}
+
+function portfolio_VIG_Rustove() {
+  var pravidelka_sum = document.getElementById("pravidelka_sum").value.replace(/\s/g, '');
+  var jednoraz_sum = document.getElementById("jednoraz_sum").value.replace(/\s/g, '');
+
+  $(this).toggleClass("btn-not_selected").toggleClass("btn-selected");
+
+  // Vyber fondů
+  $("#fond_1").val('VIG Czech Short Term Bond Investment Fund (CZK)');
+  $("#fond_2").val('VIG Panorama Total Return Investment C Hgd (CZK)');
+  $("#fond_3").val('VIG MegaTrend Equity Fund C Hgd (CZK)');
+  $("#fond_4").val('VIG Central European Equity C (CZK)');
+  $("#fond_5").val('');
+
+  // Rozdělení investic - 20% / 20% / 40% / 20%
+  rozdelInvestice(jednoraz_sum, pravidelka_sum, [0.20, 0.20, 0.40, 0.20]);
+}
+
+function portfolio_VIG_Dynamicke() {
+  var pravidelka_sum = document.getElementById("pravidelka_sum").value.replace(/\s/g, '');
+  var jednoraz_sum = document.getElementById("jednoraz_sum").value.replace(/\s/g, '');
+
+  $(this).toggleClass("btn-not_selected").toggleClass("btn-selected");
+
+  // Vyber fondů
+  $("#fond_1").val('VIG Alfa Absolute Return C Hgd (CZK)');
+  $("#fond_2").val('VIG MegaTrend Equity Fund C Hgd (CZK)');
+  $("#fond_3").val('VIG Central European Equity C (CZK)');
+  $("#fond_4").val('VIG Emerging Market ESG Equity C (CZK)');
+  $("#fond_5").val('');
+
+  // Rozdělení investic - 20% / 40% / 20% / 20%
+  rozdelInvestice(jednoraz_sum, pravidelka_sum, [0.20, 0.40, 0.20, 0.20]);
+}
+
+// === FID PORTFOLIO FUNKCE ===
+function portfolio_FID_NaKratko() {
+  var pravidelka_sum = document.getElementById("pravidelka_sum").value.replace(/\s/g, '');
+  var jednoraz_sum = document.getElementById("jednoraz_sum").value.replace(/\s/g, '');
+
+  $(this).toggleClass("btn-not_selected").toggleClass("btn-selected");
+
+  // Vyber fondů
+  $("#fond_1").val('Investika Monetika, OPF (CZK)');
+  $("#fond_2").val('VIG Czech Short Term Bond Investment Fund (CZK)');
+  $("#fond_3").val('INVESTIKA realitní fond, OPF (CZK)');
+  $("#fond_4").val('VIG MegaTrend Equity Fund C hgd (CZK)');
+  $("#fond_5").val('');
+
+  // Rozdělení investic - 40% / 40% / 10% / 10%
+  rozdelInvestice(jednoraz_sum, pravidelka_sum, [0.40, 0.40, 0.10, 0.10]);
+}
+
+function portfolio_FID_Konzervativni() {
+  var pravidelka_sum = document.getElementById("pravidelka_sum").value.replace(/\s/g, '');
+  var jednoraz_sum = document.getElementById("jednoraz_sum").value.replace(/\s/g, '');
+
+  $(this).toggleClass("btn-not_selected").toggleClass("btn-selected");
+
+  // Vyber fondů
+  $("#fond_1").val('Conseq Invest Dluhopisový fond A');
+  $("#fond_2").val('INVESTIKA Realitní Fond, OPF (CZK)');
+  $("#fond_3").val('');
+  $("#fond_4").val('');
+  $("#fond_5").val('');
+
+  // Rozdělení investic - 80% / 20%
+  rozdelInvestice(jednoraz_sum, pravidelka_sum, [0.80, 0.20]);
+}
+
+function portfolio_FID_Vyvazene() {
+  var pravidelka_sum = document.getElementById("pravidelka_sum").value.replace(/\s/g, '');
+  var jednoraz_sum = document.getElementById("jednoraz_sum").value.replace(/\s/g, '');
+
+  $(this).toggleClass("btn-not_selected").toggleClass("btn-selected");
+
+  // Vyber fondů
+  $("#fond_1").val('Conseq Invest Dluhopisový fond A');
+  $("#fond_2").val('INVESTIKA Realitní Fond, OPF (CZK)');
+  $("#fond_3").val('VIG MegaTrend Equity Fund C hgd (CZK)');
+  $("#fond_4").val('');
+  $("#fond_5").val('');
+
+  // Rozdělení investic - 30% / 40% / 30%
+  rozdelInvestice(jednoraz_sum, pravidelka_sum, [0.30, 0.40, 0.30]);
+}
+
+function portfolio_FID_Rustove() {
+  var pravidelka_sum = document.getElementById("pravidelka_sum").value.replace(/\s/g, '');
+  var jednoraz_sum = document.getElementById("jednoraz_sum").value.replace(/\s/g, '');
+
+  $(this).toggleClass("btn-not_selected").toggleClass("btn-selected");
+
+  // Vyber fondů
+  $("#fond_1").val('Conseq Invest Dluhopisový fond A');
+  $("#fond_2").val('INVESTIKA Realitní Fond, OPF (CZK)');
+  $("#fond_3").val('VIG MegaTrend Equity Fund C hgd (CZK)');
+  $("#fond_4").val('');
+  $("#fond_5").val('');
+
+  // Rozdělení investic - 20% / 20% / 60%
+  rozdelInvestice(jednoraz_sum, pravidelka_sum, [0.20, 0.20, 0.60]);
+}
+
+function portfolio_FID_Dynamicke() {
+  var pravidelka_sum = document.getElementById("pravidelka_sum").value.replace(/\s/g, '');
+  var jednoraz_sum = document.getElementById("jednoraz_sum").value.replace(/\s/g, '');
+
+  $(this).toggleClass("btn-not_selected").toggleClass("btn-selected");
+
+  // Vyber fondů
+  $("#fond_1").val('INVESTIKA Realitní Fond, OPF (CZK)');
+  $("#fond_2").val('VIG MegaTrend Equity Fund C hgd (CZK)');
+  $("#fond_3").val('');
+  $("#fond_4").val('');
+  $("#fond_5").val('');
+
+  // Rozdělení investic - 20% / 80%
+  rozdelInvestice(jednoraz_sum, pravidelka_sum, [0.20, 0.80]);
+}
+
+function portfolio_FID_Dlouhodobe() {
+  var pravidelka_sum = document.getElementById("pravidelka_sum").value.replace(/\s/g, '');
+  var jednoraz_sum = document.getElementById("jednoraz_sum").value.replace(/\s/g, '');
+
+  $(this).toggleClass("btn-not_selected").toggleClass("btn-selected");
+
+  // Vyber fondů
+  $("#fond_1").val('VIG MegaTrend Equity Fund C hgd (CZK)');
+  $("#fond_2").val('');
+  $("#fond_3").val('');
+  $("#fond_4").val('');
+  $("#fond_5").val('');
+
+  // Rozdělení investic - 100%
+  jednoraz_1.value = jednoraz_sum;
+  pravidelka_1.value = pravidelka_sum;
+  
+  // Vynuluj ostatní
+  for (let i = 2; i <= 5; i++) {
+    window[`jednoraz_${i}`].value = '';
+    window[`pravidelka_${i}`].value = '';
+  }
+}
+
+// === POMOCNÉ FUNKCE ===
+function rozdelInvestice(jednoraz, pravidelka, procenta) {
+  // Rozdělení jednorázové investice
+  if (jednoraz > 0) {
+    let zbyvajici = jednoraz;
+    for (let i = 0; i < procenta.length - 1; i++) {
+      window[`jednoraz_${i+1}`].value = Math.round((jednoraz * procenta[i])/100)*100;
+      zbyvajici -= window[`jednoraz_${i+1}`].value;
+    }
+    // Poslední dostane zbytek
+    window[`jednoraz_${procenta.length}`].value = zbyvajici;
+    
+    // Vynuluj zbytek
+    for (let i = procenta.length + 1; i <= 5; i++) {
+      window[`jednoraz_${i}`].value = '';
+    }
+  }
+  
+  // Rozdělení pravidelné investice
+  if (pravidelka > 0) {
+    let zbyvajici = pravidelka;
+    for (let i = 0; i < procenta.length - 1; i++) {
+      window[`pravidelka_${i+1}`].value = Math.round((pravidelka * procenta[i])/100)*100;
+      zbyvajici -= window[`pravidelka_${i+1}`].value;
+    }
+    // Poslední dostane zbytek
+    window[`pravidelka_${procenta.length}`].value = zbyvajici;
+    
+    // Vynuluj zbytek
+    for (let i = procenta.length + 1; i <= 5; i++) {
+      window[`pravidelka_${i}`].value = '';
+    }
+  }
+}
+
+// Přepnutí na portfolio typ kalkulace
+function typ_kalkulace_switch() {
+  $('input[type="radio"][value="Portfolio"]').trigger('click');
+}
+
+// Přepínání tříd u tlačítek
+function prepinani_vybranych_tlacitek() {
+  $('.btn-selected').each(function() {
+    $(this).removeClass('btn-selected').addClass('btn-not_selected');
+  });
+}
+</script>

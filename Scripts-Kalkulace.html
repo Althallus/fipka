@@ -1,0 +1,146 @@
+<script>
+// === ZPRACOVÁNÍ KALKULACE ===
+
+// Hlavní funkce pro odeslání formuláře
+function handleKalkulaceSubmit(formObject) {
+  showLoading();
+  
+  var typ_kalkulace = document.querySelector('input[name="typ_kalkulace"]:checked').value;
+
+  if (window.fipka_choose === 'vytvorit_predkalkulaci') {
+    zpracujPredkalkulaci(formObject, typ_kalkulace);
+  } else if (window.fipka_choose === 'vytvorit_nabidku') {
+    vytvorNabidku(formObject, typ_kalkulace);
+  }
+}
+
+// Zpracování předkalkulace
+function zpracujPredkalkulaci(formObject, typ_kalkulace) {
+  resetPredkalkulaceUI();
+  
+  switch(typ_kalkulace) {
+    case 'Porovnání':
+      google.script.run.withSuccessHandler(resultPredkalkulace).processPorovnani_predkalkulace(formObject);
+      break;
+    case 'Souhrn':
+    case 'Portfolio':
+      google.script.run.withSuccessHandler(resultPredkalkulace).processSouhrn_predkalkulace(formObject);
+      break;
+  }
+  
+  disableButtons();
+}
+
+// Vytvoření nabídky
+function vytvorNabidku(formObject, typ_kalkulace) {
+  switch(typ_kalkulace) {
+    case 'Porovnání':
+      google.script.run.withSuccessHandler(updateUrl).processPorovnani_NEW(formObject);
+      break;
+    case 'Souhrn':
+    case 'Portfolio':
+      google.script.run.withSuccessHandler(updateUrl).processSouhrn_NEW(formObject);
+      break;
+  }
+  
+  disableButtons();
+}
+
+// Reset UI pro předkalkulaci
+function resetPredkalkulaceUI() {
+  document.getElementById('card_dohromady').style.display = 'none';
+  
+  // Reset všech 5 nástrojů
+  for (let i = 1; i <= 5; i++) {
+    resetNastrojUI(i);
+  }
+}
+
+// Reset jednotlivého nástroje
+function resetNastrojUI(cislo) {
+  document.getElementById(`nastroj_predkalkulace_${cislo}`).style.display = 'none';
+  ['stranky_fondu', 'factsheet', 'kid', 'cilovka', 'poplatek', 'zisk', 'celkem'].forEach(id => {
+    document.getElementById(`${id}_${cislo}`).innerHTML = '';
+  });
+}
+
+// Disable/Enable tlačítek
+function disableButtons() {
+  ['btn_vytvorit_nabidku_1', 'btn_vytvorit_nabidku', 'btn_vytvorit_predkalkulaci', 'btn_vytvorit_predkalkulaci_1'].forEach(id => {
+    const btn = document.getElementById(id);
+    btn.disabled = true;
+    btn.innerHTML = 'Zpracovávám';
+  });
+}
+
+function enableButtons() {
+  document.getElementById('btn_vytvorit_nabidku_1').disabled = false;
+  document.getElementById('btn_vytvorit_nabidku_1').innerHTML = 'Vytvořit nabídku';
+  document.getElementById('btn_vytvorit_nabidku').disabled = false;
+  document.getElementById('btn_vytvorit_nabidku').innerHTML = 'Vytvořit nabídku';
+  document.getElementById('btn_vytvorit_predkalkulaci').disabled = false;
+  document.getElementById('btn_vytvorit_predkalkulaci').innerHTML = 'Předkalkulace';
+  document.getElementById('btn_vytvorit_predkalkulaci_1').disabled = false;
+  document.getElementById('btn_vytvorit_predkalkulaci_1').innerHTML = 'Předkalkulace';
+}
+
+// Callback pro URL update
+function updateUrl(file) {
+  enableButtons();
+  
+  var downloadBtn = document.getElementById('btn_download_1');
+  downloadBtn.href = 'https://drive.google.com/uc?export=download&id=' + file;
+  
+  if(downloadBtn.style.display === 'none') {
+    $("#btn_download_1").toggle();
+  }
+  
+  hideLoading();
+}
+
+// Callback pro výsledky předkalkulace
+function resultPredkalkulace(nalezenaData) {
+  var typ_kalkulace = document.querySelector('input[name="typ_kalkulace"]:checked').value;
+  
+  if (typ_kalkulace === 'Souhrn' || typ_kalkulace === 'Portfolio') {
+    document.getElementById('card_dohromady').style.display = 'block';
+  }
+  
+  // Zobrazení výsledků pro jednotlivé nástroje
+  for (let i = 1; i <= 5; i++) {
+    if (document.getElementById(`fond_${i}`).value !== "") {
+      zobrazVysledkyNastroje(i, nalezenaData);
+    }
+  }
+  
+  // Celkový součet
+  document.getElementById("celkem_dohromady").innerHTML = 
+    `<strong style="font-size:1.5rem; color:orange;">${Number(nalezenaData[41][0].toFixed(0)).toLocaleString("cs-CZ")} Kč</strong>`;
+  
+  enableButtons();
+  hideLoading();
+}
+
+// Zobrazení výsledků pro jednotlivý nástroj
+function zobrazVysledkyNastroje(cislo, data) {
+  const index = cislo - 1;
+  document.getElementById(`nastroj_predkalkulace_${cislo}`).style.display = 'block';
+  
+  // Odkazy
+  if (data[7][index]) {
+    document.getElementById(`stranky_fondu_${cislo}`).innerHTML = `<a href="${data[7][index]}" target="_blank">Otevřít</a>`;
+  }
+  if (data[9][index]) {
+    document.getElementById(`factsheet_${cislo}`).innerHTML = `<a href="${data[9][index]}" target="_blank">Otevřít</a>`;
+  }
+  if (data[8][index]) {
+    document.getElementById(`kid_${cislo}`).innerHTML = `<a href="${data[8][index]}" target="_blank">Otevřít</a>`;
+  }
+  
+  // Výsledky
+  document.getElementById(`cilovka_${cislo}`).innerHTML = `<p style="font-size:1.2rem; color:#5FC6F1;">${Number(data[31][index].toFixed(0)).toLocaleString("cs-CZ")} Kč</p>`;
+  document.getElementById(`poplatek_${cislo}`).innerHTML = `<p style="font-size:1.2rem; color:lightgrey;">${Number(data[30][index].toFixed(0)).toLocaleString("cs-CZ")} Kč</p>`;
+  document.getElementById(`zisk_${cislo}`).innerHTML = `<p style="font-size:1.2rem; color:lightgreen;">${Number(data[36][index].toFixed(0)).toLocaleString("cs-CZ")} Kč</p>`;
+  document.getElementById(`celkem_${cislo}`).innerHTML = `<p style="font-size:1.2rem; color:orange;">${Number(data[37][index].toFixed(0)).toLocaleString("cs-CZ")} Kč</p>`;
+}
+</script>

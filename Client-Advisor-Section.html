@@ -1,0 +1,96 @@
+<!-- === SEKCE KLIENTA A PORADCE === -->
+<div class="row order-2 mt-5">
+
+  <!-- === KARTA KLIENTA === -->
+  <div class="col-12 col-xl-7 col-md-6 mb-4 px-3 py-1">
+    <div class="card card-custom-light border-0" id="client_card">
+      <div class="card-body px-1 py-1">
+        <h4 class="card-title ml-3 m-2" style="color:#cc5500;">Klient</h4>
+        <h6 class="text-white ml-3 m-2">Jméno klienta, datum nabídky a hlavně klientovi cíle</h6>
+
+        <ul class="list-group">
+          <li class="list-group-item py-1 px-0 border-0 d-md-inline-flex flex-wrap">
+
+            <!-- Jméno klienta -->
+            <div class="form-group col-xl-8 col-lg-12 col-md-12 col-sm-12">
+              <label for="jmeno_klienta" class="col-sm px-1 label-custom">Jméno klienta</label>
+              <input type="text" class="form-control mt-n2" id="jmeno_klienta" name="jmeno_klienta" 
+                     value="" ondblclick="this.value=''" required>
+            </div>
+
+            <!-- Datum nabídky -->
+            <div class="form-group col-xl-4 col-lg-6 col-md-6 col-sm-6">
+              <label for="datum_nabidky" class="col-sm px-1 label-custom">Datum nabídky</label>
+              <input type="date" class="form-control mt-n2" inputmode="numeric" 
+                     id="datum_nabidky" name="datum_nabidky">
+            </div>
+
+            <!-- Cíle klienta -->
+            <div class="form-group col-xl-12 col-lg-12 col-md-12">
+              <label for="motiv_klienta" class="label-custom">Cíle klienta</label>
+              <span class="label text-white align-items-end" id="motiv_klienta_counter"></span>
+              <textarea class="form-control mt-n2" id="motiv_klienta" name="motiv_klienta" 
+                        placeholder="Čeho chci dosáhnout?! | Co si chceme splnit?!" 
+                        rows="1" maxlength="160" style="height: auto;" 
+                        onload="autoHeight(this)" oninput="autoHeight(this)" onclick="autoHeight(this)"></textarea>
+            </div>
+
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- === KARTA PORADCE === -->
+  <div class="col-12 col-xl-5 col-md-6 mb-4 px-3 py-1">
+    <div class="card card-custom-light border-0" id="advisor_card">
+      <div class="card-body px-1 py-1">
+        <h4 class="card-title ml-3 m-2" style="color:#cc5500;">Poradce</h4>
+        <h6 class="text-white ml-3 m-2">Vyberte se ze seznamu</h6>
+
+        <ul class="list-group">
+          <li class="list-group-item py-1 px-0 border-0 d-md-inline-flex flex-wrap">
+
+            <!-- Výběr poradce -->
+            <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <label for="cons_name" class="col-sm px-1 label-custom">Jméno poradce</label>
+              <select class="form-control mt-n2" id="cons_name" name="cons_name" required>
+                <option value="">-- Vyberte poradce --</option>
+                <!-- Options se načtou přes JavaScript -->
+              </select>
+              
+              <script>
+                // Načti poradce po načtení stránky
+                document.addEventListener('DOMContentLoaded', function() {
+                  const select = document.getElementById('cons_name');
+                  if (window.poradciOptions && select) {
+                    select.innerHTML = '<option value="">-- Vyberte poradce --</option>' + window.poradciOptions;
+                    console.log('Poradci načteni do selectu');
+                  } else {
+                    console.error('Poradci se nenačetli:', window.poradciOptions);
+                  }
+                });
+              </script>
+            </div>
+
+            <!-- Telefon poradce -->
+            <div class="form-group col-xl-6 col-lg-6 col-md-6 col-sm-6">
+              <label for="phone" class="col-sm px-1 label-custom">Telefon poradce</label>
+              <input type="tel" class="form-control mt-n2" name="phone" id="phone" 
+                     inputmode="tel" placeholder="+420" value="">
+            </div>
+
+            <!-- Email poradce -->
+            <div class="form-group col-xl-6 col-lg-6 col-md-6 col-sm-6">
+              <label for="email" class="col-sm px-1 label-custom">Email poradce</label>
+              <input type="email" class="form-control mt-n2" name="email" id="email" 
+                     inputmode="email" placeholder="@" value="">
+            </div>
+
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>

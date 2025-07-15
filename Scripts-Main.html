@@ -1,0 +1,70 @@
+<script>
+// === INICIALIZACE A ZÁKLADNÍ NASTAVENÍ ===
+document.title = 'FiDos INVESTIČNÍ POROVNÁVAČ';
+window.fipka_choose = null; // Globální proměnná pro typ akce
+
+// === INICIALIZACE PO NAČTENÍ STRÁNKY ===
+document.addEventListener("DOMContentLoaded", function() {
+  logAnonymousAccess();
+  setDefaultValues();
+  preventFormSubmit();
+});
+
+// === ZÁKLADNÍ UTILITY FUNKCE ===
+function preventFormSubmit() {
+  var forms = document.querySelectorAll('form');
+  for (var i = 0; i < forms.length; i++) {
+    forms[i].addEventListener('submit', function(event) {
+      event.preventDefault();
+    });
+  }
+}
+
+// === LOADING OVERLAY ===
+function showLoading() {
+  document.getElementById('loadingOverlay').style.display = 'flex';
+}
+
+function hideLoading() {
+  document.getElementById('loadingOverlay').style.display = 'none';
+}
+
+// === ANONYMNÍ PŘÍSTUP LOGGING ===
+function logAnonymousAccess() {
+  let anonId = localStorage.getItem('anonId');
+  if (!anonId) {
+    anonId = 'anon-' + Math.random().toString(36).substr(2, 9);
+    localStorage.setItem('anonId', anonId);
+  }
+
+  const myIgnoredId = 'anon-6s5dlcun8';
+  if (anonId === myIgnoredId) return;
+
+  google.script.run.logSimpleAccess(anonId);
+}
+
+// === VÝCHOZÍ HODNOTY PRO KALKULAČKY ===
+function setDefaultValues() {
+  document.getElementById('cilovka_jednoraz').value = 50000;
+  document.getElementById('slider_cilovka_jednoraz').value = 50000;
+  document.getElementById('cilovka_pravidelka').value = 2000;
+  document.getElementById('slider_cilovka_pravidelka').value = 2000;
+  document.getElementById('cilovka_doba').value = 10;
+  document.getElementById('slider_cilovka_doba').value = 10;
+  document.getElementById('cilovka_vynos').value = 7;
+  document.getElementById('slider_cilovka_vynos').value = 7;
+}
+
+// === FORMÁTOVÁNÍ ČÍSEL ===
+function formatovani_na_tisicovky(input) {
+  let value = input.value.replace(/\s/g, '');
+  value = Number(value).toLocaleString('cs-CZ');
+  $(input).val(value);
+}
+
+// === AUTO-HEIGHT PRO TEXTAREA ===
+function autoHeight(element) {
+  element.style.height = "auto";
+  element.style.height = (element.scrollHeight) + "px";
+}
+</script>

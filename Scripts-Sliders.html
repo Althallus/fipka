@@ -1,0 +1,45 @@
+<script>
+// === SLIDER FUNKCE ===
+
+// Konstanty pro slidery
+const slider_cilovka_jednoraz = document.getElementById('slider_cilovka_jednoraz');
+const cilovka_jednoraz = document.getElementById('cilovka_jednoraz');
+const slider_cilovka_pravidelka = document.getElementById('slider_cilovka_pravidelka');
+const cilovka_pravidelka = document.getElementById('cilovka_pravidelka');
+const slider_platba_cilovka = document.getElementById('slider_platba_cilovka');
+const platba_cilovka = document.getElementById('platba_cilovka');
+const slider_platba_jednoraz = document.getElementById('slider_platba_jednoraz');
+const platba_jednoraz = document.getElementById('platba_jednoraz');
+
+// === PŘEVOD SLIDER VALUE DO INPUT ===
+function slider_cilovka_jednoraz_prevod() {
+  cilovka_jednoraz.value = Number(slider_cilovka_jednoraz.value).toLocaleString('cs-CZ');
+}
+
+function slider_cilovka_pravidelka_prevod() {
+  cilovka_pravidelka.value = Number(slider_cilovka_pravidelka.value).toLocaleString('cs-CZ');
+}
+
+function slider_platba_cilovka_prevod() {
+  platba_cilovka.value = Number(slider_platba_cilovka.value).toLocaleString('cs-CZ');
+}
+
+function slider_platba_jednoraz_prevod() {
+  platba_jednoraz.value = Number(slider_platba_jednoraz.value).toLocaleString('cs-CZ');
+}
+
+// === JQUERY PŘEPÍNAČ PRO SPOŘÍCÍ ÚČET ===
+$(document).ready(function () {
+  $('#switch_zobrazeni').change(function () {
+    if ($(this).is(':checked')) {
+      $('#budouci_hodnota_title').text('Očekávaná hodnota na spořícím účtu');
+      $('#budouci_hodnota_sporak').show();
+      cilovka_vypocet();
+    } else {
+      $('#budouci_hodnota_title').text('Očekávaná hodnota mých investic');
+      $('#budouci_hodnota_sporak').hide();
+      cilovka_vypocet();
+    }
+  });
+});
+</script>

@@ -1,0 +1,116 @@
+<!-- === NASTAVENÍ KALKULACE === -->
+<div class="row mt-4 order-3">
+  <div class="col-12 col-xl-12 col-md-12 mb-4 px-3 py-1">
+    <div class="card card-custom-dark_2 border-0" id="calculation_settings_card">
+      <div class="card-body px-1 py-1">
+
+        <h4 class="card-title ml-3 m-2" id="nastaveni_kalkulace" style="color:orange;">Nastavení kalkulace</h4>
+        <h6 class="text-white ml-3 m-2">Určete typ kalkulace a zadejte základní parametry</h6>
+
+        <ul class="list-group">
+          <li class="list-group-item py-1 px-0 border-0 d-md-inline-flex flex-wrap">
+
+            <!-- === TYP KALKULACE === -->
+            <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12" id="cetnost_btns_1">
+              <label for="typ_kalkulace" class="col-sm px-1">Typ kalkulace</label>
+              <div class="btn-group btn-group-toggle mb-0 mt-n2 d-flex flex-row flex-wrap" data-toggle="buttons">
+                <label class="btn btn-outline-light px-1 mr-1 mb-1 active">
+                  <input type="radio" class="btn-check" name="typ_kalkulace" id="typ_kalkulace" 
+                         value="Porovnání" autocomplete="off" onclick="switchView_typ_kalkulace(event)" checked/>
+                  Porovnání
+                </label>
+                <label class="btn btn-outline-light px-1 mr-1 mb-1">
+                  <input type="radio" class="btn-check" name="typ_kalkulace" id="typ_kalkulace" 
+                         value="Souhrn" autocomplete="off" onclick="switchView_typ_kalkulace(event)"/>
+                  Souhrn
+                </label>
+                <label class="btn btn-outline-light px-1 mr-1 mb-1">
+                  <input type="radio" class="btn-check" name="typ_kalkulace" id="typ_kalkulace" 
+                         value="Portfolio" autocomplete="off" onclick="switchView_typ_kalkulace(event)"/>
+                  Portfolio
+                </label>
+              </div>
+            </div>
+
+            <!-- === INVESTIČNÍ HORIZONT === -->
+            <div class="form-group col-xl-3 col-lg-3 col-md-6 col-sm-6">
+              <label for="inv_horizont" class="col-sm px-1">Investiční horizont</label>
+              <input type="number" class="form-control mt-n2" name="inv_horizont" id="inv_horizont" 
+                     placeholder="Roky" value="" ondblclick="this.value=''" required>
+            </div>
+
+            <!-- === SLEVA NA POPLATKU === -->
+            <div class="form-group col-xl-3 col-lg-3 col-md-6 col-sm-6">
+              <label for="sleva" class="col-sm px-1">Sleva na poplatku</label>
+              <input type="number" class="form-control mt-n2" name="sleva" id="sleva" 
+                     placeholder="%" value="" ondblclick="this.value=''">
+            </div>
+
+            <!-- === POČÁTEČNÍ INVESTICE (zobrazuje se podle typu kalkulace) === -->
+            <div class="form-group col-xl-3 col-lg-4 col-md-6 col-sm-6" id="jednorazovka_zobrazeni">
+              <label for="jednoraz_sum" class="col-sm px-1">Počáteční investice</label>
+              <input type="text" class="form-control mt-n2" name="jednoraz_sum" id="jednoraz_sum" 
+                     placeholder="Kč" value="" ondblclick="this.value=''" 
+                     oninput="formatovani_na_tisicovky(this)" onchange="formatovani_na_tisicovky(this)">
+            </div>
+
+            <!-- === PRAVIDELNÁ INVESTICE (zobrazuje se podle typu kalkulace) === -->
+            <div class="form-group col-xl-3 col-lg-4 col-md-6 col-sm-6" id="pravidelka_zobrazeni">
+              <label for="pravidelka_sum" class="col-sm px-1">Pravidelná investice</label>
+              <input type="text" class="form-control mt-n2" name="pravidelka_sum" id="pravidelka_sum" 
+                     placeholder="Kč" value="" ondblclick="this.value=''" 
+                     oninput="formatovani_na_tisicovky(this)" onchange="formatovani_na_tisicovky(this)">
+            </div>
+
+            <!-- === OČEKÁVANÁ INFLACE === -->
+            <div class="form-group col-xl-3 col-lg-4 col-md-6 col-sm-6">
+              <label for="inflace" class="col-sm px-1">Očekávaná inflace</label>
+              <input type="text" class="form-control mt-n2" name="inflace" id="inflace" 
+                     placeholder="% p.a." value="" ondblclick="this.value=''">
+            </div>
+
+          </li>
+        </ul>
+
+        <!-- === AKČNÍ TLAČÍTKA === -->
+        <ul class="list-group">
+          <li class="list-group-item py-1 px-0 border-0 d-md-inline-flex flex-wrap">
+
+            <!-- Předkalkulace -->
+            <div class="form-group col align-self-end">
+              <button type="submit" class="btn btn-lg btn-custom text-nowrap mx-1 align-self-center" 
+                      id="btn_vytvorit_predkalkulaci" name="btn_vytvorit_predkalkulaci" 
+                      value="vytvorit_predkalkulaci" onclick="window.fipka_choose='vytvorit_predkalkulaci'">
+                Předkalkulace
+              </button>
+            </div>
+
+            <!-- Vytvořit nabídku -->
+            <div class="form-group col align-self-end">
+              <button type="submit" class="btn btn-lg btn-custom text-nowrap mx-1 align-self-center" 
+                      id="btn_vytvorit_nabidku" name="btn_vytvorit_nabidku" 
+                      value="vytvorit_nabidku" onclick="window.fipka_choose='vytvorit_nabidku';">
+                Vytvořit nabídku
+              </button>
+            </div>
+
+            <!-- Info tlačítka VIG a FiD -->
+            <div class="form-group col align-self-end">
+              <a data-toggle="modal" data-target="#vig_reseni_modal" type="button" class="btn btn-custom_2">
+                <i class="fa-solid fa-circle-info"></i>&nbsp; VIG
+              </a>
+            </div>
+
+            <div class="form-group col align-self-end">
+              <a data-toggle="modal" data-target="#fid_reseni_modal" type="button" class="btn btn-custom_2">
+                <i class="fa-solid fa-circle-info"></i>&nbsp; FiD
+              </a>
+            </div>
+
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+</div>

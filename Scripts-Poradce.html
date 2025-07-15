@@ -1,0 +1,23 @@
+<script>
+// === SPRÁVA PORADCŮ ===
+
+// Načtení dat poradce při změně výběru
+function getName() {
+  var inputCons = document.getElementById("cons_name").value;
+  google.script.run.withSuccessHandler(updateTel).getConsTel(inputCons);
+  google.script.run.withSuccessHandler(updateEmail).getConsEmail(inputCons);
+}
+
+// Aktualizace telefonu poradce
+function updateTel(ConsData) {
+  document.getElementById("phone").value = ConsData;
+}
+
+// Aktualizace emailu poradce
+function updateEmail(ConsData) {
+  document.getElementById("email").value = ConsData;
+}
+
+// === EVENT LISTENERS ===
+document.getElementById("cons_name").addEventListener("change", getName);
+</script>

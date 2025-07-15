@@ -1,0 +1,1590 @@
+  <body>
+
+<!-- --- MODALS ========================================================= -->
+
+<!-- ----------------------------------------------------------------- -->
+<!-- === PENZE MODAL -->
+<!-- ----------------------------------------------------------------- -->
+<div class="modal fade" id="modal_penze" tabindex="-1" aria-labelledby="modalPenzeLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content text-white">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalPenzeLabel" style="color:;">Jak bude vypadat Vaše penze?</h5>
+      </div>
+      <div class="modal-body">
+
+        <div class="card-body px-0 py-1">
+
+          <ul class="list-group px-0 ">
+                <li class="list-group-item py-1 px-1 border-0 d-md-inline-flex flex-wrap ">
+
+              <div class="col-12 col-xl-12 col-md-12 mb-3 px-1 py-1 d-flex flex-row flex-wrap">
+
+    <div class="form-group col-xl-3 col-lg-3 col-md-6 col-sm-6">
+      <label class="col-sm px-1" for="penze_cista_mzda_1">Můj čistý měsíční příjem</label>
+    <input class="form-control form-control mt-n2" id="penze_cista_mzda_1" name="penze_cista_mzda_1" type="text" inputmode="numeric" min="0"  placeholder="Kč" ondblclick="this.value=''" oninput="formatovani_na_tisicovky(this)" onchange="formatovani_na_tisicovky(this)">
+    </div>
+
+    <div class="form-group col-xl-3 col-lg-6 col-md-6 col-sm-6">
+          <label class="col-sm px-1" for="penze_hruba_mzda">Můj hrubý měsíční příjem</label>
+        <input class="form-control form-control mt-n2" id="penze_hruba_mzda_1" name="penze_hruba_mzda_1" type="text" inputmode="numeric" min="0" placeholder="Kč" disabled>
+    </div>
+
+    <div class="form-group col-xl-3 col-lg-6 col-md-6 col-sm-6 align-self-end">
+        <a href="https://eportal.cssz.cz/web/portal/-/sluzby/informativni-duchodova-aplikace" class="btn btn-custom_2" target="_blank" type="button">&nbsp; Informativní důchodová aplikace ČSSZ</a>
+      </div>
+
+    <div class="form-group col-xl-3 col-lg-6 col-md-6 col-sm-6 align-self-end">
+        <button type="button" class="btn btn-custom_2" id="info_button" onclick="$('#penze_footer').toggle();"><i class="fa-solid fa-circle-info" ></i>Informace k výpočtu</button>
+      </div>
+
+  </div>
+    <hr>
+
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+
+      <div class="col-sm-12 d-inline-flex">
+        <span style="font-style:bold; font-size: 1.2rem; color:lightblue;">Předpokládaná výše důchodu bude  </span>
+        <p id="penze_duchod_1"></p>
+      </div>
+
+      <div class="col-sm-12 d-inline-flex">
+        <span style="font-style:bold; font-size: 1.2rem; color:lightblue;">Rozdíl oproti současnému příjmu měsíčně  </span>
+        <p id="penze_rozdil_1"></p>
+      </div>
+      
+      </div>
+
+      <div class="form-group col-xl-6 col-lg-6 col-md-6 col-sm-6" hidden>
+        <button type="button" class="btn btn-custom_2 text-nowrap mx-1 align-self-middle" id="btn_penze_to_renta" name="btn_penze_to_renta" data-toggle="tooltip" data-placement="top" title="Přenese rozdíl do kalkulátoru renty pro výpočet potřebné výše investice." style="display:block; width:100%" onclick="penze_to_renta();this.blur()" >Spočítat rentu</button>
+      </div>
+
+          </li>
+        </ul>
+
+        <!-- <div class="col-sm-12 d-inline-flex">
+          <span style="font-style:bold; font-size: 1.2rem; color:lightblue;">Rozdíl oproti současnému příjmu měsíčně  </span>
+            <p id="penze_rozdil_1"></p>
+        </div>   -->
+
+          <div class="col-sm-12 mt-3">
+            <div id="penze_chart" style="width: 100%; height: 400px;"></div>
+          </div>
+
+        </div>
+
+        <div style="display:none" id="penze_footer">
+        <div class="card-footer px-2">
+
+         <ul class="list-group px-0 ">
+          <li class="list-group-item py-1 px-1 border-0 d-md-inline-flex flex-wrap ">
+
+        <div class="col-12">
+          <p class="card-text" >
+            <i style="font-size:0.9rem; color:lightgrey">
+          Poznámka k výpočtu
+          <br>
+          Jde o přibližný výpočet budoucí výše starobního důchodu - nejpřesnější výši získáte přímo na stránkách <a href="https://eportal.cssz.cz/web/portal/-/sluzby/informativni-duchodova-aplikace" target="_blank" type="link"> Informativní důchodové aplikace ČSSZ</a>.
+          <br>
+          Pro využití je třeba se přihlásit přes <a href="https://www.ceskatelevize.cz/porady/14841626708-bankovni-identita/" target="_blank" type="link">Bankovní identitu</a>, Identitu občana nebo Datovou schránku.
+          <br>
+          Výpočet počítá se splněním podmínek pro získání starobního výpočtu. Počítá s odpracovanou dobou 40 let. 
+          <br>
+          Výpočet počítá s aktuálním uvedeným příjmem a nebere v potaz předchozí příjmy, které byly v jiné výši. 
+          <br>
+          Podívejte se na informativní videa k <a href="https://www.ceskatelevize.cz/porady/14841626708-bankovni-identita/" target="_blank" type="link"> Bankovní identitě</a>.
+
+            </i>
+          </p>
+        </div>
+        </li>
+      </ul>
+        </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- -------------------------------------------------- -->
+<!-- === MILION MODAL -->
+<!-- -------------------------------------------------- -->
+<div class="modal fade" id="modal_chci_milion" tabindex="-1" aria-labelledby="modalChciMilionLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content text-white">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalChciMilionLabel" style="color:orange;">Chcete milion?</h5>
+      </div>
+      <div class="modal-body">
+
+        <div class="card-body px-0 py-1">
+          <div class="card-text text-white px-3">
+            <h5> Síla složeného úročení</h5>
+            <p> První milion je nejtěžší. Pokud člověk odkládá 5 000 Kč měsíčně při očekávaném zhodnocení 7% ročně, bude mu to trvat 11 let. <br>
+              Druhý milion ale zvládne za 6 let. <br>
+              Třetí dokonce už za 4,5 roku.
+            </p>
+            <h5 style="color:orange;">
+              Spočítejte, za jak dlouho to stihnete Vy.
+            </h5>
+          </div>
+
+          <ul class="list-group px-0">
+            <li class="list-group-item py-1 px-1 border-0 d-md-inline-flex flex-wrap ">
+
+              <div class="form-group col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                    <label for="cil_milion_cena_1" class="col-sm px-1">Chci mít?</label>
+                    <input type="text" class="form-control  mt-n2" id="cil_milion_cena_1" maxlength="" name="cil_milion_cena_1" placeholder="Kč" value="1 000 000" ondblclick="this.value=''" oninput="formatovani_na_tisicovky(this);doba_vypocet_1()" onchange="formatovani_na_tisicovky(this)" onblur="doba_vypocet_1();">
+                  </div>
+
+                  <div class="form-group col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                    <label for="cil_milion_jednoraz_1" class="col-sm px-1">Už mám?</label>
+                    <input type="text" class="form-control  mt-n2" id="cil_milion_jednoraz_1" maxlength="" name="cil_milion_jednoraz_1" placeholder="Kč" value="0" ondblclick="this.value=''" oninput="formatovani_na_tisicovky(this);;doba_vypocet_1()" onchange="formatovani_na_tisicovky(this)" onblur="doba_vypocet_1();">
+                  </div>
+
+                  <div class="form-group col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                  <label for="cil_milion_pravidelka_1" class="col-sm px-1">Budu odkládat</label>
+                  <input type="text" class="form-control mt-n2" name="cil_milion_pravidelka_1" id="cil_milion_pravidelka_1" value="5 000" inputmode="numeric" min="0" placeholder="Kč" ondblclick="this.value=''" oninput="formatovani_na_tisicovky(this);doba_vypocet_1()" onchange="formatovani_na_tisicovky(this)" onblur="doba_vypocet_1();">
+                  </div>
+
+                  <div class="form-group col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                  <label for="cil_milion_vynos_1" class="col-sm px-1">S ročním výnosem %</label>
+                  <input type="text" class="form-control mt-n2" name="cil_milion_vynos_1" id="cil_milion_vynos_1" value="7" inputmode="numeric" min="0" placeholder="% p.a." ondblclick="this.value=''" oninput=";doba_vypocet_1()" onblur="doba_vypocet_1();">
+                  </div>
+
+                  <div class="form-group col-xl-3 col-lg-3 col-md-3 col-sm-12" style="display:" id="">
+                    <label for="cil_milion_doba_1" class="col-sm px-1">Za jak dlouho?</label>
+                    <input type="text" class="form-control mt-n2" name="cil_milion_doba_1" id="cil_milion_doba_1" placeholder="Roky" value="11,1" ondblclick="this.value=''" disabled>
+                  </div>
+
+                  <div class="form-group align-self-end" >
+                    <button type="button" class="btn btn-not_selected text-nowrap mx-1 align-self-middle" id="cil_milion_btn" name="test_fid_btn_0" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="cil_milion_prenos();document.getElementById('nastaveni_kalkulace').scrollIntoView({ behavior: 'smooth' });$('#modal_chci_milion').modal('hide');" >Přenést do nastavení kalkulace</button>
+                  </div>
+
+            </li>
+          </ul>
+        </div>
+
+        <div class="card-footer px-2">
+          <div class="row">
+<div class="col-12 col-xl-12 col-md-12 px-2 mb-4">
+         
+
+                <table class="table table-hover text-white text-center" style="width:100%">
+            <thead>
+                <tr class="small-font-row bg-info py-0">
+                    <th scope="col" class="small-font-row"></th>
+                    <th scope="col" colspan="4" class="small-font-row"><small>Kolik chci...</small></th>
+                </tr  >
+                <tr class="py-0">
+                    <th scope="col"></th>
+                    <th ><a type="button" class="text-nowrap text-white mx-1 " onclick="document.getElementById('cil_milion_cena_1').value ='1 000 000';doba_vypocet_1()">1 000 000 Kč</a></th>
+                    <th><a type="button" class="text-nowrap text-white mx-1 " onclick="document.getElementById('cil_milion_cena_1').value ='3 000 000';doba_vypocet_1()">3 000 000 Kč</a></th>
+                    <th><a type="button" class="text-nowrap text-white mx-1 " onclick="document.getElementById('cil_milion_cena_1').value ='5 000 000';doba_vypocet_1()">5 000 000 Kč</a></th>
+                    <th><a type="button" class="text-nowrap text-white mx-1 " onclick="document.getElementById('cil_milion_cena_1').value ='10 000 000';doba_vypocet_1()">10 000 000 Kč</a></th>
+
+                </tr  >
+                <tr class="small-font-row bg-info py-0">
+                    <th scope="col" ><small>Budu odkládat...</small></th>
+                    <th scope="col" colspan="4"><small>Budu mít za...</small></th>
+                </tr  >
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="col" class="" ><a type="button" class="text-nowrap text-white mx-1 " onclick="document.getElementById('cil_milion_pravidelka_1').value ='2 500';doba_vypocet_1()">2 500 Kč</a></th>
+                    <td class="">17 let</td>
+                    <td class="">30 let</td>
+                    <td class="">36 let</td>
+                    <td class="">46 let</td>
+                </tr>
+                <tr>
+                    <th scope="col" class="" ><a type="button" class="text-nowrap text-white mx-1 " onclick="document.getElementById('cil_milion_pravidelka_1').value ='5 000';doba_vypocet_1()">5 000 Kč</a></th>
+                    <td class="">11 let</td>
+                    <td class="">21,5 roku</td>
+                    <td class="">27,5 roku</td>
+                    <td class="">36 let</td>
+                </tr>
+                <tr>
+                    <th scope="col" class="" ><a type="button" class="text-nowrap text-white mx-1 " onclick="document.getElementById('cil_milion_pravidelka_1').value ='7 500';doba_vypocet_1()">7 500 Kč</a></th>
+                    <td>8 let</td>
+                    <td>17 let</td>
+                    <td>22 let</td>
+                    <td>31 let</td>
+                </tr>
+                <tr>
+                    <th scope="col" class="" ><a type="button" class="text-nowrap text-white mx-1 " onclick="document.getElementById('cil_milion_pravidelka_1').value ='10 000';doba_vypocet_1()">10 000 Kč</a></th>
+                    <td>6,5 roku</td>
+                    <td>14,5 roku</td>
+                    <td>20 let</td>
+                    <td>27,5 roku</td>
+                </tr>
+                <tr>
+                    <th scope="col" class="" ><a type="button" class="text-nowrap text-white mx-1 " onclick="document.getElementById('cil_milion_pravidelka_1').value ='15 000';doba_vypocet_1()">15 000 Kč</a></th>
+                    <td>5 let</td>
+                    <td>11 let</td>
+                    <td>14 let</td>
+                    <td>23 let</td>
+                </tr>
+            </tbody>
+        </table>
+
+        </div> 
+            </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- -------------------------------------------------------------------- -->
+<!-- === RENTA MODAL -->
+<!-- -------------------------------------------------------------------- -->
+<div class="modal fade" id="modal_renta_navzdy" tabindex="-1" aria-labelledby="modalRentaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content text-white">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalRentaLabel" style="color:;">Na rentu</h5>
+      </div>
+      <div class="modal-body">
+
+        <div class="card-body px-0 py-1">
+
+              <h5 class="card-title ml-3 m-2 " style="color:orange;">Renta navždy</h5>
+
+              <ul class="list-group px-0 ">
+                <li class="list-group-item py-1 px-1 border-0 d-md-inline-flex flex-wrap ">
+              <div class="col-12 col-xl-12 col-md-12 mb-4 px-1 py-1 d-flex flex-row flex-wrap">
+
+      <div class="form-group col-xl-3 col-lg-6 col-md-6 col-sm-6">
+      <label class="col-sm px-1" for="renta_navzdy_pravidelka_1">Jakou chci mít měsíční rentu</label>
+    <input class="form-control mt-n2" id="renta_navzdy_pravidelka_1" type="text" inputmode="numeric" min="0" maxlength="6"   oninput="formatovani_na_tisicovky(this)" onchange="formatovani_na_tisicovky(this)"  placeholder="Kč" ondblclick="this.value=''">
+
+    </div>
+
+  <div class="form-group col-xl-3 col-lg-6 col-md-6 col-sm-6">
+  <label class="col-sm px-1" for="renta_navzdy_jednorazovka_1">Mám připraveno</label>
+  <input class="form-control mt-n2" id="renta_navzdy_jednorazovka_1" name="renta_navzdy_jednorazovka_1" type="text" inputmode="numeric" step="0.01" placeholder="Kč"  ondblclick="this.value=''" oninput="formatovani_na_tisicovky(this)" onchange="formatovani_na_tisicovky(this)">
+</div>
+
+  <div class="form-group col-xl-3 col-lg-6 col-md-6 col-sm-6">
+  <label class="col-sm px-1" for="renta_navzdy_doba_2_1">Za jak dlouho chci rentu</label>
+  <input class="form-control mt-n2" id="renta_navzdy_doba_2_1" name="renta_navzdy_doba_2_1" type="number" inputmode="numeric" min="0"  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength = "3" placeholder="Roky" ondblclick="this.value=''">
+</div>
+
+
+  <div class="form-group col-xl-3 col-lg-6 col-md-6 col-sm-6">
+  <label class="col-sm px-1" for="renta_navzdy_vynos_1">Budu odkládat s výnosem</label>
+  <input class="form-control mt-n2" id="renta_navzdy_vynos_1" name="renta_navzdy_vynos_1" type="text" inputmode="numeric" value="7" min="0" max="15" step="0.01"  placeholder="% p.a."  ondblclick="this.value=''">
+</div>
+
+</div>
+
+<hr>
+  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 ">
+
+<div class="col-sm-12 d-inline-flex">
+  <span style=" font-style:bold; font-size: 24px; color:lightblue;">Potřebuji mít </span>
+  <p id="renta_navzdy_jednoraz_result_1"
+    style=" font-style:bold; font-size: 24px; color:white;">
+  </p>
+  <span style=" font-style:bold; font-size: 24px; color:lightblue;">, abych měl měsíční rentu </span>
+  <p id="renta_navzdy_pravidelka_prepis_1"
+    style=" font-style:bold; font-size: 24px; color:white;">
+  </p>
+  </div>
+
+
+<div class="col-sm-12 d-inline-flex">
+  <span style=" font-style:bold; font-size: 24px; color:lightblue;">Měsíčně budu investovat </span>
+  <p id="renta_navzdy_pravidelka_result_1"></p>
+      </div>
+  </div>
+
+                </li>
+              </ul>
+
+        </div>
+<div class="card-footer d-flex flex-wrap">
+
+  <div class="col-12 d-flex flex-column">
+              <h5 class="card-title" style="color:orange;display:none" id="renta_title">Vyberte řešení</h5>
+  </div>
+
+  <div class="col-6 d-flex flex-column">
+<button type="button" class="btn btn-not_selected  mx-1 mb-3" id="vig_btn_1_2" name="vig_btn_1_2" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();this.blur();renta_navzdy_vynos_1.value='3,6';renta_vypocet_1();" style="display:none">VIG | Konzervativní (1-3 roky) - 3,6% p.a.</button>
+<button type="button" class="btn btn-not_selected  mx-1 mb-3" id="vig_btn_2_2" name="vig_btn_2_2" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();this.blur();renta_navzdy_vynos_1.value='5';renta_vypocet_1();" style="display:none">VIG | Vyvážené (3-5 let) - 5% p.a.</button>
+<button type="button" class="btn btn-not_selected  mx-1 mb-3" id="vig_btn_3_2" name="vig_btn_3_2" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();this.blur();renta_navzdy_vynos_1.value='6,4';renta_vypocet_1();" style="display:none">VIG | Růstové (5-7 let) - 6,4% p.a.</button>
+<button type="button" class="btn btn-not_selected  mx-1 mb-3" id="vig_btn_4_2" name="vig_btn_4_2" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();this.blur();renta_navzdy_vynos_1.value='7,4';renta_vypocet_1();" style="display:none">VIG | Dynamické (7 a více let) - 7,4% p.a.</button>
+  </div>
+  <div class="col-6 d-flex flex-column">
+
+<button type="button" class="btn btn-not_selected text-nowrap mx-1 mb-3" id="fid_btn_1_2" name="fid_btn_1_2" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();this.blur();renta_navzdy_vynos_1.value='3,4'" style="display:none">FiD | Konzervativní (1-3 roky) - 3,4% p.a.</button>
+<button type="button" class="btn btn-not_selected  mx-1 mb-3" id="fid_btn_2_2" name="fid_btn_2_2" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();this.blur();renta_navzdy_vynos_1.value='5,3';renta_vypocet_1();" style="display:none">FiD | Vyvážené (3-5 let) - 5,3% p.a.</button>
+<button type="button" class="btn btn-not_selected  mx-1 mb-3" id="fid_btn_3_2" name="fid_btn_3_2" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();this.blur();renta_navzdy_vynos_1.value='6,4';renta_vypocet_1();" style="display:none">FiD | Růstové (5-7 let) - 6,4% p.a.</button>
+<button type="button" class="btn btn-not_selected  mx-1 mb-3" id="fid_btn_4_2" name="fid_btn_4_2" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();this.blur();renta_navzdy_vynos_1.value='7,4';renta_vypocet_1();" style="display:none">FiD | Dynamické (7-10 let) - 7,4% p.a.</button>
+<button type="button" class="btn btn-not_selected  mx-1 mb-3" id="fid_btn_5_2" name="fid_btn_5_2" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();this.blur();renta_navzdy_vynos_1.value='8';renta_vypocet_1();" style="display:none">FiD | Dlouhodobé (10 a více let) - 8% p.a.</button>
+  </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ----------------------------------------------------------- -->
+<!-- === CENA CILE MODAL -->
+<!-- ----------------------------------------------------------- -->
+<div class="modal fade" id="modal_cena_cile" tabindex="-1" aria-labelledby="modalCenaCileLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content text-white">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalCenaCileLabel" style="color:orange;">Můj cíl?</h5>
+      </div>
+      <div class="modal-body">
+
+        <div class="card-body px-0 py-1">
+
+              <h5 class="card-title ml-3 m-2 " style="color:orange;">Co plánujete z finančního hlediska?</h5>
+
+
+              <ul class="list-group px-0 ">
+                <li class="list-group-item py-1 px-1 border-0 d-md-inline-flex flex-wrap ">
+
+                  <div class="form-group col-xl-9 col-lg-12 col-md-12">
+                    <label for="cil_popis_1">Cíl klienta</label>
+                    <span class="label  text-white align-items-end" id="cil_popis_counter_1"></span>
+                    <textarea class="form-control mt-n2" id="cil_popis_1" name="cil_popis_1" placeholder="Čeho chci dosáhnout?! | Co si chceme splnit?!" style="height: auto;" onload="autoHeight(this)" oninput="autoHeight(this);document.getElementById('motiv_klienta').value = this.value" onclick="autoHeight(this)" rows="1" maxlength="160"></textarea>
+                  </div>
+
+                  <div class="form-group col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                    <label for="cil_cena_1" class="col-sm px-1">Kolik na to potřebujete?</label>
+                    <input type="text" class="form-control  mt-n2" id="cil_cena_1" maxlength="" name="cil_cena_1" placeholder="Kč" value="" ondblclick="this.value=''" oninput="formatovani_na_tisicovky(this)" onchange="formatovani_na_tisicovky(this)">
+                  </div>
+
+                  <div class="form-group col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                    <label for="cil_jednoraz_1" class="col-sm px-1">Už máte?</label>
+                    <input type="text" class="form-control  mt-n2" id="cil_jednoraz_1" maxlength="" name="cil_jednoraz_1" placeholder="Kč" value="" ondblclick="this.value=''" oninput="formatovani_na_tisicovky(this)" onchange="formatovani_na_tisicovky(this)">
+                  </div>
+
+                  <div class="form-group col-xl-3 col-lg-3 col-md-3 col-sm-12" style="display:" id="">
+                    <label for="cil_doba_1" class="col-sm px-1">Za jak dlouho?</label>
+                    <input type="text" class="form-control mt-n2" name="cil_doba_1" id="cil_doba_1" placeholder="Roky" value="" ondblclick="this.value=''">
+                  </div>
+
+                  <div class="form-group col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                  <label for="cil_vynos_1" class="col-sm px-1">Odkládat s výnosem</label>
+                  <input type="text" class="form-control mt-n2" name="cil_vynos_1" id="cil_vynos_1" value="" inputmode="numeric" min="0" placeholder="% p.a." ondblclick="this.value=''">
+                  </div>
+
+                  <div class="form-group col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                  <label for="cil_pravidelka_1" class="col-sm px-1">Budu odkládat</label>
+                  <input type="text" class="form-control mt-n2" name="cil_pravidelka_1" id="cil_pravidelka_1" value="" inputmode="numeric" min="0" placeholder="Kč" ondblclick="this.value=''" disabled>
+                  </div>
+
+                </li>
+              </ul>
+
+<div class="card-footer d-flex flex-wrap">
+
+  <div class="col-12 d-flex flex-column">
+              <h5 class="card-title" style="color:orange;display:none" id="cil_title">Vyberte řešení</h5>
+  </div>
+
+  <div class="col-6 d-flex flex-column">
+<button type="button" class="btn btn-not_selected  mx-1 mb-3" id="vig_btn_1_1" name="vig_btn_1_1" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();this.blur();cil_vynos_1.value='3,6';platba_vypocet_1();" style="display:none">VIG | Konzervativní (1-3 roky) - 3,6% p.a.</button>
+<button type="button" class="btn btn-not_selected  mx-1 mb-3" id="vig_btn_2_1" name="vig_btn_2_1" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();this.blur();cil_vynos_1.value='5';platba_vypocet_1();" style="display:none">VIG | Vyvážené (3-5 let) - 5% p.a.</button>
+<button type="button" class="btn btn-not_selected  mx-1 mb-3" id="vig_btn_3_1" name="vig_btn_3_1" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();this.blur();cil_vynos_1.value='6,4';platba_vypocet_1();" style="display:none">VIG | Růstové (5-7 let) - 6,4% p.a.</button>
+<button type="button" class="btn btn-not_selected  mx-1 mb-3" id="vig_btn_4_1" name="vig_btn_4_1" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();this.blur();cil_vynos_1.value='7,4';platba_vypocet_1();" style="display:none">VIG | Dynamické (7 a více let) - 7,4% p.a.</button>
+  </div>
+  <div class="col-6 d-flex flex-column">
+
+<button type="button" class="btn btn-not_selected text-nowrap mx-1 mb-3" id="fid_btn_1_1" name="fid_btn_1_1" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();this.blur();cil_vynos_1.value='3,4'" style="display:none">FiD | Konzervativní (1-3 roky) - 3,4% p.a.</button>
+<button type="button" class="btn btn-not_selected  mx-1 mb-3" id="fid_btn_2_1" name="fid_btn_2_1" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();this.blur();cil_vynos_1.value='5,3';platba_vypocet_1();" style="display:none">FiD | Vyvážené (3-5 let) - 5,3% p.a.</button>
+<button type="button" class="btn btn-not_selected  mx-1 mb-3" id="fid_btn_3_1" name="fid_btn_3_1" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();this.blur();cil_vynos_1.value='6,4';platba_vypocet_1();" style="display:none">FiD | Růstové (5-7 let) - 6,4% p.a.</button>
+<button type="button" class="btn btn-not_selected  mx-1 mb-3" id="fid_btn_4_1" name="fid_btn_4_1" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();this.blur();cil_vynos_1.value='7,4';platba_vypocet_1();" style="display:none">FiD | Dynamické (7-10 let) - 7,4% p.a.</button>
+<button type="button" class="btn btn-not_selected  mx-1 mb-3" id="fid_btn_5_1" name="fid_btn_5_1" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();this.blur();cil_vynos_1.value='8';platba_vypocet_1();" style="display:none">FiD | Dlouhodobé (10 a více let) - 8% p.a.</button>
+  </div>
+
+<hr>
+  <div class="col-6 d-flex flex-column">
+<ul>
+        <li class="text-white"><h4>Proč šetříme?!</h4>
+          <p class="pl-3">
+          ✨ Děti | Studia dětí | Vstup do života
+          <br>✨ Cestování | Velká dovolená
+          <br>✨ Rekonstrukce bydlení | Pořízení vlastního bydlení | Příprava na hypotéku
+
+          <br>✨ Auto | Bazén | Chata | Zahrada
+          <br>✨ Zdraví | Kosmetické úpravy | Tetování
+            </p>
+          </li>
+
+
+
+      </ul>
+
+  </div>
+
+  <div class="col-6 d-flex flex-column">
+<ul>
+        <li class="text-white"><h4>Proč šetříme?!</h4>
+          <p class="pl-3">
+          ✨ Splacení hypotéky
+          <br>✨ Renta navždy | Zajištění financí na důchod
+          <br>✨ Finanční rezerva | Finanční svoboda
+          <br>✨ Vlastní firma 
+          </p>
+          </li>
+
+      </ul>
+
+  </div>
+</div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ------------------------------------------------ -->
+<!-- === MODAL INFLACE -->
+<!-- ------------------------------------------------ -->
+<div id="modal_vliv_inflace" class="modal fade" style="text-align:left; font-size: 14px;">
+<div class="modal-dialog modal-xl">
+<div class="modal-content" style="">
+
+  <div class="modal-header">
+
+        <div class="d-flex flex-column">
+
+          <h4 class="modal-title " style="color:orange">Vliv inflace na úspory</h4>
+          <h6 class="">Jaký vliv má inflace na peníze?</h6>
+
+        </div>
+      </div>
+
+<div class="modal-body">
+
+<div class="row">
+<div class="col-sm-9 d-flex flex-row flex-wrap">
+
+ <div class="form-group col-xl-3 col-lg-6 col-md-6 col-sm-6 ">
+        <label for="zhod_jednoraz" class="col-sm px-1">Počáteční vklad</label>
+        <input type="number" class="form-control mt-n2" name="zhod_jednoraz" id="zhod_jednoraz" value="" inputmode="numeric" min="0" placeholder="Kč" ondblclick="this.value=''">
+      </div>
+
+      <div class="form-group col-xl-3 col-lg-6 col-md-6 col-sm-6">
+        <label for="zhod_pravidelka" class="col-sm px-1">Pravidelný vklad</label>
+        <input type="number" class="form-control mt-n2" name="zhod_pravidelka" id="zhod_pravidelka" value="" inputmode="numeric" min="0" placeholder="Kč" ondblclick="this.value=''">
+      </div>
+
+      <div class="form-group col-xl-3 col-lg-6 col-md-6 col-sm-6">
+        <label for="zhod_inflace" class="col-sm px-1">Inflace</label>
+        <input type="number" class="form-control mt-n2" name="zhod_inflace" id="zhod_inflace" value="" inputmode="numeric" min="0" placeholder="% p.a." ondblclick="this.value=''">
+      </div>
+
+      <div class="form-group col-xl-3 col-lg-6 col-md-6 col-sm-6">
+        <label for="zhod_urok" class="col-sm px-1">Zhodnocení</label>
+        <input type="number" class="form-control mt-n2" name="zhod_urok" id="zhod_urok" value="" inputmode="numeric" min="0" placeholder="% p.a." ondblclick="this.value=''">
+      </div>
+
+      <div class="form-group col-xl-3 col-lg-6 col-md-6 col-sm-6">
+        <label for="zhod_roky" class="col-sm px-1">Roky</label>
+        <input type="number" class="form-control mt-n2" name="zhod_roky" id="zhod_roky" value="" inputmode="numeric" min="0" placeholder="Roky" ondblclick="this.value=''">
+      </div>
+
+      <div class="form-group col-xl-3 col-lg-6 col-md-6 col-sm-6">
+        <label for="zhod_nominalka" class="col-sm px-1">Nominální hodnota</label>
+        <input type="text" class="form-control mt-n2" name="zhod_nominalka" id="zhod_nominalka" value="" min="0" placeholder="Kč" disabled>
+      </div>
+
+</div>
+<div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 d-flex flex-row flex-wrap">
+
+					<i class="col-sm-12" style="text-align: end; padding-right:16px; font-size:13px; color:white;">
+            Průměrná roční míra inflace za posledních...
+            <br>
+            5 let: 5,4%.
+            <br>
+            10 let: 3,23%.
+            <br>
+            Roční míra inflace za rok...
+             <br>
+             2021: 3,8 % 
+             <br>
+             2022: 15,1%.
+             <br>
+             Zdroj: ČSÚ</i>
+
+
+				</div>
+</div>
+
+<hr>
+
+<div class="row " >
+  <div class="col-sm-12 mb-3">
+          <p class="card-text" >
+                <i style="font-size:0.8rem; color:lightgrey">
+Ceny zboží a služeb se mohou kdykoli měnit. Některé ceny rostou, jiné klesají. K inflaci dochází, pokud rostou ceny zboží a služeb celkově, tedy nejen ceny jednotlivých položek. To znamená, že za 1 000 Kč si dnes koupíme méně, než bychom si koupili včera, minulý měsíc, nebo před rokem. Jinými slovy, inflace v průběhu času snižuje hodnotu našich peněz, i když jich máme na účtech stejně.
+              </i>
+</p>
+</div>
+<hr>
+
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 d-flex flex-row flex-wrap">
+
+<h6 class="col-sm-12"><b style="color: #ff6f00; font-size:;">INFLACE</b></h6>
+
+							<div class="col-sm-6">
+								<span style=" font-style:bold; font-size: 20px; color:lightblue;">Hodnota na konci</span>
+								<p id="inf_vysledek" style=" font-style:bold; font-size: 24px; color:white;"></p>
+							</div>
+
+							<div class="col-sm-6">
+								<span id="ztrata_sign"></span>
+								<p id="inf_ztrata" style=" font-style:bold; font-size: 24px; color:#FF0000;"></p>
+							</div>
+
+</div>
+
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 d-flex flex-row flex-wrap">
+
+    <!--VYSLEDEK-->
+    <h6 class="col-sm-12"><b style="color: #ff6f00; font-size: ;">ZHODNOCENÍ</b><i style="color:lightblue"> i se započtením vlivu inflace</i></h6>
+  
+
+    <div class="col-sm-6">
+      <span style=" font-style:bold; font-size: 20px; color:lightblue;">Hodnota na konci</span>
+      <p id="zhod_vysledek"	style=" font-style:bold; font-size: 24px; color:white;"></p>
+    </div>
+
+
+    <div class="col-sm-6">
+      <span id="zisk_sign"></span>
+      <p id="zhod_zisk" style=" font-style:bold; font-size: 24px; color:#00a0e3;"></p>
+    </div>
+
+  </div>
+
+
+
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 d-flex flex-row flex-wrap">
+
+  <h6 class="col-sm-12"><b style="color: #ff6f00; font-size:;">O KOLIK PŘICHÁZÍM, KDYŽ NEINVESTUJI</b></h6>
+
+  <div class="col-sm-6">
+    <span id="rozdil_sign" style=" font-style:bold; font-size: 20px; color:lightblue;">Každý měsíc</span>
+    <p id="rozdil_mesicne" style=" font-style:bold; font-size: 24px; color:#00a0e3;"></p>
+  </div>
+
+  <div class="col-sm-6">
+    <span style=" font-style:bold; font-size: 20px; color:lightblue;">Celkový rozdíl</span>
+    <p id="rozdil_celkem" style=" font-style:bold; font-size: 24px; color:#FF0000;"></p>
+  </div>
+
+</div>
+
+</div> <!-- END ROW -->
+</div>
+
+</div>
+</div>
+</div>
+<!-- =================================================== -->
+
+<!-- --------------------------------------------------- -->
+<!-- --------------------------------------------------- -->
+<!-- === MODAL BUDOUCI HODNOTA  -->
+<!-- --------------------------------------------------- -->
+<div id="Budouci_hodnota" class="modal fade" style="text-align:left; font-size: 14px;" data-karta="budouci_hodnota_1">
+<div class="modal-dialog modal-xl">
+<div class="modal-content" style="">
+<div class="modal-header">
+  <div class="d-flex flex-column">
+    <h4 class="modal-title" id="budouci_hodnota_title" style="color:orange">Očekávaná hodnota mých investic na konci</h4>
+      <h6 class="text-grey" style="color:#393939">Rychlý propočet budoucí hodnoty investice</h6>
+  </div>
+
+</div>
+<div class="modal-body">
+
+<div class="row">
+
+  <!-- ------------------------------------------------------------- -->
+  <!-- === VYSLEDEK A GRAF -->
+  <!-- ------------------------------------------------------------- -->
+  <!-- === VYSLEDEK -->
+<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 p-0" >
+
+<div class="col-12 p-0 d-flex flex-row flex-wrap align-items-center mb-3 ml-n1 py-1" style="background-color:#f2f2f2;border-radius: 0 64px 64px 0;box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.75);">
+
+  <div class="col-xl-4 col-md-12 col-sm-12 align-items-center">
+								<span style=" font-style:bold; font-size: 1rem;">Vloženo celkem</span><br>
+								<strong id="cilovka_nominalka" data-karta="budouci_hodnota_1"></strong>
+							</div>
+
+<div class="col-xl-4 col-md-12 col-sm-12 align-items-center">
+								<span style=" font-style:bold; font-size: 1rem;">Na konci budu mít</span><br>
+								<strong id="cilovka_result" data-karta="budouci_hodnota_1"></strong>
+							</div>
+
+<div class="col-xl-4 col-md-12 col-sm-12 align-items-center">
+								<span style=" font-style:bold; font-size: 1rem;">Navíc budu mít</span><br>
+								<strong id="cilovka_rozdil" data-karta="budouci_hodnota_1"></strong>
+							</div>
+</div>
+
+<!-- ------------------------------------ -->
+<!-- === GRAF -->
+  <div class="col-xl-12 col-md-12 col-sm-12 mt-5">
+
+<div id="graf_cilovka" style="width:100%; height:;" >
+    </div>
+
+    </div>
+
+
+    </div> <!-- END COL -->
+
+<!-- ------------------------------------------------------------- -->
+<!-- === NASTAVENI KALKULACE -->
+<div class="col-xl-5 col-sm-12 mb-1">
+
+<!-- -------------------------------------------------------------------- -->
+<!-- === JEDNORAZ -->
+<div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-2 mb-5 p-0 d-inline-flex flex-wrap">
+
+<!-- === INPUT & LABEL -->
+    <div class="col-xl-6 col-sm-12 mt-1 px-1">
+    <label class="align-self-middle ml-auto" >Budu investovat jednorázově  (Kč)</label>
+  </div>
+    <div class="col-xl-6 col-sm-12 mb-3">
+    <input class="form-control" id="cilovka_jednoraz" name="cilovka_jednoraz" type="text" inputmode="numeric" min="0" placeholder="Kč" onblur="cilovka_vypocet();" ondblclick="this.value=''" oninput="formatovani_na_tisicovky(this)">
+  </div>
+
+<!-- ------------------------------------------------------------------- -->
+<!-- === SLIDER -->
+    <div class="col-xl-12 align-items-center mt-2">
+    <tc-range-slider id="slider_cilovka_jednoraz"  min="0" max="1000000" step="5000" onchange="slider_cilovka_jednoraz_prevod();cilovka_vypocet();" onmouseup="this.blur();"
+      slider-width="100%"
+      pointer-width="3rem"
+      pointer-height="3rem"
+      pointer-radius="8px"
+      slider-height="0.7rem"
+      slider-bg="#f1f4f8"
+      slider-bg-fill="#3c79b1"
+      pointer-bg="transparent url(https://i.imgur.com/vymVWh7.png) no-repeat 50% 50%"
+      pointer-bg-hover="transparent url(https://i.imgur.com/vymVWh7.png) no-repeat 50% 50%"
+      pointer-bg-focus="transparent url(https://i.imgur.com/vymVWh7.png) no-repeat 50% 50%" 
+      pointer-border="none"
+      pointer-border-hover="none"
+      pointer-border-focus="none"
+      pointer-shadow="none"
+      pointer-shadow-hover="none"
+      pointer-shadow-focus="none"
+    ></tc-range-slider>
+  </div>
+				
+        	</div>
+
+<!-- ---------------------------------------------------------- -->
+<!-- === PRAVIDELKA -->
+<div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-2 mb-5 p-0 d-inline-flex flex-wrap">
+<!-- === INPUT & LABEL -->
+
+  <div class="col-xl-6 col-sm-12 mt-1 px-1">
+    <label class="align-self-middle ml-auto" for="cilovka_pravidelka">Budu investovat pravidelně (Kč)</label>
+  </div>
+  <div class="col-xl-6 col-sm-12 mb-3">
+      <input class="form-control mt-n2" id="cilovka_pravidelka" name="cilovka_pravidelka" type="text" inputmode="numeric" min="0" placeholder="Kč" onblur="cilovka_vypocet();" ondblclick="this.value='0'" oninput="formatovani_na_tisicovky(this)">
+  </div>
+  
+
+<!-- === SLIDER -->
+    <div class="col-xl-12 align-items-center mt-2">
+    <tc-range-slider class=""
+     id="slider_cilovka_pravidelka" min="0" max="25000" step="500" 
+      onchange="slider_cilovka_pravidelka_prevod();cilovka_vypocet()"
+      onmouseup="this.blur();"
+      slider-width="100%"
+      pointer-width="3rem"
+      pointer-height="3rem"
+      pointer-radius="8px"
+      slider-height="0.7rem"
+      slider-bg="#f1f4f8"
+      slider-bg-fill="#3c79b1"
+      pointer-bg="transparent url(https://i.imgur.com/vymVWh7.png) no-repeat 50% 50%"
+      pointer-bg-hover="transparent url(https://i.imgur.com/vymVWh7.png) no-repeat 50% 50%"
+      pointer-bg-focus="transparent url(https://i.imgur.com/vymVWh7.png) no-repeat 50% 50%" 
+      pointer-border="none"
+      pointer-border-hover="none"
+      pointer-border-focus="none"
+      pointer-shadow="none"
+      pointer-shadow-hover="none"
+      pointer-shadow-focus="none"
+      ></tc-range-slider>
+  </div>
+
+</div>
+<!-- -------------------------- -->
+
+<!-- ---------------------------------------------------------- -->
+<!-- === DOBA -->
+<div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-2 mb-5 p-0 d-inline-flex flex-wrap">
+
+  <div class="col-xl-6 col-sm-12 mt-1 px-1">
+    <label class="align-self-middle ml-auto" for="cilovka_doba">Po dobu (roky)</label>
+  </div>
+  <div class="col-xl-6 col-sm-12 mb-3">
+    <input class="form-control mt-n2" id="cilovka_doba" name="cilovka_doba" type="number" inputmode="numeric" min="0" placeholder="Roky" onblur="cilovka_vypocet();" ondblclick="this.value=''">
+  </div>
+
+
+<!-- === SLIDER -->
+    <div class="col-xl-12 mx-auto mt-2">
+    <tc-range-slider class="" id="slider_cilovka_doba" min="1" max="50" step="1" onchange="document.getElementById('cilovka_doba').value=this.value;cilovka_vypocet()"
+    onmouseup="this.blur();"
+      slider-width="100%"
+      pointer-width="3rem"
+      pointer-height="3rem"
+      pointer-radius="8px"
+      slider-height="0.7rem"
+      slider-bg="#f1f4f8"
+      slider-bg-fill="#3c79b1"
+      pointer-bg="transparent url(https://i.imgur.com/vymVWh7.png) no-repeat 50% 50%"
+      pointer-bg-hover="transparent url(https://i.imgur.com/vymVWh7.png) no-repeat 50% 50%"
+      pointer-bg-focus="transparent url(https://i.imgur.com/vymVWh7.png) no-repeat 50% 50%" 
+      pointer-border="none"
+      pointer-border-hover="none"
+      pointer-border-focus="none"
+      pointer-shadow="none"
+      pointer-shadow-hover="none"
+      pointer-shadow-focus="none"
+    ></tc-range-slider>
+  </div>
+
+</div>
+<!-- -------------------- -->
+          
+<!-- ---------------------------------------------------------- -->
+<!-- === VYNOS P.A. -->
+<div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-2 mb-5 p-0 d-inline-flex flex-wrap">
+
+<!-- === INPUT & LABEL -->
+  <div class="col-xl-6 mt-1 px-1">
+    <label class="align-self-middle ml-auto" for="cilovka_vynos">S výnosem (% p.a.)</label>
+  </div>
+  <div class="col-xl-6 mb-3">
+    <input class="form-control mt-n2" id="cilovka_vynos" name="cilovka_vynos" type="number" inputmode="numeric" step="0.01" placeholder="% p.a." onblur="cilovka_vypocet();" ondblclick="this.value=''" >
+  </div>
+
+    <div class="col-xl-12 mx-auto mt-2">
+    <tc-range-slider class="mx-auto" id="slider_cilovka_vynos" min="1" max="15" step="0.1" onchange="document.getElementById('cilovka_vynos').value=this.value;cilovka_vypocet()"
+    onmouseup="this.blur();"
+      slider-width="100%"
+      pointer-width="3rem"
+      pointer-height="3rem"
+      pointer-radius="8px"
+      slider-height="0.7rem"
+      slider-bg="#f1f4f8"
+      slider-bg-fill="#3c79b1"
+      pointer-bg="transparent url(https://i.imgur.com/vymVWh7.png) no-repeat 50% 50%"
+      pointer-bg-hover="transparent url(https://i.imgur.com/vymVWh7.png) no-repeat 50% 50%"
+      pointer-bg-focus="transparent url(https://i.imgur.com/vymVWh7.png) no-repeat 50% 50%" 
+      pointer-border="none"
+      pointer-border-hover="none"
+      pointer-border-focus="none"
+      pointer-shadow="none"
+      pointer-shadow-hover="none"
+      pointer-shadow-focus="none"
+    ></tc-range-slider>
+  </div>
+
+<!-- === SPORICI UCET CHECKBOX -->
+    <div class="col-xl-12 mx-auto mt-4 ">
+      <div class="custom-control custom-switch ml-3" style="scale:1.1">
+                <input type="checkbox" class="custom-control-input custom-control" id="switch_zobrazeni">
+                <label class="custom-control-label pt-1" for="switch_zobrazeni" id="switch_label">Spořicí účet</label>
+              </div>
+
+</div>
+
+</div>
+<!-- ------------------------- -->
+
+  </div> <!-- END COL -->
+    <div class="col-xl-12 ">
+<p class="mt-1 p-0" id="budouci_hodnota_sporak" style="display:none;color:white"> Uváděný výnos(úrok) je v případě spořícího účtu krácen 15% daní z příjmu.</p>
+</div>
+</div>  <!-- ROW END-->
+
+      </div>  
+    </div>
+  </div>
+</div>
+<!-- ==================================================================================================== -->
+<!-- ==================================================================================================== -->
+
+
+<!-- -------------------------------------------------------------------------------------- -->
+<!-- ------------------------------------------------------------------------------------- -->
+<!-- === MODAL CENA CILE  -->
+<!-- ------------------------------------------------------------------------------- -->
+<div id="modal_cena_cile" class="modal fade" style="text-align:left; font-size: 14px;">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content" style="">
+      <div class="modal-header">
+
+        <div class="d-flex flex-column">
+
+          <h4 class="modal-title" style="color: orange;">Cena mého cíle</h4>
+          <h6 class="" style="color:#393939">Kolik odkládat na splnění cíle?</h6>
+
+        </div>
+      </div>
+<div class="modal-body">
+
+<div class="row">
+
+<!-- ------------------------------------------------------------- -->
+  <!-- === VYSLEDEK A GRAF -->
+<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 p-0">
+  
+<div class="col-12 p-0 d-flex flex-row flex-wrap align-items-center mb-3 mb-3 ml-n1 pl-2 py-1" id="cena_meho_cile_vysledek" style="background-color:#f2f2f2;border-radius: 0 64px 64px 0;box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.75);">
+      <!-- <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 d-inline-flex"> -->
+        <span style=" font-style:bold; font-size: 1.2rem; color:#1e3d59;">Pro splnění mého cíle potřebuji odkládat</span>
+        <strong id="platba_pravidelka_result">
+        </strong>
+      </div>
+
+      <div class="col-xl-12 col-md-12 col-sm-12">
+
+<div id="graf_platba" style="width:100%; height:;" >
+    </div>
+
+    </div>
+
+
+      </div>
+<!-- ----------------------------------------- -->
+
+<!-- ------------------------------------------------------------- -->
+<!-- === NASTAVENI KALKULACE -->
+<div class="col-xl-5 col-sm-12  mb-5">
+
+
+<!-- -------------------------------------------------------------------- -->
+<!-- === CILOVKA -->
+<div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-2 mb-5 p-0 d-inline-flex flex-wrap">
+
+<!-- === INPUT & LABEL -->
+
+    <div class="col-xl-6 col-sm-12 mt-1">
+  <label for="platba_cilovka" class="col-sm px-1">Kolik potřebuji (Kč)</label>
+  </div>
+
+    <div class="col-xl-6 col-sm-12 mb-3">
+  <input type="text" class="form-control mt-n2" name="platba_cilovka" id="platba_cilovka" value="" inputmode="numeric" min="0" placeholder="Kč" onblur="platba_vypocet();" ondblclick="this.value=''" oninput="formatovani_na_tisicovky(this)" >
+  </div>
+
+
+  <!-- ------------------------------------------------------------------- -->
+<!-- === SLIDER -->
+    <div class="col-xl-12 align-items-center mt-2">
+    <tc-range-slider id="slider_platba_cilovka"  min="0" max="10000000" step="5000" onchange="slider_platba_cilovka_prevod();platba_vypocet();" onmouseup="this.blur();"
+      slider-width="100%"
+      pointer-width="3rem"
+      pointer-height="3rem"
+      pointer-radius="8px"
+      slider-height="0.7rem"
+      slider-bg="#f1f4f8"
+      slider-bg-fill="#3c79b1"
+      pointer-bg="transparent url(https://i.imgur.com/vymVWh7.png) no-repeat 50% 50%"
+      pointer-bg-hover="transparent url(https://i.imgur.com/vymVWh7.png) no-repeat 50% 50%"
+      pointer-bg-focus="transparent url(https://i.imgur.com/vymVWh7.png) no-repeat 50% 50%" 
+      pointer-border="none"
+      pointer-border-hover="none"
+      pointer-border-focus="none"
+      pointer-shadow="none"
+      pointer-shadow-hover="none"
+      pointer-shadow-focus="none"
+    ></tc-range-slider>
+  </div>
+
+  </div>
+
+<!-- -------------------------------------------------------------------- -->
+<!-- === JEDNORAZ -->
+  <div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-2 mb-5 p-0 d-inline-flex flex-wrap">
+<!-- === INPUT & LABEL -->
+    <div class="col-xl-6 col-sm-12 mt-1">
+  <label for="platba_jednoraz" class="col-sm px-1">Už mám (Kč)</label>
+  </div>
+
+    <div class="col-xl-6 col-sm-12 mb-3">
+  <input type="text" class="form-control mt-n2" name="platba_jednoraz" id="platba_jednoraz" value="" inputmode="numeric" min="0" placeholder="Kč" oninput="formatovani_na_tisicovky(this)" onblur="platba_vypocet();" ondblclick="this.value=''">
+  </div>
+
+<!-- ------------------------------------------------------------------- -->
+<!-- === SLIDER -->
+    <div class="col-xl-12 align-items-center mt-2">
+    <tc-range-slider id="slider_platba_jednoraz"  min="0" max="1000000" step="1000" onchange="slider_platba_jednoraz_prevod();platba_vypocet();" onmouseup="this.blur();"
+      slider-width="100%"
+      pointer-width="3rem"
+      pointer-height="3rem"
+      pointer-radius="8px"
+      slider-height="0.7rem"
+      slider-bg="#f1f4f8"
+      slider-bg-fill="#3c79b1"
+      pointer-bg="transparent url(https://i.imgur.com/vymVWh7.png) no-repeat 50% 50%"
+      pointer-bg-hover="transparent url(https://i.imgur.com/vymVWh7.png) no-repeat 50% 50%"
+      pointer-bg-focus="transparent url(https://i.imgur.com/vymVWh7.png) no-repeat 50% 50%" 
+      pointer-border="none"
+      pointer-border-hover="none"
+      pointer-border-focus="none"
+      pointer-shadow="none"
+      pointer-shadow-hover="none"
+      pointer-shadow-focus="none"
+    ></tc-range-slider>
+  </div>
+  
+  </div>
+
+
+<!-- ---------------------------------------------------------- -->
+<!-- === DOBA -->
+<div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-2 mb-5 p-0 d-inline-flex flex-wrap">
+<!-- === INPUT & LABEL -->
+    <div class="col-xl-6 col-sm-12 mt-1">
+  <label for="platba_doba" class="col-sm px-1">Za jak dlouho (roky)</label>
+  </div>
+  
+    <div class="col-xl-6 col-sm-12 mb-3">
+  <input type="number" class="form-control mt-n2" name="platba_doba" id="platba_doba" value="" inputmode="numeric" min="0"  placeholder="Roky" onblur="platba_vypocet();" ondblclick="this.value=''">
+  </div>
+  
+<!-- ------------------------------------------------------------------- -->
+<!-- === SLIDER -->
+    <div class="col-xl-12 align-items-center mt-2">
+    <tc-range-slider id="slider_platba_doba" min="1" max="50" step="1" onchange="document.getElementById('platba_doba').value=this.value;platba_vypocet();" onmouseup="this.blur();"
+      slider-width="100%"
+      pointer-width="3rem"
+      pointer-height="3rem"
+      pointer-radius="8px"
+      slider-height="0.7rem"
+      slider-bg="#f1f4f8"
+      slider-bg-fill="#3c79b1"
+      pointer-bg="transparent url(https://i.imgur.com/vymVWh7.png) no-repeat 50% 50%"
+      pointer-bg-hover="transparent url(https://i.imgur.com/vymVWh7.png) no-repeat 50% 50%"
+      pointer-bg-focus="transparent url(https://i.imgur.com/vymVWh7.png) no-repeat 50% 50%" 
+      pointer-border="none"
+      pointer-border-hover="none"
+      pointer-border-focus="none"
+      pointer-shadow="none"
+      pointer-shadow-hover="none"
+      pointer-shadow-focus="none"
+    ></tc-range-slider>
+  </div>
+
+  </div>
+  
+<!-- ---------------------------------------------------------- -->
+<!-- === VYNOS P.A. -->
+<div class="form-group col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-2 mb-5 p-0 d-inline-flex flex-wrap">
+<!-- === INPUT & LABEL -->
+  
+  <div class="col-xl-6 col-sm-12 mt-1">
+  <label for="platba_vynos" class="col-sm px-1">S výnosem (% p.a.)</label>
+  </div>
+  
+<div class="col-xl-6 col-sm-12 mb-3">
+  <input type="number" class="form-control mt-n2" name="platba_vynos" id="platba_vynos" value="" inputmode="numeric" min="0" placeholder="% p.a." onblur="platba_vypocet();" ondblclick="this.value=''">
+  </div>
+  
+  <!-- ------------------------------------------------------------------- -->
+<!-- === SLIDER -->
+    <div class="col-xl-12 align-items-center mt-2">
+    <tc-range-slider id="slider_platba_vynos"  min="1" max="15" step="0.1" onchange="document.getElementById('platba_vynos').value=this.value;platba_vypocet();" onmouseup="this.blur();"
+      slider-width="100%"
+      pointer-width="3rem"
+      pointer-height="3rem"
+      pointer-radius="8px"
+      slider-height="0.7rem"
+      slider-bg="#f1f4f8"
+      slider-bg-fill="#3c79b1"
+      pointer-bg="transparent url(https://i.imgur.com/vymVWh7.png) no-repeat 50% 50%"
+      pointer-bg-hover="transparent url(https://i.imgur.com/vymVWh7.png) no-repeat 50% 50%"
+      pointer-bg-focus="transparent url(https://i.imgur.com/vymVWh7.png) no-repeat 50% 50%" 
+      pointer-border="none"
+      pointer-border-hover="none"
+      pointer-border-focus="none"
+      pointer-shadow="none"
+      pointer-shadow-hover="none"
+      pointer-shadow-focus="none"
+    ></tc-range-slider>
+  </div>
+  
+  </div>
+
+
+      </div> <!-- END COL -->
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <!-- ==================================================================== -->
+
+
+
+
+
+    <!-- ------------------------------------------------- -->
+    <!-- ------------------------------------------------- -->
+    <!-- === MODAL RENTA NAVZDY  -->
+    <!-- ------------------------------------------------- -->
+    <div id="Renta_navzdy" class="modal fade" style="text-align:left; font-size: 14px;">
+      <div class="modal-dialog modal-xl" >
+        <div class="modal-content" style="">
+          <div class="modal-header">
+
+            <div class="d-flex flex-column">
+              <h4 class="modal-title py-0" style="color:orange">Renta navždy!</h4>
+              <h6 class="py-0">Kolik potřebuji na věčnou rentu</h6>
+          </div>
+
+        </div>
+
+          <div class="modal-body">
+
+            <div class="row">
+              <div class="col-12 col-xl-12 col-md-12 mb-4 px-1 py-1 d-flex flex-row flex-wrap">
+
+
+      <div class="form-group col-xl-3 col-lg-6 col-md-6 col-sm-6">
+      <label class="col-sm px-1" for="renta_navzdy_pravidelka">Jakou chci mít měsíční rentu</label>
+    <input class="form-control mt-n2" id="renta_navzdy_pravidelka" type="number" inputmode="numeric" min="0" maxlength="6"   oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  placeholder="Kč" ondblclick="this.value=''">
+
+    </div>
+
+  <div class="form-group col-xl-3 col-lg-6 col-md-6 col-sm-6">
+  <label class="col-sm px-1" for="renta_navzdy_doba_2">Za jak dlouho chci rentu</label>
+  <input class="form-control mt-n2" id="renta_navzdy_doba_2" name="renta_navzdy_doba_2" type="number" inputmode="numeric" min="0"  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength = "3" placeholder="Roky" ondblclick="this.value=''">
+</div>
+
+
+  <div class="form-group col-xl-3 col-lg-6 col-md-6 col-sm-6">
+  <label class="col-sm px-1" for="renta_navzdy_vynos">Investovat budu s výnosem</label>
+  <input class="form-control mt-n2" id="renta_navzdy_vynos" name="renta_navzdy_vynos" type="number" inputmode="numeric" value="7" min="0" max="25" step="0.01"  placeholder="% p.a."  ondblclick="this.value=''">
+</div>
+
+  <div class="form-group col-xl-3 col-lg-6 col-md-6 col-sm-6">
+  <label class="col-sm px-1" for="renta_navzdy_jednorazovka">Už mám</label>
+  <input class="form-control mt-n2" id="renta_navzdy_jednorazovka" name="renta_navzdy_jednorazovka" type="number" inputmode="numeric" step="0.01" placeholder="Kč"  ondblclick="this.value=''">
+</div>
+</div>
+</div>
+
+<hr>
+
+<div class="row">
+
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 ">
+
+<div class="col-sm-12 d-inline-flex">
+  <span style=" font-style:bold; font-size: 24px; color:lightblue;">Potřebuji mít </span>
+  <p id="renta_navzdy_jednoraz_result"
+    style=" font-style:bold; font-size: 24px; color:white;">
+  </p>
+  <span style=" font-style:bold; font-size: 24px; color:lightblue;">, abych měl měsíční rentu </span>
+  <p id="renta_navzdy_pravidelka_prepis"
+    style=" font-style:bold; font-size: 24px; color:white;">
+  </p>
+  </div>
+
+
+<div class="col-sm-12 d-inline-flex">
+  <span style=" font-style:bold; font-size: 24px; color:lightblue;">Měsíčně budu investovat </span>
+  <p id="renta_navzdy_pravidelka_result"></p>
+							</div>
+
+
+  </div>
+</div>
+
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ========================================= -->
+
+<!-- ---------------------------------------------------------- -->
+<!-- === MODAL PENZE  -->
+<!-- ---------------------------------------------------------- -->
+    <div id="Penze" class="modal fade" style="text-align:left; font-size: 14px;">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content" style="">
+          <div class="modal-header">
+          <div class="d-flex flex-column">
+              <h4 class="modal-title py-0" style="color:orange">Vzhůru do penze</h4>
+              <h6 class="py-0">Jaký bude můj důchod?</h6>
+          </div>
+          </div>
+          <div class="modal-body">
+
+            <div class="row">
+              <div class="col-12 col-xl-12 col-md-12 mb-4 px-1 py-1 d-flex flex-row flex-wrap">
+
+    <div class="form-group col-xl-3 col-lg-3 col-md-6 col-sm-6">
+      <label class="col-sm px-1" for="penze_cista_mzda">Můj čistý měsíční příjem</label>
+    <input class="form-control form-control mt-n2" id="penze_cista_mzda" name="penze_cista_mzda" type="number" inputmode="numeric" min="0" maxlength="7"  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"  placeholder="Kč" ondblclick="this.value=''">
+    </div>
+<div class="form-group col-xl-3 col-lg-6 col-md-6 col-sm-6">
+      <label class="col-sm px-1" for="penze_hruba_mzda">Můj hrubý měsíční příjem</label>
+    <input class="form-control form-control mt-n2" id="penze_hruba_mzda" name="penze_hruba_mzda" type="text" inputmode="numeric" min="0" placeholder="Kč" disabled>
+</div>
+
+              </div>
+            </div>
+
+<div class="row">
+
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+
+        <div class="col-sm-12 d-inline-flex">
+        <span style="font-style:bold; font-size: 1.2rem; color:lightblue;">Předpokládaná výše důchodu bude  </span>
+        <p id="penze_duchod"></p>
+      </div>
+
+        <div class="col-sm-12 d-inline-flex">
+        <span style="font-style:bold; font-size: 1.2rem; color:lightblue;">Rozdíl oproti současnému příjmu měsíčně  </span>
+        <p id="penze_rozdil"></p>
+      </div>
+      
+      </div>
+
+       </div>
+
+    <hr>
+    <div class="row">
+     <div class="col-sm-12">
+          <p class="card-text" >
+                <i style="font-size:1.2rem; color:lightgrey">
+Jde o přibližný výpočet budoucí výše starobního důchodu - nejpřesnější výši získáte přímo na stránkách <a href="https://eportal.cssz.cz/web/portal/-/sluzby/informativni-duchodova-aplikace" target="_blank" type="link"> Informativní důchodové aplikace ČSSZ</a>.
+<br>
+Pro využití je třeba se přihlásit přes <a href="https://www.ceskatelevize.cz/porady/14841626708-bankovni-identita/" target="_blank" type="link">Bankovní identitu</a>, Identitu občana nebo Datovou schránku.
+<br>
+Výpočet počítá se splněním podmínek pro získání starobního výpočtu. Počítá s odpracovanou dobou 40 let. 
+<br>
+Výpočet počítá s aktuálním uvedeným příjmem a nebere v potaz předchozí příjmy, které byly v jiné výši. 
+<br>
+Podívejte se na informativní videa k <a href="https://www.ceskatelevize.cz/porady/14841626708-bankovni-identita/" target="_blank" type="link"> Bankovní identitě</a>.
+
+              </i>
+</p>
+</div>
+    
+    </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- =================================================== -->
+
+
+<!-- ---------------------------------------------------------- -->
+<!-- === MODAL VIG RESENI  -->
+<!-- ---------------------------------------------------------- -->
+    <div id="vig_reseni_modal" class="modal fade" style="text-align:left; font-size: 14px;">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content" style="">
+
+          <div class="modal-header">
+          <div class="d-flex flex-column">
+              <h4 class="modal-title py-0" style="color:orange">Fondové řešení od VIGu</h4>
+              <h6 class="py-0">Vyberte řešení VIG</h6>
+          </div>
+          </div>
+
+          <div class="modal-body px-1">
+
+            <div class="row">
+              <!-- <div class="col-12 col-xl-12 col-md-12 mb-4 px-1 py-1 d-flex flex-row flex-wrap"> -->
+<div class="col-12 col-xl-12 col-md-12 mb-4">
+         
+
+                <table class="table text-white text-center table-striped">
+            <thead>
+                <tr>
+                    <th scope="col" class="bg-info"></th>
+                    <th scope="col" class="bg-info">Konzervativní</th>
+                    <th scope="col" class="bg-info">Vyvážené</th>
+                    <th scope="col" class="bg-info">Růstové</th>
+                    <th scope="col" class="bg-info">Dynamické</th>
+                </tr>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">1-3 roky</th>
+                    <th scope="col">3-5 let</th>
+                    <th scope="col">5-7 let</th>
+                    <th scope="col">7+ let</th>
+                </tr  >
+                <tr>
+                    <th scope="col" class="bg-info">Investiční složka</th>
+                    <th scope="col" colspan="4" class="bg-info">Podíl</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td> <a href="https://www.conseq.cz/investice/prehled-fondu/vig-czech-short-term-bond-investment-fund-czk" target="_blank" type="text" class="text-white" style="display:block;width:100%" >VIG Fond Českých krátkodobých dluhopisů</a></td>
+                    
+                    <td>70%</td>
+                    <td>45%</td>
+                    <td>20%</td>
+                    <td>0%</td>
+                </tr>
+                <tr>
+                    <td><a href="https://www.conseq.cz/investice/prehled-fondu/vig-maraton-esg-multi-asset-investment-c-hgd-czk" target="_blank" type="text" class="text-white" style="display:block;width:100%" >VIG Maraton ESG</a></td>
+                    <td>30%</td>
+                    <td>25%</td>
+                    <td>0%</td>
+                    <td>0%</td>
+                </tr>
+                <tr>
+                    <td><a href="https://www.conseq.cz/investice/prehled-fondu/vig-alfa-absolute-return-c-hgd-czk" target="_blank" type="text" class="text-white" style="display:block;width:100%" >VIG Alfa Absolute Return</a></td>
+                    <td>0%</td>
+                    <td>0%</td>
+                    <td>0%</td>
+                    <td>20%</td>
+                </tr>
+                <tr>
+                    <td><a href="https://www.conseq.cz/investice/prehled-fondu/uniqa-selection-emerging-equity-czk" target="_blank" type="text" class="text-white" style="display:block;width:100%" >VIG Panorama Total Return</a></td>
+                    <td>0%</td>
+                    <td>0%</td>
+                    <td>20%</td>
+                    <td>0%</td>
+                </tr>
+                <tr>
+                    <td><a href="https://www.conseq.cz/investice/prehled-fondu/vig-megatrend-equity-fund-c-hgd-czk" target="_blank" type="text" class="text-white" style="display:block;width:100%" >VIG Megatrend Equity Fund</a></td>
+                    <td>0%</td>
+                    <td>30%</td>
+                    <td>40%</td>
+                    <td>40%</td>
+                </tr>
+                <tr>
+                    <td><a href="https://www.conseq.cz/investice/prehled-fondu/vig-central-european-equity-c-czk" target="_blank" type="text" class="text-white" style="display:block;width:100%" >VIG Central European Equity Fund</a></td>
+                    <td>0%</td>
+                    <td>0%</td>
+                    <td>20%</td>
+                    <td>20%</td>
+                </tr>
+                <tr>
+                    <td><a href="https://www.conseq.cz/investice/prehled-fondu/vig-emerging-market-esg-equity-c-czk" target="_blank" type="text" class="text-white" style="display:block;width:100%" >VIG Emerging Markets ESG Equity</a></td>
+                    <td>0%</td>
+                    <td>0%</td>
+                    <td>0%</td>
+                    <td>20%</td>
+                </tr>
+                <tr>
+                    <td class="bg-info"><strong>Očekávané roční zhodnocení</strong></td>
+                    <td class="bg-info"><strong>3,6% p.a.</strong></td>
+                    <td class="bg-info"><strong>5% p.a.</strong></td>
+                    <td class="bg-info"><strong>6,4% p.a.</strong></td>
+                    <td class="bg-info"><strong>7,4% p.a.</strong></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><div class="form-group py-0 align-middle" >
+                    <button type="button" class="btn btn-not_selected text-nowrap mx-1" id="vig_btn_1" name="vig_btn_1" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();this.blur();">Toto chci</button>
+                  </div></td>
+                    <td><div class="form-group py-0 align-middle" >
+                    <button type="button" class="btn btn-not_selected text-nowrap mx-1" id="vig_btn_2" name="vig_btn_2" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();this.blur();">Toto chci</button>
+                  </div></td>
+                    <td><div class="form-group py-0 align-middle" >
+                    <button type="button" class="btn btn-not_selected text-nowrap mx-1" id="vig_btn_3" name="vig_btn_3" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();this.blur();">Toto chci</button>
+                  </div></td>
+                    <td><div class="form-group py-0 align-middle" >
+                    <button type="button" class="btn btn-not_selected text-nowrap mx-1" id="vig_btn_4" name="vig_btn_4" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();this.blur();">Toto chci</button>
+                  </div></td>
+                </tr>
+                
+            </tbody>
+        </table>
+
+        </div> <!-- END COL -->
+
+
+
+              <!-- </div> -->
+            </div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- =================================================== -->
+
+
+
+<!-- ---------------------------------------------------------- -->
+<!-- ---------------------------------------------------------- -->
+<!-- === MODAL FID RESENI  -->
+<!-- ---------------------------------------------------------- -->
+    <div id="fid_reseni_modal" class="modal fade" style="text-align:left; font-size: 14px;">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content" style="">
+
+          <div class="modal-header">
+          <div class="d-flex flex-column">
+              <h4 class="modal-title py-0" style="color:orange">Fondové řešení od FiDa</h4>
+              <h6 class="py-0">Vyberte řešení FiD</h6>
+          </div>
+          </div>
+
+          <div class="modal-body px-1">
+
+            <div class="row">
+              <!-- <div class="col-12 col-xl-12 col-md-12 mb-4 px-1 py-1 d-flex flex-row flex-wrap"> -->
+<div class="col-12 col-xl-12 col-md-12 mb-4">
+         
+
+                <table class="table text-white text-center">
+            <thead>
+                <tr>
+                    <th scope="col" class="bg-info"></th>
+                    <th scope="col" class="bg-info">Na krátko</th>
+                    <th scope="col" class="bg-info">Konzervativní</th>
+                    <th scope="col" class="bg-info">Vyvážené</th>
+                    <th scope="col" class="bg-info">Růstové</th>
+                    <th scope="col" class="bg-info">Dynamické</th>
+                    <th scope="col" class="bg-info">Dlouhodobé</th>
+                </tr>
+                <tr>
+                    <th scope="col">Investiční horizont</th>
+                    <th scope="col">6-12 měsíců</th>
+                    <th scope="col">1-3 roky</th>
+                    <th scope="col">3-5 let</th>
+                    <th scope="col">5-7 let</th>
+                    <th scope="col">7-10 let</th>
+                    <th scope="col">10+ let</th>
+                </tr  >
+                    <th scope="col" class="bg-info">Investiční složka</th>
+                    <th scope="col" colspan="6" class="bg-info">Podíl</th>
+                <tr>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="display: flex; justify-content: center; align-items: center;"><i>Hotovost</i></td>
+                    <td>40%</td>
+                    <td>0%</td>
+                    <td>0%</td>
+                    <td>0%</td>
+                    <td>0%</td>
+                    <td>0%</td>
+                </tr>
+                <tr>
+                    <td style="display: flex; justify-content: center; align-items: center;"><h3>D</h3>luhopisy</td>
+                    <td>40%</td>
+                    <td>80%</td>
+                    <td>30%</td>
+                    <td>20%</td>
+                    <td>0%</td>
+                    <td>0%</td>
+                </tr>
+                <tr>
+                    <td class="" style="display: flex; justify-content: center; align-items: center;"><h3>N</h3>emovitosti</td>
+                    <td>10%</td>
+                    <td>20%</td>
+                    <td>40%</td>
+                    <td>20%</td>
+                    <td>20%</td>
+                    <td>0%</td>
+                </tr>
+                <tr>
+                    <td class="" style="display: flex; justify-content: center; align-items: center;"><h3>A</h3>kcie</td>
+                    <td>10%</td>
+                    <td>0%</td>
+                    <td>30%</td>
+                    <td>60%</td>
+                    <td>80%</td>
+                    <td>100%</td>
+                </tr>
+                <tr>
+                    <td class="bg-info"><strong>Očekávané roční zhodnocení</strong></td>
+                    <td class="bg-info"><strong>3,5% p.a.</strong></td>
+                    <td class="bg-info"><strong>3,8% p.a.</strong></td>
+                    <td class="bg-info"><strong>5,5% p.a.</strong></td>
+                    <td class="bg-info"><strong>6,5% p.a.</strong></td>
+                    <td class="bg-info"><strong>7,4% p.a.</strong></td>
+                    <td class="bg-info"><strong>8% p.a.</strong></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><div class="form-group py-0 align-middle" >
+                    <button type="button" class="btn btn-not_selected text-nowrap mx-1" id="fid_btn_0" name="fid_btn_0" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();" >Toto chci</button>
+                  </div></td>
+                    <td><div class="form-group py-0 align-middle" >
+                    <button type="button" class="btn btn-not_selected text-nowrap mx-1" id="fid_btn_1" name="fid_btn_1" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();" >Toto chci</button>
+                  </div></td>
+                    <td><div class="form-group py-0 align-middle" >
+                    <button type="button" class="btn btn-not_selected text-nowrap mx-1" id="fid_btn_2" name="fid_btn_2" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();" >Toto chci</button>
+                  </div></td>
+                    <td><div class="form-group py-0 align-middle" >
+                    <button type="button" class="btn btn-not_selected text-nowrap mx-1" id="fid_btn_3" name="fid_btn_3" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();" >Toto chci</button>
+                  </div></td>
+                    <td><div class="form-group py-0 align-middle" >
+                    <button type="button" class="btn btn-not_selected text-nowrap mx-1" id="fid_btn_4" name="fid_btn_4" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();" >Toto chci</button>
+                  </div></td>
+                    <td><div class="form-group py-0 align-middle" >
+                    <button type="button" class="btn btn-not_selected text-nowrap mx-1" id="fid_btn_5" name="fid_btn_5" data-toggle="tooltip" data-placement="top" title="Toto je nápověda." onclick="prepinani_vybranych_tlacitek();typ_kalkulace_switch();" >Toto chci</button>
+                  </div></td>
+                </tr>
+            </tbody>
+        </table>
+
+        </div> <!-- END COL -->
+
+              <!-- </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- =================================================== -->
+
+
+
+
+<!-- ---------------------------------------------------------------------------- -->
+<!-- === MODALS PREZENTACE -->
+<!-- ---------------------------------------------------------------------------- -->
+<!-- === INFLACE -->
+<!-- ---------------------------------------------------------------------------- -->
+<div id="prezentace_inflace" class="modal fade" style="text-align:center; font-size: 16px;">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content" style="">
+        <div class="modal-header">
+          <h5 class="modal-title" style="color:orange">Alokace finančních úspor</h5>
+        </div>
+        <div class="modal-body">
+          <p>
+            <img src="https://i.imgur.com/WCilgUE.png" width="100%"><br>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- ---------------------------------------------------------------------------- -->
+<!-- === VYKYVY BYCI MEDVEDI -->
+<!-- ---------------------------------------------------------------------------- -->
+
+<div id="prezentace_historie" class="modal fade" style="text-align:center; font-size: 16px;">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content" style="">
+        <div class="modal-header">
+          <h5 class="modal-title" style="color:orange">Historie býčích a medvědích trhů</h5>
+        </div>
+        <div class="modal-body">
+          <p>
+            <img src="https://i.imgur.com/NKfJej0.png" width="100%"><br>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- ---------------------------------------------------------------------------- -->
+<!-- === DLOUHODOBA INFLACE -->
+<!-- ---------------------------------------------------------------------------- -->
+
+<div id="prezentace_historie_inflace" class="modal fade" style="text-align:center; font-size: 16px;">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content" style="">
+        <div class="modal-header">
+          <h5 class="modal-title" style="color:orange">Dlouhodobá míra inflace</h5>
+        </div>
+        <div class="modal-body">
+          <p>
+            <img src="https://i.imgur.com/p6s8vPx.png" width="100%"><br>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- ---------------------------------------------------------------------------- -->
+<!-- === VYNOS A INFLACE -->
+<!-- ---------------------------------------------------------------------------- -->
+
+<div id="prezentace_vynos_inflace" class="modal fade" style="text-align:center; font-size: 16px;">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content" style="">
+        <div class="modal-header">
+          <h5 class="modal-title" style="color:orange">Výnos & inflace</h5>
+        </div>
+        <div class="modal-body">
+          <p>
+            <img src="https://i.imgur.com/DvzGrbW.png" width="100%"><br>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- ---------------------------------------------------------------------------- -->
+<!-- === VYKONNOST A INFLACE -->
+<!-- ---------------------------------------------------------------------------- -->
+
+<div id="prezentace_vykonnost_inflace" class="modal fade" style="text-align:center; font-size: 16px;">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content" style="">
+        <div class="modal-header">
+          <h5 class="modal-title" style="color:orange">Inflace určuje výkonnost peněz</h5>
+        </div>
+        <div class="modal-body">
+          <p>
+            <img src="https://i.imgur.com/LDKCeQ7.jpg" width="100%"><br>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ---------------------------------------------------------------------------- -->
+<!-- === PREZENTACE PROC SPORIME -->
+<!-- ---------------------------------------------------------------------------- -->
+<div id="prezentace_proc_sporime" class="modal fade" role="dialog" style="text-align:center; font-size: 14px;">
+    <div class="modal-dialog p-0">
+      <div class="modal-content" style="">
+        <div class="modal-header">
+          <div class="d-flex flex-column">
+    <h4 class="modal-title">Na co Češi šetří?</h4>
+  </div>
+        </div>
+        <div class="modal-body p-0">
+          <p style="margin: 0;">
+            <img src="https://i.imgur.com/yHqaKHc.png"width="90%" alt="">
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- ========================================================================== -->
+
+    <!-- ====================================================================== -->
+  </body>
